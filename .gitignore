@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.next/
+out/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+*.tsbuildinfo
+.pnpm-store/
+apps/admin-web/preview/out/
+
+# Product specification is kept out of the repository.
+/NAKES_ADMIN_WEB_SPEC_v1.md

@@ -1,0 +1,36 @@
+/** Fails fast at boot when required configuration is missing or unsafe. */
+export function validateEnv(env: Record<string, unknown>) {
+  const required = ['DATABASE_URL', 'WEB_ORIGIN', 'JWT_ACCESS_SECRET', 'STORAGE_SIGNING_SECRET', 'API_PUBLIC_URL', 'CREDENTIAL_ENCRYPTION_KEY'];
+  const missing = required.filter((key) => !env[key]);
+  if (missing.length) throw new Error(`Missing environment variables: ${missing.join(', ')}`);
+  if (String(env.JWT_ACCESS_SECRET).length < 32) throw new Error('JWT_ACCESS_SECRET must be at least 32 characters.');
+  if (String(env.STORAGE_SIGNING_SECRET).length < 32) throw new Error('STORAGE_SIGNING_SECRET must be at least 32 characters.');
+  if (env.STORAGE_SIGNING_SECRET === env.JWT_ACCESS_SECRET) throw new Error('STORAGE_SIGNING_SECRET must differ from JWT_ACCESS_SECRET.');
+  if (String(env.CREDENTIAL_ENCRYPTION_KEY).length < 32) throw new Error('CREDENTIAL_ENCRYPTION_KEY must be at least 32 characters.');
+  if ([env.JWT_ACCESS_SECRET, env.STORAGE_SIGNING_SECRET].includes(env.CREDENTIAL_ENCRYPTION_KEY)) throw new Error('CREDENTIAL_ENCRYPTION_KEY must differ from the other secrets.');
+  if (env.BOOKINGS_API_KEY && String(env.BOOKINGS_API_KEY).length < 32) throw new Error('BOOKINGS_API_KEY must be at least 32 characters (or empty to disable bookings).');
+  const storageDriver = String(env.STORAGE_DRIVER || 'local');
+  const storageSettings: Record<string, string[]> = {
+    local: [],
+    s3: ['S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY'],
+    cloudinary: ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'],
+  };
+  if (!(storageDriver in storageSettings)) throw new Error(`STORAGE_DRIVER must be one of: ${Object.keys(storageSettings).join(', ')}.`);
+  const missingStorage = storageSettings[storageDriver]!.filter((key) => !env[key]);
+  if (missingStorage.length) throw new Error(`STORAGE_DRIVER=${storageDriver} needs: ${missingStorage.join(', ')}`);
+  // Local disk is unencrypted and lives on one machine; production documents belong in object storage (spec §10).
+  if (env.NODE_ENV === 'production' && storageDriver === 'local') throw new Error('STORAGE_DRIVER=local is for development only; use s3 or cloudinary in production.');
+  if (env.NODE_ENV === 'production' && env.COOKIE_SECURE !== 'true') throw new Error('COOKIE_SECURE must be true in production.');
+  return {
+    ...env,
+    PORT: Number(env.PORT ?? 4000),
+    JWT_ACCESS_TTL_SECONDS: Number(env.JWT_ACCESS_TTL_SECONDS ?? 900),
+    REFRESH_TOKEN_TTL_DAYS: Number(env.REFRESH_TOKEN_TTL_DAYS ?? 14),
+    PASSWORD_RESET_TTL_MINUTES: Number(env.PASSWORD_RESET_TTL_MINUTES ?? 30),
+    INVITATION_TTL_HOURS: Number(env.INVITATION_TTL_HOURS ?? 72),
+    DOCUMENT_URL_TTL_SECONDS: Number(env.DOCUMENT_URL_TTL_SECONDS ?? 300),
+    STORAGE_DRIVER: storageDriver,
+    STORAGE_DIR: String(env.STORAGE_DIR ?? './storage'),
+    COOKIE_SECURE: env.COOKIE_SECURE === 'true',
+  };
+}

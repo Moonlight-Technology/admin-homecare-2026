@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: nakes
+          POSTGRES_PASSWORD: nakes
+          POSTGRES_DB: nakes
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U nakes"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://nakes:nakes@localhost:5432/nakes?schema=public
+      DIRECT_DATABASE_URL: postgresql://nakes:nakes@localhost:5432/nakes?schema=public
+      WEB_ORIGIN: http://localhost:3000
+      JWT_ACCESS_SECRET: ci-only-secret-at-least-thirty-two-characters
+      STORAGE_SIGNING_SECRET: ci-only-storage-signing-secret-thirty-two-chars
+      API_PUBLIC_URL: http://localhost:4000/api/v1
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @nakes/api prisma:validate
+      - run: pnpm --filter @nakes/api prisma:generate
+      # Migrations, including the hand-written constraints, must apply cleanly to an empty database.
+      - run: pnpm --filter @nakes/api prisma:deploy
+      - run: pnpm typecheck
+      - run: pnpm test
+      # The committed contract must match the code.
+      - run: pnpm contracts:generate && git diff --exit-code packages/api-contracts
+      - run: pnpm --filter @nakes/admin-web build

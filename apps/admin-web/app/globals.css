@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/*
+ * Concept 2 "Modern Light Healthcare" tokens (DESIGN.md §3).
+ * PROTOTYPE ONLY: these are not verified against the Nakes Homecare brand assets. Confirm with the brand owner
+ * before production; every colour in the app comes from here, so a change is made in one place.
+ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-primary-50: #e7f5f5;
+  --color-primary-500: #087f8c;
+  --color-primary-700: #075a64;
+  --color-mint-100: #ddf5ef;
+  --color-app: #f6f9fa;
+  --color-surface: #ffffff;
+  --color-ink: #17343b;
+  --color-muted: #667b82;
+  --color-line: #e1e9eb;
+  --color-success: #16835d;
+  --color-success-soft: #e3f4ec;
+  --color-warning: #b7791f;
+  --color-warning-soft: #fbf1e1;
+  --color-danger: #c64545;
+  --color-danger-soft: #fbe9e9;
+  --color-info: #2775b6;
+  --color-info-soft: #e6f0f9;
+
+  /* Type scale 12/14/16/20/24/30 */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+
+  --radius-input: 8px;
+  --radius-card: 12px;
+  --radius-dialog: 16px;
+
+  /* Desktop starts at 1200px (DESIGN.md §4); md (768px) is tablet. */
+  --breakpoint-desk: 75rem;
+}
+
+@layer base {
+  html,
+  body {
+    @apply bg-app font-sans text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

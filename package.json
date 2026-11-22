@@ -1,0 +1,17 @@
+{
+  "name": "nakes",
+  "private": true,
+  "packageManager": "pnpm@10.29.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev:api": "pnpm --filter @nakes/api dev",
+    "dev:web": "pnpm --filter @nakes/admin-web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "contracts:generate": "pnpm --filter @nakes/api openapi:export && pnpm --filter @nakes/api-contracts generate"
+  }
+}

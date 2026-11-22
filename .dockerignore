@@ -1,0 +1,14 @@
+**/node_modules
+**/.next
+**/dist
+**/coverage
+**/*.tsbuildinfo
+.pnpm-store
+.git
+.github
+**/.env
+**/.env.*
+!**/.env.example
+apps/api/storage
+apps/admin-web/preview/out
+NAKES_HOMECARE_UI_HANDOFF

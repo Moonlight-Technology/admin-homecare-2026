@@ -1,0 +1,887 @@
+// Nakes admin platform schema (spec §7).
+// Partial unique indexes and cross-column checks Prisma cannot express live in the initial migration SQL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  /// Migrations take a session advisory lock, which a transaction-mode pooler (PgBouncer, Neon `-pooler` hosts) can
+  /// leave stuck; migrate and seed therefore use this direct connection. Same as DATABASE_URL without a pooler.
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum UserStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+enum MembershipScope {
+  PLATFORM
+  FACILITY
+}
+
+enum ProviderType {
+  FACILITY
+  INDEPENDENT_PRACTITIONER
+}
+
+/// Shared by facilities and practitioners (spec §6).
+enum VerificationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  VERIFIED
+  REVISION_REQUIRED
+  REJECTED
+}
+
+/// Kept separate from verification (spec §6).
+enum OperatingStatus {
+  INACTIVE
+  ACTIVE
+  SUSPENDED
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REVISION_REQUIRED
+  REJECTED
+}
+
+enum ReviewDecision {
+  APPROVE
+  REJECT
+  REQUEST_REVISION
+}
+
+enum ReviewTargetType {
+  FACILITY_APPLICATION
+  PRACTITIONER
+}
+
+enum DocumentOwnerType {
+  FACILITY
+  PRACTITIONER
+}
+
+enum DocumentStatus {
+  PENDING_UPLOAD
+  UPLOADED
+  ACCEPTED
+  REJECTED
+}
+
+enum AffiliationStatus {
+  PROPOSED
+  ACTIVE
+  REJECTED
+  ENDED
+}
+
+enum FulfillmentMode {
+  ON_SITE
+  HOMECARE
+}
+
+enum OfferingStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+/// CANCELLED, EXPIRED and NO_SHOW are reserved: their policies are still open (spec §6, §14).
+enum OrderStatus {
+  PENDING_APPROVAL
+  CONFIRMED
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  EXPIRED
+  NO_SHOW
+}
+
+/// Payment is out of scope; never fake PAID (spec §6).
+enum PaymentStatus {
+  NOT_CONFIGURED
+}
+
+enum AssignmentStatus {
+  UNASSIGNED
+  PARTIALLY_ASSIGNED
+  ASSIGNED
+}
+
+enum OrderItemStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  NOT_PERFORMED
+}
+
+enum OrderAssignmentState {
+  ACTIVE
+  UNASSIGNED
+}
+
+enum OutboxStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+/// One-time account tokens: password resets and account invitations (admin-created clinic owners).
+enum AccountTokenPurpose {
+  PASSWORD_RESET
+  INVITATION
+}
+
+// ─── Identity & access ───────────────────────────────────────────────────────
+
+model User {
+  id           String     @id @default(uuid()) @db.Uuid
+  email        String     @unique
+  name         String
+  passwordHash String?
+  status       UserStatus @default(INVITED)
+  lastLoginAt  DateTime?  @db.Timestamptz(3)
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(3)
+
+  memberships         Membership[]
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  practitioner        Practitioner?
+
+  @@map("users")
+}
+
+/// Opaque refresh tokens, stored hashed. Rotated on every use; a reused token revokes its whole family.
+model RefreshToken {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  familyId   String    @db.Uuid
+  tokenHash  String    @unique
+  expiresAt  DateTime  @db.Timestamptz(3)
+  revokedAt  DateTime? @db.Timestamptz(3)
+  replacedBy String?   @db.Uuid
+  userAgent  String?
+  ip         String?
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([familyId])
+  @@map("refresh_tokens")
+}
+
+/// One-time, time-limited account tokens (password reset, invitation), stored hashed (AC-SEC-01).
+model PasswordResetToken {
+  id        String              @id @default(uuid()) @db.Uuid
+  userId    String              @db.Uuid
+  purpose   AccountTokenPurpose @default(PASSWORD_RESET)
+  tokenHash String              @unique
+  expiresAt DateTime            @db.Timestamptz(3)
+  usedAt    DateTime?           @db.Timestamptz(3)
+  createdAt DateTime            @default(now()) @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model Role {
+  id          String          @id @default(uuid()) @db.Uuid
+  code        String          @unique
+  name        String
+  scope       MembershipScope
+  description String?
+  createdAt   DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime        @updatedAt @db.Timestamptz(3)
+
+  permissions RolePermission[]
+  memberships Membership[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String          @id @default(uuid()) @db.Uuid
+  code        String          @unique
+  scope       MembershipScope
+  description String?
+
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String @db.Uuid
+  permissionId String @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+/// PLATFORM memberships have no facility; FACILITY memberships have exactly one (checked in migration SQL).
+model Membership {
+  id         String          @id @default(uuid()) @db.Uuid
+  userId     String          @db.Uuid
+  scopeType  MembershipScope
+  facilityId String?         @db.Uuid
+  roleId     String          @db.Uuid
+  active     Boolean         @default(true)
+  createdAt  DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime        @updatedAt @db.Timestamptz(3)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  facility Facility? @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  role     Role      @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@index([facilityId])
+  @@map("memberships")
+}
+
+// ─── Master data ─────────────────────────────────────────────────────────────
+
+model FacilityType {
+  id        String    @id @default(uuid()) @db.Uuid
+  code      String    @unique
+  name      String
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
+
+  facilities Facility[]
+
+  @@map("facility_types")
+}
+
+model ClinicClass {
+  id        String    @id @default(uuid()) @db.Uuid
+  code      String    @unique
+  name      String
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
+
+  facilities Facility[]
+
+  @@map("clinic_classes")
+}
+
+/// e.g. inpatient / outpatient; a separate dimension from clinic class (spec §7).
+model Capability {
+  id        String    @id @default(uuid()) @db.Uuid
+  code      String    @unique
+  name      String
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
+
+  facilities FacilityCapability[]
+
+  @@map("capabilities")
+}
+
+model PractitionerType {
+  id        String    @id @default(uuid()) @db.Uuid
+  code      String    @unique
+  name      String
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
+
+  practitioners Practitioner[]
+
+  @@map("practitioner_types")
+}
+
+model ServiceCategory {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String    @unique
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
+
+  masterServices MasterService[]
+
+  @@map("service_categories")
+}
+
+model MasterService {
+  id          String    @id @default(uuid()) @db.Uuid
+  categoryId  String    @db.Uuid
+  code        String    @unique
+  name        String
+  description String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
+  deletedAt   DateTime? @db.Timestamptz(3)
+
+  category   ServiceCategory   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  offerings  ServiceOffering[]
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@map("master_services")
+}
+
+/// Configurable verification document checklist (spec §4, §15).
+model DocumentRequirement {
+  id          String            @id @default(uuid()) @db.Uuid
+  code        String            @unique
+  ownerType   DocumentOwnerType
+  name        String
+  description String?
+  mandatory   Boolean           @default(true)
+  active      Boolean           @default(true)
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime          @updatedAt @db.Timestamptz(3)
+  deletedAt   DateTime?         @db.Timestamptz(3)
+
+  documents Document[]
+
+  @@map("document_requirements")
+}
+
+/// Geographic reference data (province / regency / district / village), imported rather than edited.
+model Region {
+  code       String   @id
+  name       String
+  level      Int
+  parentCode String?
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  parent   Region?  @relation("RegionHierarchy", fields: [parentCode], references: [code], onDelete: Restrict)
+  children Region[] @relation("RegionHierarchy")
+
+  @@index([parentCode])
+  @@index([level])
+  @@map("regions")
+}
+
+// ─── Providers & facilities ──────────────────────────────────────────────────
+
+/// Owner of offerings and orders: exactly one of facility or practitioner (checked in migration SQL).
+model Provider {
+  id             String          @id @default(uuid()) @db.Uuid
+  type           ProviderType
+  facilityId     String?         @unique @db.Uuid
+  practitionerId String?         @unique @db.Uuid
+  status         OperatingStatus @default(INACTIVE)
+  createdAt      DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime        @updatedAt @db.Timestamptz(3)
+
+  facility     Facility?         @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  practitioner Practitioner?     @relation(fields: [practitionerId], references: [id], onDelete: Restrict)
+  offerings    ServiceOffering[]
+  orders       Order[]
+
+  @@map("providers")
+}
+
+/// One physical clinic site in MVP (spec §1).
+model Facility {
+  id                 String             @id @default(uuid()) @db.Uuid
+  displayName        String
+  legalName          String
+  facilityTypeId     String             @db.Uuid
+  clinicClassId      String?            @db.Uuid
+  phone              String?
+  email              String?
+  addressLine        String
+  regionCode         String?
+  postalCode         String?
+  latitude           Decimal?           @db.Decimal(9, 6)
+  longitude          Decimal?           @db.Decimal(9, 6)
+  timezone           String             @default("Asia/Jakarta")
+  verificationStatus VerificationStatus @default(DRAFT)
+  operatingStatus    OperatingStatus    @default(INACTIVE)
+  verifiedAt         DateTime?          @db.Timestamptz(3)
+  /// Reason for the latest activation/suspension, shown to the clinic.
+  statusReason       String?
+  /// Self-registered by the owner, or created by a platform admin (spec §5.2).
+  registeredVia      String             @default("SELF")
+  createdById        String?            @db.Uuid
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+
+  facilityType FacilityType              @relation(fields: [facilityTypeId], references: [id], onDelete: Restrict)
+  clinicClass  ClinicClass?              @relation(fields: [clinicClassId], references: [id], onDelete: Restrict)
+  capabilities FacilityCapability[]
+  provider     Provider?
+  memberships  Membership[]
+  applications FacilityApplication[]
+  affiliations PractitionerAffiliation[]
+  schedules    FacilitySchedule[]
+  slots        FacilitySlot[]
+  blocks       ScheduleBlock[]
+  orders       Order[]
+
+  @@index([verificationStatus])
+  @@index([operatingStatus])
+  @@index([facilityTypeId])
+  @@map("facilities")
+}
+
+model FacilityCapability {
+  facilityId   String @db.Uuid
+  capabilityId String @db.Uuid
+
+  facility   Facility   @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  capability Capability @relation(fields: [capabilityId], references: [id], onDelete: Restrict)
+
+  @@id([facilityId, capabilityId])
+  @@map("facility_capabilities")
+}
+
+/// Each submission is a new version; previous reviews are kept (AC-FAC-04).
+model FacilityApplication {
+  id              String            @id @default(uuid()) @db.Uuid
+  facilityId      String            @db.Uuid
+  version         Int
+  status          ApplicationStatus @default(SUBMITTED)
+  submittedAt     DateTime          @default(now()) @db.Timestamptz(3)
+  submittedById   String            @db.Uuid
+  /// Profile as submitted, so reviewers judge exactly this version even if the clinic edits later.
+  profileSnapshot Json
+  /// Documents included in this submission.
+  documentIds     String[]          @db.Uuid
+  decidedAt       DateTime?         @db.Timestamptz(3)
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime          @updatedAt @db.Timestamptz(3)
+
+  facility Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@unique([facilityId, version])
+  @@index([status])
+  @@map("facility_applications")
+}
+
+/// Private object storage metadata; never a public URL (spec §7, §10).
+model Document {
+  id            String            @id @default(uuid()) @db.Uuid
+  ownerType     DocumentOwnerType
+  ownerId       String            @db.Uuid
+  requirementId String?           @db.Uuid
+  objectKey     String            @unique
+  fileName      String
+  mimeType      String
+  sizeBytes     Int
+  checksum      String?
+  status        DocumentStatus    @default(PENDING_UPLOAD)
+  uploadedById  String?           @db.Uuid
+  uploadedAt    DateTime?         @db.Timestamptz(3)
+  createdAt     DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime          @updatedAt @db.Timestamptz(3)
+
+  requirement DocumentRequirement?     @relation(fields: [requirementId], references: [id], onDelete: Restrict)
+  credentials PractitionerCredential[]
+
+  @@index([ownerType, ownerId])
+  @@map("documents")
+}
+
+/// Append-only review decisions for facility applications and practitioners.
+model VerificationReview {
+  id          String           @id @default(uuid()) @db.Uuid
+  targetType  ReviewTargetType
+  targetId    String           @db.Uuid
+  decision    ReviewDecision
+  reason      String?
+  reviewerId  String           @db.Uuid
+  documentIds String[]         @db.Uuid
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+
+  @@index([targetType, targetId])
+  @@map("verification_reviews")
+}
+
+// ─── Practitioners ───────────────────────────────────────────────────────────
+
+model Practitioner {
+  id                 String             @id @default(uuid()) @db.Uuid
+  userId             String?            @unique @db.Uuid
+  fullName           String
+  practitionerTypeId String             @db.Uuid
+  phone              String?
+  email              String?
+  verificationStatus VerificationStatus @default(DRAFT)
+  operatingStatus    OperatingStatus    @default(INACTIVE)
+  verifiedAt         DateTime?          @db.Timestamptz(3)
+  /// Reason for the latest suspension, or the latest revision/rejection comment.
+  statusReason       String?
+  /// Registered by a platform admin, or by a clinic proposing an affiliation (spec §5.4).
+  registeredVia      String             @default("ADMIN")
+  createdById        String?            @db.Uuid
+  /// Clinic that registered the practitioner, when registeredVia is CLINIC.
+  createdByFacilityId String?           @db.Uuid
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+
+  user             User?                     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  practitionerType PractitionerType          @relation(fields: [practitionerTypeId], references: [id], onDelete: Restrict)
+  credentials      PractitionerCredential[]
+  affiliations     PractitionerAffiliation[]
+  provider         Provider?
+  assignments      OrderAssignment[]
+
+  @@index([verificationStatus])
+  @@index([operatingStatus])
+  @@map("practitioners")
+}
+
+/// Credential numbers are stored encrypted with a masked copy for display, plus a keyed hash so the same number
+/// cannot be registered twice (one identity per practitioner, spec §5.4).
+model PractitionerCredential {
+  id               String         @id @default(uuid()) @db.Uuid
+  practitionerId   String         @db.Uuid
+  credentialType   String
+  numberEncrypted  String
+  numberMasked     String
+  numberHash       String
+  issuingAuthority String?
+  validFrom        DateTime?      @db.Date
+  validUntil       DateTime?      @db.Date
+  documentId       String?        @db.Uuid
+  reviewStatus     DocumentStatus @default(UPLOADED)
+  createdAt        DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime       @updatedAt @db.Timestamptz(3)
+
+  practitioner Practitioner @relation(fields: [practitionerId], references: [id], onDelete: Cascade)
+  document     Document?    @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@unique([credentialType, numberHash])
+  @@index([practitionerId])
+  @@map("practitioner_credentials")
+}
+
+/// One active affiliation per facility/practitioner pair (partial unique index in migration SQL).
+model PractitionerAffiliation {
+  id             String            @id @default(uuid()) @db.Uuid
+  facilityId     String            @db.Uuid
+  practitionerId String            @db.Uuid
+  status         AffiliationStatus @default(PROPOSED)
+  startDate      DateTime?         @db.Date
+  endDate        DateTime?         @db.Date
+  proposedById   String?           @db.Uuid
+  reviewedById   String?           @db.Uuid
+  reviewedAt     DateTime?         @db.Timestamptz(3)
+  /// The clinic's note when proposing (role, competency) — no clinical data.
+  note           String?
+  /// Rejection or end reason.
+  reason         String?
+  endedById      String?           @db.Uuid
+  createdAt      DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime          @updatedAt @db.Timestamptz(3)
+
+  facility     Facility     @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  practitioner Practitioner @relation(fields: [practitionerId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, status])
+  @@index([practitionerId, status])
+  @@map("practitioner_affiliations")
+}
+
+// ─── Catalog ─────────────────────────────────────────────────────────────────
+
+model ServiceOffering {
+  id              String         @id @default(uuid()) @db.Uuid
+  providerId      String         @db.Uuid
+  masterServiceId String         @db.Uuid
+  name            String
+  description     String?
+  preparationNote String?
+  terms           String?
+  basePrice       Decimal        @db.Decimal(14, 2)
+  currency        String         @default("IDR")
+  durationMinutes Int
+  status          OfferingStatus @default(DRAFT)
+  publishedAt     DateTime?      @db.Timestamptz(3)
+  createdAt       DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime       @updatedAt @db.Timestamptz(3)
+
+  provider      Provider       @relation(fields: [providerId], references: [id], onDelete: Restrict)
+  masterService MasterService  @relation(fields: [masterServiceId], references: [id], onDelete: Restrict)
+  modes         OfferingMode[]
+  orderItems    OrderItem[]
+
+  @@index([providerId, status])
+  @@index([masterServiceId])
+  @@map("service_offerings")
+}
+
+model OfferingMode {
+  id              String          @id @default(uuid()) @db.Uuid
+  offeringId      String          @db.Uuid
+  mode            FulfillmentMode
+  enabled         Boolean         @default(true)
+  priceOverride   Decimal?        @db.Decimal(14, 2)
+  visitFee        Decimal?        @db.Decimal(14, 2)
+  /// Homecare coverage rules; the shape is open until coverage pricing is decided (spec §1).
+  serviceAreaRule Json?
+  createdAt       DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime        @updatedAt @db.Timestamptz(3)
+
+  offering ServiceOffering @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+
+  @@unique([offeringId, mode])
+  @@map("offering_modes")
+}
+
+// ─── Availability ────────────────────────────────────────────────────────────
+
+/// Weekly business hours per fulfillment mode, in the facility's local time.
+model FacilitySchedule {
+  id              String          @id @default(uuid()) @db.Uuid
+  facilityId      String          @db.Uuid
+  mode            FulfillmentMode
+  dayOfWeek       Int
+  startTime       String
+  endTime         String
+  slotMinutes     Int
+  capacityPerSlot Int
+  active          Boolean         @default(true)
+  createdAt       DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime        @updatedAt @db.Timestamptz(3)
+
+  facility Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+
+  @@index([facilityId, mode, dayOfWeek])
+  @@map("facility_schedules")
+}
+
+/// Materialised slot with its confirmed reservations; the reservation strategy is settled in S5.
+model FacilitySlot {
+  id         String          @id @default(uuid()) @db.Uuid
+  facilityId String          @db.Uuid
+  mode       FulfillmentMode
+  startsAt   DateTime        @db.Timestamptz(3)
+  endsAt     DateTime        @db.Timestamptz(3)
+  capacity   Int
+  reserved   Int             @default(0)
+  version    Int             @default(0)
+  createdAt  DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime        @updatedAt @db.Timestamptz(3)
+
+  facility Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  orders   Order[]
+
+  @@unique([facilityId, mode, startsAt])
+  @@map("facility_slots")
+}
+
+model ScheduleBlock {
+  id         String           @id @default(uuid()) @db.Uuid
+  facilityId String           @db.Uuid
+  mode       FulfillmentMode?
+  startsAt   DateTime         @db.Timestamptz(3)
+  endsAt     DateTime         @db.Timestamptz(3)
+  reason     String?
+  createdAt  DateTime         @default(now()) @db.Timestamptz(3)
+
+  facility Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+
+  @@index([facilityId, startsAt])
+  @@map("schedule_blocks")
+}
+
+// ─── Orders ──────────────────────────────────────────────────────────────────
+
+/// One provider, one patient, one visit, one mode (spec §1). Customer and patient records live in the customer app.
+model Order {
+  id               String           @id @default(uuid()) @db.Uuid
+  code             String           @unique
+  customerId       String           @db.Uuid
+  patientId        String           @db.Uuid
+  providerId       String           @db.Uuid
+  facilityId       String?          @db.Uuid
+  slotId           String?          @db.Uuid
+  mode             FulfillmentMode
+  scheduledAt      DateTime         @db.Timestamptz(3)
+  timezone         String           @default("Asia/Jakarta")
+  /// Minimum patient booking data needed by the clinic; no clinical records.
+  patientSnapshot  Json
+  facilitySnapshot Json?
+  addressSnapshot  Json?
+  currency         String           @default("IDR")
+  itemSubtotal     Decimal          @db.Decimal(14, 2)
+  feeTotal         Decimal          @default(0) @db.Decimal(14, 2)
+  grandTotal       Decimal          @db.Decimal(14, 2)
+  status           OrderStatus      @default(PENDING_APPROVAL)
+  paymentStatus    PaymentStatus    @default(NOT_CONFIGURED)
+  assignmentStatus AssignmentStatus @default(UNASSIGNED)
+  rejectionReason  String?
+  idempotencyKey   String?          @unique
+  /// Optimistic concurrency for state transitions (spec §8).
+  version          Int              @default(0)
+  createdAt        DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime         @updatedAt @db.Timestamptz(3)
+
+  provider      Provider             @relation(fields: [providerId], references: [id], onDelete: Restrict)
+  facility      Facility?            @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  slot          FacilitySlot?        @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  items         OrderItem[]
+  assignments   OrderAssignment[]
+  statusHistory OrderStatusHistory[]
+
+  @@index([providerId, status])
+  @@index([facilityId, status])
+  @@index([scheduledAt])
+  @@index([status])
+  @@map("orders")
+}
+
+/// Name, price, duration and mode are snapshots taken at booking (AC-SVC-03).
+model OrderItem {
+  id                 String          @id @default(uuid()) @db.Uuid
+  orderId            String          @db.Uuid
+  offeringId         String          @db.Uuid
+  masterServiceId    String          @db.Uuid
+  nameSnapshot       String
+  priceSnapshot      Decimal         @db.Decimal(14, 2)
+  durationMinutes    Int
+  modeSnapshot       FulfillmentMode
+  quantity           Int             @default(1)
+  status             OrderItemStatus @default(PENDING)
+  notPerformedReason String?
+  /// Operational metadata only, never clinical results (spec §7).
+  performedMeta      Json?
+  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime        @updatedAt @db.Timestamptz(3)
+
+  order         Order                    @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  offering      ServiceOffering          @relation(fields: [offeringId], references: [id], onDelete: Restrict)
+  masterService MasterService            @relation(fields: [masterServiceId], references: [id], onDelete: Restrict)
+  assignments   OrderAssignment[]
+  statusHistory OrderItemStatusHistory[]
+
+  @@index([orderId])
+  @@index([offeringId])
+  @@map("order_items")
+}
+
+model OrderAssignment {
+  id             String               @id @default(uuid()) @db.Uuid
+  orderId        String               @db.Uuid
+  orderItemId    String?              @db.Uuid
+  practitionerId String               @db.Uuid
+  state          OrderAssignmentState @default(ACTIVE)
+  assignedById   String               @db.Uuid
+  assignedAt     DateTime             @default(now()) @db.Timestamptz(3)
+  unassignedAt   DateTime?            @db.Timestamptz(3)
+
+  order        Order        @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  orderItem    OrderItem?   @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+  practitioner Practitioner @relation(fields: [practitionerId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([practitionerId, state])
+  @@map("order_assignments")
+}
+
+/// Append-only (spec §5.5).
+model OrderStatusHistory {
+  id             String       @id @default(uuid()) @db.Uuid
+  orderId        String       @db.Uuid
+  previousStatus OrderStatus?
+  newStatus      OrderStatus
+  actorId        String?      @db.Uuid
+  reason         String?
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@index([orderId, createdAt])
+  @@map("order_status_history")
+}
+
+model OrderItemStatusHistory {
+  id             String           @id @default(uuid()) @db.Uuid
+  orderItemId    String           @db.Uuid
+  previousStatus OrderItemStatus?
+  newStatus      OrderItemStatus
+  actorId        String?          @db.Uuid
+  reason         String?
+  createdAt      DateTime         @default(now()) @db.Timestamptz(3)
+
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+
+  @@index([orderItemId, createdAt])
+  @@map("order_item_status_history")
+}
+
+// ─── Audit & outbox ──────────────────────────────────────────────────────────
+
+/// Before/after payloads are redacted; no clinical notes or credential copies (spec §7).
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  actorId    String?  @db.Uuid
+  scope      String
+  facilityId String?  @db.Uuid
+  event      String
+  entityType String
+  entityId   String?
+  before     Json?
+  after      Json?
+  ip         String?
+  userAgent  String?
+  requestId  String?
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId])
+  @@index([event, createdAt])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+/// Transactional outbox; the delivery channel is still open (spec §14).
+model NotificationOutbox {
+  id          String       @id @default(uuid()) @db.Uuid
+  eventType   String
+  entityType  String
+  entityId    String
+  recipient   String?
+  payload     Json
+  status      OutboxStatus @default(PENDING)
+  attempts    Int          @default(0)
+  lastError   String?
+  availableAt DateTime     @default(now()) @db.Timestamptz(3)
+  sentAt      DateTime?    @db.Timestamptz(3)
+  createdAt   DateTime     @default(now()) @db.Timestamptz(3)
+
+  @@index([status, availableAt])
+  @@map("notification_outbox")
+}

@@ -1,0 +1,5795 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/v1/admin/audit-logs": {
+      "get": {
+        "operationId": "AuditLogsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "actorId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entityType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entityId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "event",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Audit"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/auth/accept-invitation": {
+      "post": {
+        "operationId": "AuthController_acceptInvitation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptInvitationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "MeController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/admin/dashboard/summary": {
+      "get": {
+        "operationId": "DashboardController_platform",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/v1/clinic/dashboard/summary": {
+      "get": {
+        "operationId": "DashboardController_clinic",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/v1/admin/master/facility-types": {
+      "get": {
+        "operationId": "FacilitytypesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility types"
+        ]
+      },
+      "post": {
+        "operationId": "FacilitytypesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility types"
+        ]
+      }
+    },
+    "/api/v1/admin/master/facility-types/{id}": {
+      "get": {
+        "operationId": "FacilitytypesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility types"
+        ]
+      },
+      "patch": {
+        "operationId": "FacilitytypesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility types"
+        ]
+      }
+    },
+    "/api/v1/admin/master/clinic-classes": {
+      "get": {
+        "operationId": "ClinicclassesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Clinic classes"
+        ]
+      },
+      "post": {
+        "operationId": "ClinicclassesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Clinic classes"
+        ]
+      }
+    },
+    "/api/v1/admin/master/clinic-classes/{id}": {
+      "get": {
+        "operationId": "ClinicclassesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Clinic classes"
+        ]
+      },
+      "patch": {
+        "operationId": "ClinicclassesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Clinic classes"
+        ]
+      }
+    },
+    "/api/v1/admin/master/facility-capabilities": {
+      "get": {
+        "operationId": "FacilitycapabilitiesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility capabilities"
+        ]
+      },
+      "post": {
+        "operationId": "FacilitycapabilitiesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility capabilities"
+        ]
+      }
+    },
+    "/api/v1/admin/master/facility-capabilities/{id}": {
+      "get": {
+        "operationId": "FacilitycapabilitiesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility capabilities"
+        ]
+      },
+      "patch": {
+        "operationId": "FacilitycapabilitiesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Facility capabilities"
+        ]
+      }
+    },
+    "/api/v1/admin/master/practitioner-types": {
+      "get": {
+        "operationId": "PractitionertypesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Practitioner types"
+        ]
+      },
+      "post": {
+        "operationId": "PractitionertypesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Practitioner types"
+        ]
+      }
+    },
+    "/api/v1/admin/master/practitioner-types/{id}": {
+      "get": {
+        "operationId": "PractitionertypesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Practitioner types"
+        ]
+      },
+      "patch": {
+        "operationId": "PractitionertypesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaxonomyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Practitioner types"
+        ]
+      }
+    },
+    "/api/v1/admin/master/service-categories": {
+      "get": {
+        "operationId": "ServiceCategoriesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Service categories"
+        ]
+      },
+      "post": {
+        "operationId": "ServiceCategoriesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Service categories"
+        ]
+      }
+    },
+    "/api/v1/admin/master/service-categories/{id}": {
+      "get": {
+        "operationId": "ServiceCategoriesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Service categories"
+        ]
+      },
+      "patch": {
+        "operationId": "ServiceCategoriesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Service categories"
+        ]
+      }
+    },
+    "/api/v1/admin/master/master-services": {
+      "get": {
+        "operationId": "MasterServicesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          },
+          {
+            "name": "categoryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Master services"
+        ]
+      },
+      "post": {
+        "operationId": "MasterServicesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMasterServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Master services"
+        ]
+      }
+    },
+    "/api/v1/admin/master/master-services/{id}": {
+      "get": {
+        "operationId": "MasterServicesController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Master services"
+        ]
+      },
+      "patch": {
+        "operationId": "MasterServicesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMasterServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Master services"
+        ]
+      }
+    },
+    "/api/v1/admin/master/document-requirements": {
+      "get": {
+        "operationId": "DocumentRequirementsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "required": false,
+            "in": "query",
+            "description": "Filter by active flag.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "sortOrder",
+              "type": "string",
+              "enum": [
+                "name",
+                "code",
+                "sortOrder",
+                "createdAt"
+              ]
+            }
+          },
+          {
+            "name": "ownerType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "FACILITY",
+                "PRACTITIONER"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Document requirements"
+        ]
+      },
+      "post": {
+        "operationId": "DocumentRequirementsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDocumentRequirementDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Document requirements"
+        ]
+      }
+    },
+    "/api/v1/admin/master/document-requirements/{id}": {
+      "get": {
+        "operationId": "DocumentRequirementsController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Document requirements"
+        ]
+      },
+      "patch": {
+        "operationId": "DocumentRequirementsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDocumentRequirementDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Document requirements"
+        ]
+      }
+    },
+    "/api/v1/admin/master/regions": {
+      "get": {
+        "operationId": "RegionsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "level",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "enum": [
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          {
+            "name": "parentCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Regions"
+        ]
+      }
+    },
+    "/api/v1/admin/master/regions/import": {
+      "post": {
+        "operationId": "RegionsController_import",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportRegionsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Master data: Regions"
+        ]
+      }
+    },
+    "/api/v1/public/master-options": {
+      "get": {
+        "operationId": "PublicMasterOptionsController_options",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Public: Master options"
+        ]
+      }
+    },
+    "/api/v1/clinic-registration": {
+      "post": {
+        "operationId": "ClinicRegistrationController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClinicRegistrationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Clinic registration"
+        ]
+      }
+    },
+    "/api/v1/admin/facilities": {
+      "get": {
+        "operationId": "AdminFacilitiesController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "facilityTypeId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clinicClassId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verificationStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DRAFT",
+                "SUBMITTED",
+                "UNDER_REVIEW",
+                "VERIFIED",
+                "REVISION_REQUIRED",
+                "REJECTED"
+              ]
+            }
+          },
+          {
+            "name": "operatingStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INACTIVE",
+                "ACTIVE",
+                "SUSPENDED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      },
+      "post": {
+        "operationId": "AdminFacilitiesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminCreateFacilityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      }
+    },
+    "/api/v1/admin/facilities/{id}": {
+      "get": {
+        "operationId": "AdminFacilitiesController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminFacilitiesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFacilityProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      }
+    },
+    "/api/v1/admin/facilities/{id}/status": {
+      "post": {
+        "operationId": "AdminFacilitiesController_status",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FacilityStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      }
+    },
+    "/api/v1/admin/facilities/{id}/resend-invitation": {
+      "post": {
+        "operationId": "AdminFacilitiesController_resendInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facilities"
+        ]
+      }
+    },
+    "/api/v1/admin/facility-applications": {
+      "get": {
+        "operationId": "AdminFacilityApplicationsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SUBMITTED",
+                "UNDER_REVIEW",
+                "APPROVED",
+                "REVISION_REQUIRED",
+                "REJECTED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facility applications"
+        ]
+      }
+    },
+    "/api/v1/admin/facility-applications/{id}": {
+      "get": {
+        "operationId": "AdminFacilityApplicationsController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facility applications"
+        ]
+      }
+    },
+    "/api/v1/admin/facility-applications/{id}/start-review": {
+      "post": {
+        "operationId": "AdminFacilityApplicationsController_startReview",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facility applications"
+        ]
+      }
+    },
+    "/api/v1/admin/facility-applications/{id}/reviews": {
+      "post": {
+        "operationId": "AdminFacilityApplicationsController_review",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDecisionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Facility applications"
+        ]
+      }
+    },
+    "/api/v1/clinic/profile": {
+      "get": {
+        "operationId": "ClinicFacilityController_profile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      },
+      "patch": {
+        "operationId": "ClinicFacilityController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFacilityProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/verification": {
+      "get": {
+        "operationId": "ClinicFacilityController_verificationState",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/verification/history": {
+      "get": {
+        "operationId": "ClinicFacilityController_verificationHistory",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/verification/submit": {
+      "post": {
+        "operationId": "ClinicFacilityController_submit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/documents": {
+      "get": {
+        "operationId": "ClinicFacilityController_listDocuments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/documents/upload-init": {
+      "post": {
+        "operationId": "ClinicFacilityController_uploadInit",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentUploadInitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/documents/complete": {
+      "post": {
+        "operationId": "ClinicFacilityController_complete",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentCompleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/clinic/documents/{id}/url": {
+      "get": {
+        "operationId": "ClinicFacilityController_documentUrl",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Profile & verification"
+        ]
+      }
+    },
+    "/api/v1/documents/{id}/upload": {
+      "put": {
+        "operationId": "DocumentsController_upload",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Documents"
+        ]
+      }
+    },
+    "/api/v1/documents/{id}/content": {
+      "get": {
+        "operationId": "DocumentsController_content",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Documents"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners": {
+      "get": {
+        "operationId": "AdminPractitionersController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "practitionerTypeId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verificationStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DRAFT",
+                "SUBMITTED",
+                "UNDER_REVIEW",
+                "VERIFIED",
+                "REVISION_REQUIRED",
+                "REJECTED"
+              ]
+            }
+          },
+          {
+            "name": "operatingStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INACTIVE",
+                "ACTIVE",
+                "SUSPENDED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      },
+      "post": {
+        "operationId": "AdminPractitionersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePractitionerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}": {
+      "get": {
+        "operationId": "AdminPractitionersController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminPractitionersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePractitionerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/credentials": {
+      "post": {
+        "operationId": "AdminPractitionersController_addCredential",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/credentials/{credentialId}/reveal": {
+      "post": {
+        "operationId": "AdminPractitionersController_reveal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/submit": {
+      "post": {
+        "operationId": "AdminPractitionersController_submit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/start-review": {
+      "post": {
+        "operationId": "AdminPractitionersController_startReview",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/reviews": {
+      "post": {
+        "operationId": "AdminPractitionersController_review",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerReviewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/status": {
+      "post": {
+        "operationId": "AdminPractitionersController_status",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioner-affiliations": {
+      "get": {
+        "operationId": "AdminAffiliationsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PROPOSED",
+                "ACTIVE",
+                "REJECTED",
+                "ENDED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner affiliations"
+        ]
+      }
+    },
+    "/api/v1/admin/practitioner-affiliations/{id}/reviews": {
+      "post": {
+        "operationId": "AdminAffiliationsController_review",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AffiliationReviewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner affiliations"
+        ]
+      }
+    },
+    "/api/v1/clinic/practitioners/lookup": {
+      "post": {
+        "operationId": "ClinicPractitionersController_lookup",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerLookupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/clinic/practitioner-affiliations": {
+      "get": {
+        "operationId": "ClinicPractitionersController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PROPOSED",
+                "ACTIVE",
+                "REJECTED",
+                "ENDED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioners"
+        ]
+      },
+      "post": {
+        "operationId": "ClinicPractitionersController_propose",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposeAffiliationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/clinic/practitioner-affiliations/{id}": {
+      "patch": {
+        "operationId": "ClinicPractitionersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAffiliationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioners"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings/options": {
+      "get": {
+        "operationId": "ClinicOfferingsController_options",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings": {
+      "get": {
+        "operationId": "ClinicOfferingsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DRAFT",
+                "PUBLISHED",
+                "UNPUBLISHED",
+                "ARCHIVED"
+              ]
+            }
+          },
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      },
+      "post": {
+        "operationId": "ClinicOfferingsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOfferingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings/{id}": {
+      "get": {
+        "operationId": "ClinicOfferingsController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      },
+      "patch": {
+        "operationId": "ClinicOfferingsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOfferingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings/{id}/publish": {
+      "post": {
+        "operationId": "ClinicOfferingsController_publish",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings/{id}/unpublish": {
+      "post": {
+        "operationId": "ClinicOfferingsController_unpublish",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/clinic/offerings/{id}/archive": {
+      "post": {
+        "operationId": "ClinicOfferingsController_archive",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Offerings"
+        ]
+      }
+    },
+    "/api/v1/public/facilities": {
+      "get": {
+        "operationId": "PublicCatalogController_facilities",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "facilityTypeId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clinicClassId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "regionCode",
+            "required": false,
+            "in": "query",
+            "description": "Region code or a parent code (province/regency prefix).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Public: Catalog"
+        ]
+      }
+    },
+    "/api/v1/public/facilities/{id}": {
+      "get": {
+        "operationId": "PublicCatalogController_facility",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Public: Catalog"
+        ]
+      }
+    },
+    "/api/v1/public/facilities/{id}/offerings": {
+      "get": {
+        "operationId": "PublicCatalogController_offerings",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Public: Catalog"
+        ]
+      }
+    },
+    "/api/v1/clinic/schedules": {
+      "get": {
+        "operationId": "ClinicAvailabilityController_schedules",
+        "parameters": [
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      },
+      "post": {
+        "operationId": "ClinicAvailabilityController_createSchedule",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      }
+    },
+    "/api/v1/clinic/schedules/{id}": {
+      "patch": {
+        "operationId": "ClinicAvailabilityController_updateSchedule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateScheduleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      }
+    },
+    "/api/v1/clinic/schedule-blocks": {
+      "get": {
+        "operationId": "ClinicAvailabilityController_blocks",
+        "parameters": [
+          {
+            "name": "includePast",
+            "required": false,
+            "in": "query",
+            "description": "Include blocks that already ended.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      },
+      "post": {
+        "operationId": "ClinicAvailabilityController_createBlock",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBlockDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      }
+    },
+    "/api/v1/clinic/schedule-blocks/{id}": {
+      "delete": {
+        "operationId": "ClinicAvailabilityController_deleteBlock",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      }
+    },
+    "/api/v1/clinic/slots": {
+      "get": {
+        "operationId": "ClinicAvailabilityController_slots",
+        "parameters": [
+          {
+            "name": "mode",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "description": "First local date.",
+            "schema": {
+              "example": "2026-12-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "days",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 31,
+              "default": 7,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Availability"
+        ]
+      }
+    },
+    "/api/v1/public/facilities/{id}/slots": {
+      "get": {
+        "operationId": "PublicSlotsController_slots",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "2026-12-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          },
+          {
+            "name": "offeringIds",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated offering ids booked together; their total duration must fit.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Public: Catalog"
+        ]
+      }
+    },
+    "/api/v1/bookings": {
+      "post": {
+        "operationId": "BookingsController_create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "Unique per booking attempt; retries reuse it (AC-ORD-10).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders": {
+      "get": {
+        "operationId": "ClinicOrdersController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING_APPROVAL",
+                "CONFIRMED",
+                "REJECTED",
+                "IN_PROGRESS",
+                "COMPLETED",
+                "CANCELLED",
+                "EXPIRED",
+                "NO_SHOW"
+              ]
+            }
+          },
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          },
+          {
+            "name": "assignmentStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UNASSIGNED",
+                "PARTIALLY_ASSIGNED",
+                "ASSIGNED"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "First local visit date (YYYY-MM-DD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "Last local visit date (YYYY-MM-DD).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}": {
+      "get": {
+        "operationId": "ClinicOrdersController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/approve": {
+      "post": {
+        "operationId": "ClinicOrdersController_approve",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/reject": {
+      "post": {
+        "operationId": "ClinicOrdersController_reject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/assignable-practitioners": {
+      "get": {
+        "operationId": "ClinicOrdersController_assignable",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/assignments": {
+      "post": {
+        "operationId": "ClinicOrdersController_assign",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPractitionerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/assignments/{assignmentId}": {
+      "delete": {
+        "operationId": "ClinicOrdersController_unassign",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assignmentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/start": {
+      "post": {
+        "operationId": "ClinicOrdersController_start",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/items/{itemId}/status": {
+      "patch": {
+        "operationId": "ClinicOrdersController_itemStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItemStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/clinic/orders/{id}/complete": {
+      "post": {
+        "operationId": "ClinicOrdersController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Orders"
+        ]
+      }
+    },
+    "/api/v1/admin/orders": {
+      "get": {
+        "operationId": "AdminOrdersController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING_APPROVAL",
+                "CONFIRMED",
+                "REJECTED",
+                "IN_PROGRESS",
+                "COMPLETED",
+                "CANCELLED",
+                "EXPIRED",
+                "NO_SHOW"
+              ]
+            }
+          },
+          {
+            "name": "mode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SITE",
+                "HOMECARE"
+              ]
+            }
+          },
+          {
+            "name": "assignmentStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UNASSIGNED",
+                "PARTIALLY_ASSIGNED",
+                "ASSIGNED"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "First local visit date (YYYY-MM-DD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "Last local visit date (YYYY-MM-DD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facilityId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Orders"
+        ]
+      }
+    },
+    "/api/v1/admin/orders/{id}": {
+      "get": {
+        "operationId": "AdminOrdersController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Orders"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Nakes Admin API",
+    "description": "Platform Admin and Clinic Admin API. Errors use `{ code, message, details, requestId }`.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "Object": {
+        "type": "object",
+        "properties": {}
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "admin@nakes.local"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Seconds until the access token expires."
+          }
+        },
+        "required": [
+          "accessToken",
+          "expiresIn"
+        ]
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ]
+      },
+      "AcceptInvitationDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ]
+      },
+      "CreateTaxonomyDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "code": {
+            "type": "string",
+            "example": "KLINIK"
+          },
+          "name": {
+            "type": "string",
+            "example": "Klinik"
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "UpdateTaxonomyDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateServiceCategoryDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "slug": {
+            "type": "string",
+            "example": "laboratorium"
+          },
+          "name": {
+            "type": "string",
+            "example": "Laboratorium"
+          }
+        },
+        "required": [
+          "slug",
+          "name"
+        ]
+      },
+      "UpdateServiceCategoryDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateMasterServiceDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "LAB_DARAH_LENGKAP"
+          },
+          "name": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "object"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "categoryId"
+        ]
+      },
+      "UpdateMasterServiceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "object"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateDocumentRequirementDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "code": {
+            "type": "string",
+            "example": "IZIN_OPERASIONAL"
+          },
+          "ownerType": {
+            "type": "string",
+            "enum": [
+              "FACILITY",
+              "PRACTITIONER"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "object"
+          },
+          "mandatory": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "code",
+          "ownerType",
+          "name"
+        ]
+      },
+      "UpdateDocumentRequirementDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "object"
+          },
+          "mandatory": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RegionRowDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "31.71"
+          },
+          "name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "number",
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "parentCode": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "level"
+        ]
+      },
+      "ImportRegionsDto": {
+        "type": "object",
+        "properties": {
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegionRowDto"
+            }
+          }
+        },
+        "required": [
+          "rows"
+        ]
+      },
+      "RegistrationOwnerDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "FacilityProfileDto": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "example": "Klinik Sehat Sentosa"
+          },
+          "legalName": {
+            "type": "string",
+            "example": "PT Sehat Sentosa Medika"
+          },
+          "facilityTypeId": {
+            "type": "string"
+          },
+          "clinicClassId": {
+            "type": "object",
+            "nullable": true
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone": {
+            "type": "object",
+            "example": "021-5550123"
+          },
+          "email": {
+            "type": "object"
+          },
+          "addressLine": {
+            "type": "string",
+            "example": "Jl. Melati No. 10"
+          },
+          "regionCode": {
+            "type": "object",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "object",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "object",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "displayName",
+          "legalName",
+          "facilityTypeId",
+          "capabilityIds",
+          "addressLine"
+        ]
+      },
+      "ClinicRegistrationDto": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "$ref": "#/components/schemas/RegistrationOwnerDto"
+          },
+          "facility": {
+            "$ref": "#/components/schemas/FacilityProfileDto"
+          }
+        },
+        "required": [
+          "owner",
+          "facility"
+        ]
+      },
+      "OwnerAccountDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ]
+      },
+      "AdminCreateFacilityDto": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "$ref": "#/components/schemas/OwnerAccountDto"
+          },
+          "facility": {
+            "$ref": "#/components/schemas/FacilityProfileDto"
+          }
+        },
+        "required": [
+          "owner",
+          "facility"
+        ]
+      },
+      "UpdateFacilityProfileDto": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "legalName": {
+            "type": "string"
+          },
+          "facilityTypeId": {
+            "type": "string"
+          },
+          "clinicClassId": {
+            "type": "object",
+            "nullable": true
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone": {
+            "type": "object"
+          },
+          "email": {
+            "type": "object"
+          },
+          "addressLine": {
+            "type": "string"
+          },
+          "regionCode": {
+            "type": "object"
+          },
+          "postalCode": {
+            "type": "object"
+          },
+          "latitude": {
+            "type": "object"
+          },
+          "longitude": {
+            "type": "object"
+          }
+        }
+      },
+      "FacilityStatusDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "ACTIVATE",
+              "SUSPEND"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required when suspending."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "ReviewDecisionDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REJECT",
+              "REQUEST_REVISION"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required for REJECT and REQUEST_REVISION."
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "DocumentUploadInitDto": {
+        "type": "object",
+        "properties": {
+          "requirementId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string",
+            "example": "application/pdf"
+          },
+          "sizeBytes": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "requirementId",
+          "fileName",
+          "mimeType",
+          "sizeBytes"
+        ]
+      },
+      "DocumentCompleteDto": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "documentId"
+        ]
+      },
+      "CredentialInputDto": {
+        "type": "object",
+        "properties": {
+          "credentialType": {
+            "type": "string",
+            "enum": [
+              "STR",
+              "SIP"
+            ]
+          },
+          "number": {
+            "type": "string",
+            "example": "3121100220145678"
+          },
+          "issuingAuthority": {
+            "type": "object",
+            "example": "Konsil Kedokteran Indonesia"
+          },
+          "validFrom": {
+            "type": "object",
+            "example": "2024-01-15"
+          },
+          "validUntil": {
+            "type": "object",
+            "example": "2029-01-15",
+            "description": "Empty for credentials without an expiry (STR seumur hidup)."
+          }
+        },
+        "required": [
+          "credentialType",
+          "number"
+        ]
+      },
+      "CreatePractitionerDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "dr. Rina Kusuma"
+          },
+          "practitionerTypeId": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "object"
+          },
+          "email": {
+            "type": "object"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CredentialInputDto"
+            }
+          }
+        },
+        "required": [
+          "fullName",
+          "practitionerTypeId",
+          "credentials"
+        ]
+      },
+      "UpdatePractitionerDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string"
+          },
+          "practitionerTypeId": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "object"
+          },
+          "email": {
+            "type": "object"
+          }
+        }
+      },
+      "PractitionerReviewDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REJECT",
+              "REQUEST_REVISION"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required for REJECT and REQUEST_REVISION."
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "PractitionerStatusDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "ACTIVATE",
+              "SUSPEND"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required when suspending."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "AffiliationReviewDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REJECT"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required for REJECT."
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "PractitionerLookupDto": {
+        "type": "object",
+        "properties": {
+          "strNumber": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "strNumber"
+        ]
+      },
+      "ProposeAffiliationDto": {
+        "type": "object",
+        "properties": {
+          "practitionerId": {
+            "type": "string"
+          },
+          "practitioner": {
+            "$ref": "#/components/schemas/CreatePractitionerDto"
+          },
+          "startDate": {
+            "type": "object",
+            "example": "2026-12-01"
+          },
+          "note": {
+            "type": "object",
+            "description": "Role or competency at this clinic. No clinical data."
+          }
+        }
+      },
+      "UpdateAffiliationDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "WITHDRAW",
+              "END"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "object",
+            "description": "Last day of an ended affiliation; defaults to today."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "OfferingModeDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ON_SITE",
+              "HOMECARE"
+            ]
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "priceOverride": {
+            "type": "object",
+            "example": "175000",
+            "nullable": true
+          },
+          "visitFee": {
+            "type": "object",
+            "example": "50000",
+            "nullable": true,
+            "description": "HOMECARE only."
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "CreateOfferingDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "preparationNote": {
+            "type": "object",
+            "nullable": true,
+            "description": "Preparation the patient must do, e.g. fasting 8 hours."
+          },
+          "terms": {
+            "type": "object",
+            "nullable": true
+          },
+          "masterServiceId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": "Cek darah lengkap di rumah"
+          },
+          "basePrice": {
+            "type": "string",
+            "example": "150000"
+          },
+          "durationMinutes": {
+            "type": "number",
+            "example": 30,
+            "minimum": 5,
+            "maximum": 1440
+          },
+          "modes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferingModeDto"
+            }
+          }
+        },
+        "required": [
+          "masterServiceId",
+          "name",
+          "basePrice",
+          "durationMinutes",
+          "modes"
+        ]
+      },
+      "UpdateOfferingDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "preparationNote": {
+            "type": "object",
+            "nullable": true,
+            "description": "Preparation the patient must do, e.g. fasting 8 hours."
+          },
+          "terms": {
+            "type": "object",
+            "nullable": true
+          },
+          "masterServiceId": {
+            "type": "string",
+            "description": "Only while the offering is a draft."
+          },
+          "name": {
+            "type": "string"
+          },
+          "basePrice": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "modes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferingModeDto"
+            }
+          }
+        }
+      },
+      "CreateScheduleDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ON_SITE",
+              "HOMECARE"
+            ]
+          },
+          "dayOfWeek": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 6,
+            "description": "0 = Sunday … 6 = Saturday."
+          },
+          "startTime": {
+            "type": "string",
+            "example": "08:00"
+          },
+          "endTime": {
+            "type": "string",
+            "example": "16:00",
+            "description": "Exclusive; 24:00 is not accepted, use 23:59 at most."
+          },
+          "slotMinutes": {
+            "type": "number",
+            "example": 60,
+            "minimum": 15,
+            "maximum": 480
+          },
+          "capacityPerSlot": {
+            "type": "number",
+            "example": 2,
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Visits per slot; 0 keeps the window closed."
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "mode",
+          "dayOfWeek",
+          "startTime",
+          "endTime",
+          "slotMinutes",
+          "capacityPerSlot"
+        ]
+      },
+      "UpdateScheduleDto": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string"
+          },
+          "slotMinutes": {
+            "type": "number"
+          },
+          "capacityPerSlot": {
+            "type": "number"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateBlockDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ON_SITE",
+              "HOMECARE"
+            ],
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-12-25"
+          },
+          "endDate": {
+            "type": "object",
+            "example": "2026-12-26",
+            "description": "Last closed day; defaults to startDate."
+          },
+          "startTime": {
+            "type": "object",
+            "example": "12:00",
+            "description": "With endTime: close only this time range on a single day."
+          },
+          "endTime": {
+            "type": "object",
+            "example": "13:00"
+          },
+          "reason": {
+            "type": "object",
+            "example": "Libur Natal"
+          }
+        },
+        "required": [
+          "startDate"
+        ]
+      },
+      "BookingPatientDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Patient id in the customer app."
+          },
+          "name": {
+            "type": "string",
+            "example": "Siti Rahma"
+          },
+          "phone": {
+            "type": "object",
+            "example": "0812-3456-7890"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "FEMALE",
+              "MALE"
+            ]
+          },
+          "birthYear": {
+            "type": "number",
+            "example": 1988
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "BookingItemDto": {
+        "type": "object",
+        "properties": {
+          "offeringId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "offeringId"
+        ]
+      },
+      "BookingAddressDto": {
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "string",
+            "example": "Jl. Kenanga No. 5, RT 02/RW 03"
+          },
+          "regionCode": {
+            "type": "object"
+          },
+          "postalCode": {
+            "type": "object"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "note": {
+            "type": "object",
+            "description": "Directions for the visiting practitioner. No clinical notes."
+          }
+        },
+        "required": [
+          "line"
+        ]
+      },
+      "CreateBookingDto": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "Customer account id in the customer app."
+          },
+          "patient": {
+            "$ref": "#/components/schemas/BookingPatientDto"
+          },
+          "facilityId": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ON_SITE",
+              "HOMECARE"
+            ]
+          },
+          "scheduledAt": {
+            "type": "string",
+            "example": "2026-12-01T01:00:00.000Z",
+            "description": "Slot start from GET /public/facilities/:id/slots."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingItemDto"
+            }
+          },
+          "address": {
+            "description": "Required for HOMECARE.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BookingAddressDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "customerId",
+          "patient",
+          "facilityId",
+          "mode",
+          "scheduledAt",
+          "items"
+        ]
+      },
+      "RejectOrderDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "AssignPractitionerDto": {
+        "type": "object",
+        "properties": {
+          "practitionerId": {
+            "type": "string"
+          },
+          "orderItemId": {
+            "type": "string",
+            "description": "Assign to one service; omit to assign the whole visit."
+          }
+        },
+        "required": [
+          "practitionerId"
+        ]
+      },
+      "ItemStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "NOT_PERFORMED"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Required for NOT_PERFORMED. Operational reason only, no clinical notes."
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    }
+  }
+}
