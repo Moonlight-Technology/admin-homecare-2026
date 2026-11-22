@@ -12,5 +12,6 @@ coverage/
 .pnpm-store/
 apps/admin-web/preview/out/
 
-# Product specification is kept out of the repository.
+# Product specification and design handoff are kept out of the repository.
 /NAKES_ADMIN_WEB_SPEC_v1.md
+/NAKES_HOMECARE_UI_HANDOFF/

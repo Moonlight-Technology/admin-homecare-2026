@@ -1,7 +1,8 @@
 # Nakes Admin Platform
 
 Platform Admin and Clinic Admin in one Next.js app, backed by a NestJS + PostgreSQL API.
-Specification: [`NAKES_ADMIN_WEB_SPEC_v1.md`](./NAKES_ADMIN_WEB_SPEC_v1.md).
+Specification: Nakes Admin Web Platform Specification v1 (kept outside this repository; section numbers such as
+"spec §5.5" in code and docs refer to it).
 
 ```
 apps/
@@ -49,7 +50,7 @@ the schema only reserves their states (`PaymentStatus.NOT_CONFIGURED`, `CANCELLE
 
 ## UI design system
 
-Follows `NAKES_HOMECARE_UI_HANDOFF/DESIGN.md` (Concept 2, Modern Light Healthcare).
+Follows the Nakes Homecare UI handoff design (Concept 2, Modern Light Healthcare; kept outside this repository).
 
 - Tokens live only in `apps/admin-web/app/globals.css`. **The colours are prototype tokens, not verified against
   the brand**, and the logo in `components/brand/logo.tsx` is a placeholder until the official asset is supplied.
