@@ -2,6 +2,9 @@
  * Idempotent seed: permissions, system roles, the first platform super admin, and sample master data.
  * Master data values are illustrative starting points; operations confirms the real lists (spec §15).
  */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { gunzipSync } from 'node:zlib';
 import { PrismaClient, type MembershipScope } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { FACILITY_PERMISSIONS, PLATFORM_PERMISSIONS, SYSTEM_ROLES } from '../src/modules/users-access/permissions.catalog';
@@ -100,10 +103,41 @@ async function seedMasterData() {
   }
 }
 
+/**
+ * All Indonesian regions down to villages (~91,600 rows, see prisma/data/REGIONS_NOTICE.md). Inserted in batches,
+ * parents before children, skipping codes that already exist, so re-running is cheap and never renames regions.
+ * Set SEED_REGIONS=false to skip.
+ */
+async function seedRegions() {
+  if (process.env.SEED_REGIONS === 'false') {
+    console.log('SEED_REGIONS=false; skipping regions.');
+    return;
+  }
+  const lines = gunzipSync(readFileSync(join(__dirname, 'data', 'regions.tsv.gz'))).toString('utf8').split('\n').filter(Boolean);
+  const existing = await prisma.region.count();
+  if (existing >= lines.length) {
+    console.log(`Regions already complete (${existing}).`);
+    return;
+  }
+  const rows = lines.map((line) => {
+    const [code, name] = line.split('\t') as [string, string];
+    const parts = code.split('.');
+    return { code, name, level: parts.length, parentCode: parts.length > 1 ? parts.slice(0, -1).join('.') : null };
+  });
+  const BATCH = 5000;
+  let inserted = 0;
+  // The file is sorted by level, so every batch's parents are already stored.
+  for (let start = 0; start < rows.length; start += BATCH) {
+    inserted += (await prisma.region.createMany({ data: rows.slice(start, start + BATCH), skipDuplicates: true })).count;
+  }
+  console.log(`Regions: ${inserted} added, ${rows.length - inserted} already present.`);
+}
+
 async function main() {
   await seedAccess();
   await seedSuperAdmin();
   await seedMasterData();
+  await seedRegions();
 }
 
 main()

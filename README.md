@@ -24,7 +24,7 @@ cp apps/api/.env.example apps/api/.env     # set the secrets, DIRECT_DATABASE_UR
 cp apps/admin-web/.env.example apps/admin-web/.env.local
 
 pnpm --filter @nakes/api prisma:deploy     # apply migrations
-pnpm --filter @nakes/api prisma:seed       # permissions, roles, first super admin, sample master data
+pnpm --filter @nakes/api prisma:seed       # permissions, roles, first super admin, sample master data, all regions
 
 pnpm dev:api
 pnpm dev:web
@@ -129,6 +129,8 @@ Release order for every deploy:
 1. **Migrate** with the direct (non-pooled) URL: `pnpm --filter @nakes/api prisma:deploy` (in the image:
    `docker run --rm --env-file api.env nakes-api pnpm --filter @nakes/api prisma:deploy`).
 2. **Seed** on first deploy (idempotent; existing rows are not changed): `pnpm --filter @nakes/api prisma:seed`.
+   It includes all 91,599 Indonesian regions down to villages (about 1–2 minutes the first time, skipped once complete;
+   `SEED_REGIONS=false` to skip). Source and MIT notice: `apps/api/prisma/data/REGIONS_NOTICE.md`.
 3. Start the API (`node dist/main.js`, health at `/api/v1/health`), then the web.
 
 API environment (validated at boot; the API refuses to start when something required is missing or unsafe):
