@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiHeader, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
 import { Public } from '../../common/access/access.decorators';
@@ -26,6 +26,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @ApiOperation({ summary: 'Sign in', description: 'Returns an access JWT and sets the HTTP-only nakes_rt refresh cookie. Keep the access token in memory; send it as Authorization: Bearer <accessToken> on protected requests.' })
   @Public()
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
@@ -35,6 +36,9 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @ApiOperation({ summary: 'Refresh the session', description: 'Rotates the nakes_rt cookie and returns a new access JWT. The Origin header must exactly match WEB_ORIGIN. Browser clients must include credentials.' })
+  @ApiCookieAuth('refreshCookie')
+  @ApiHeader({ name: 'Origin', required: true, description: 'Must exactly match WEB_ORIGIN.' })
   @Public()
   @UseGuards(SameOriginGuard)
   @HttpCode(HttpStatus.OK)
@@ -50,6 +54,9 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiOperation({ summary: 'Sign out', description: 'Revokes the refresh session and clears its cookie. No response body.' })
+  @ApiCookieAuth('refreshCookie')
+  @ApiHeader({ name: 'Origin', required: true, description: 'Must exactly match WEB_ORIGIN.' })
   @Public()
   @UseGuards(SameOriginGuard)
   @HttpCode(HttpStatus.NO_CONTENT)

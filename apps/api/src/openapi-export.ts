@@ -19,12 +19,18 @@ async function main() {
   const { NestFactory } = await import('@nestjs/core');
   const { AppModule } = await import('./app.module');
   const { API_PREFIX, openApiDocument } = await import('./bootstrap');
+  const { endpointReference } = await import('./common/openapi/documentation');
   const app = await NestFactory.create(AppModule, { logger: false, preview: true });
   app.setGlobalPrefix(API_PREFIX);
   const target = resolve(__dirname, '../../../packages/api-contracts/openapi.json');
   mkdirSync(resolve(target, '..'), { recursive: true });
-  writeFileSync(target, `${JSON.stringify(openApiDocument(app), null, 2)}\n`);
+  const document = openApiDocument(app);
+  writeFileSync(target, `${JSON.stringify(document, null, 2)}\n`);
+  const docs = resolve(__dirname, '../../../docs');
+  mkdirSync(docs, { recursive: true });
+  writeFileSync(resolve(docs, 'API_ENDPOINTS.md'), endpointReference(document));
   console.log(`OpenAPI written to ${target}`);
+  await app.close();
 }
 
 void main();

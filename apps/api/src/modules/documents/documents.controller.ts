@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Put, Query, Req, Res, StreamableFile } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { Public } from '../../common/access/access.decorators';
@@ -15,6 +15,10 @@ export class DocumentsController {
   constructor(private readonly documents: DocumentsService) {}
 
   @Put(':id/upload')
+  @ApiOperation({ summary: 'Upload a verification document', description: 'Use the upload URL returned by upload-init. Send raw file bytes with the declared Content-Type, not multipart/form-data. PDF/JPEG/PNG only; maximum 10 MiB. The signed token authorizes this request.' })
+  @ApiQuery({ name: 'token', required: true, type: String, description: 'Short-lived token from the upload-init URL.' })
+  @ApiConsumes('application/pdf', 'image/jpeg', 'image/png')
+  @ApiBody({ schema: { type: 'string', format: 'binary' } })
   @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
   async upload(@Param('id', ParseUUIDPipe) id: string, @Query('token') token: string | undefined, @Req() request: Request) {
@@ -22,6 +26,9 @@ export class DocumentsController {
   }
 
   @Get(':id/content')
+  @ApiOperation({ summary: 'Download a verification document', description: 'Use the signed URL issued by an authorized document URL endpoint. Returns raw file bytes with private, no-store caching.' })
+  @ApiQuery({ name: 'token', required: true, type: String, description: 'Short-lived token from the signed download URL.' })
+  @ApiResponse({ status: 200, description: 'Document file bytes.', content: { 'application/pdf': { schema: { type: 'string', format: 'binary' } }, 'image/jpeg': { schema: { type: 'string', format: 'binary' } }, 'image/png': { schema: { type: 'string', format: 'binary' } } } })
   @Public()
   @SkipThrottle()
   async content(@Param('id', ParseUUIDPipe) id: string, @Query('token') token: string | undefined, @Res({ passthrough: true }) response: Response) {

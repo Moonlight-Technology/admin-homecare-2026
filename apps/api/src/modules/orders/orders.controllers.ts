@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { CurrentFacility, Public, RequireFacility, RequirePlatform } from '../../common/access/access.decorators';
 import type { AuthenticatedRequest, FacilityScope } from '../../common/access/auth-context';
@@ -15,12 +15,13 @@ const clinicSource = (request: AuthenticatedRequest) => ({ ...auditSource(reques
 
 /** Customer bookings, called by the customer app's backend with its machine key (spec §8). */
 @ApiTags('Bookings')
-@ApiBearerAuth()
+@ApiBearerAuth('bookingKey')
 @Controller('bookings')
 export class BookingsController {
   constructor(private readonly bookings: BookingsService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a customer booking', description: 'Server-to-server: use BOOKINGS_API_KEY as the Bearer token, not an admin JWT. Reusing an Idempotency-Key with the same payload returns the same booking; changing the payload returns a conflict. Pending bookings do not reserve capacity. Returns 503 when bookings are disabled.' })
   @Public()
   @UseGuards(BookingKeyGuard)
   @Throttle({ default: { limit: 60, ttl: 60_000 } })

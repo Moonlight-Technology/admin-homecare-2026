@@ -11,6 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** check — Health */
         get: operations["HealthController_check"];
         put?: never;
         post?: never;
@@ -27,6 +28,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Audit
+         * @description Akses platform: semua permission berikut wajib dimiliki: `audit:read`.
+         */
         get: operations["AuditLogsController_list"];
         put?: never;
         post?: never;
@@ -45,6 +50,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Sign in
+         * @description Returns an access JWT and sets the HTTP-only nakes_rt refresh cookie. Keep the access token in memory; send it as Authorization: Bearer <accessToken> on protected requests.
+         */
         post: operations["AuthController_login"];
         delete?: never;
         options?: never;
@@ -61,6 +70,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Refresh the session
+         * @description Rotates the nakes_rt cookie and returns a new access JWT. The Origin header must exactly match WEB_ORIGIN. Browser clients must include credentials.
+         */
         post: operations["AuthController_refresh"];
         delete?: never;
         options?: never;
@@ -77,6 +90,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Sign out
+         * @description Revokes the refresh session and clears its cookie. No response body.
+         */
         post: operations["AuthController_logout"];
         delete?: never;
         options?: never;
@@ -93,6 +110,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** forgot Password — Auth */
         post: operations["AuthController_forgotPassword"];
         delete?: never;
         options?: never;
@@ -109,6 +127,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** reset Password — Auth */
         post: operations["AuthController_resetPassword"];
         delete?: never;
         options?: never;
@@ -125,6 +144,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** accept Invitation — Auth */
         post: operations["AuthController_acceptInvitation"];
         delete?: never;
         options?: never;
@@ -139,6 +159,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** me — Auth */
         get: operations["MeController_me"];
         put?: never;
         post?: never;
@@ -155,6 +176,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * platform — Dashboard
+         * @description Akses platform: semua permission berikut wajib dimiliki: `platform:dashboard:read`.
+         */
         get: operations["DashboardController_platform"];
         put?: never;
         post?: never;
@@ -171,6 +196,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * clinic — Dashboard
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:dashboard:read`.
+         */
         get: operations["DashboardController_clinic"];
         put?: never;
         post?: never;
@@ -187,8 +216,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Facility types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["FacilitytypesController_list"];
         put?: never;
+        /**
+         * create — Master data: Facility types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["FacilitytypesController_create"];
         delete?: never;
         options?: never;
@@ -203,12 +240,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Facility types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["FacilitytypesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Facility types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["FacilitytypesController_update"];
         trace?: never;
     };
@@ -219,8 +264,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Clinic classes
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["ClinicclassesController_list"];
         put?: never;
+        /**
+         * create — Master data: Clinic classes
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["ClinicclassesController_create"];
         delete?: never;
         options?: never;
@@ -235,12 +288,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Clinic classes
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["ClinicclassesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Clinic classes
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["ClinicclassesController_update"];
         trace?: never;
     };
@@ -251,8 +312,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Facility capabilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["FacilitycapabilitiesController_list"];
         put?: never;
+        /**
+         * create — Master data: Facility capabilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["FacilitycapabilitiesController_create"];
         delete?: never;
         options?: never;
@@ -267,12 +336,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Facility capabilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["FacilitycapabilitiesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Facility capabilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["FacilitycapabilitiesController_update"];
         trace?: never;
     };
@@ -283,8 +360,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Practitioner types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["PractitionertypesController_list"];
         put?: never;
+        /**
+         * create — Master data: Practitioner types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["PractitionertypesController_create"];
         delete?: never;
         options?: never;
@@ -299,12 +384,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Practitioner types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["PractitionertypesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Practitioner types
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["PractitionertypesController_update"];
         trace?: never;
     };
@@ -315,8 +408,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Service categories
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["ServiceCategoriesController_list"];
         put?: never;
+        /**
+         * create — Master data: Service categories
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["ServiceCategoriesController_create"];
         delete?: never;
         options?: never;
@@ -331,12 +432,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Service categories
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["ServiceCategoriesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Service categories
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["ServiceCategoriesController_update"];
         trace?: never;
     };
@@ -347,8 +456,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Master services
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["MasterServicesController_list"];
         put?: never;
+        /**
+         * create — Master data: Master services
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["MasterServicesController_create"];
         delete?: never;
         options?: never;
@@ -363,12 +480,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Master services
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["MasterServicesController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Master services
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["MasterServicesController_update"];
         trace?: never;
     };
@@ -379,8 +504,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Document requirements
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["DocumentRequirementsController_list"];
         put?: never;
+        /**
+         * create — Master data: Document requirements
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["DocumentRequirementsController_create"];
         delete?: never;
         options?: never;
@@ -395,12 +528,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * get — Master data: Document requirements
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["DocumentRequirementsController_get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Master data: Document requirements
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         patch: operations["DocumentRequirementsController_update"];
         trace?: never;
     };
@@ -411,6 +552,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Master data: Regions
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:read`.
+         */
         get: operations["RegionsController_list"];
         put?: never;
         post?: never;
@@ -429,6 +574,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * import — Master data: Regions
+         * @description Akses platform: semua permission berikut wajib dimiliki: `master:write`.
+         */
         post: operations["RegionsController_import"];
         delete?: never;
         options?: never;
@@ -443,6 +592,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** options — Public: Master options */
         get: operations["PublicMasterOptionsController_options"];
         put?: never;
         post?: never;
@@ -461,6 +611,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** register — Clinic registration */
         post: operations["ClinicRegistrationController_register"];
         delete?: never;
         options?: never;
@@ -475,8 +626,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:read`.
+         */
         get: operations["AdminFacilitiesController_list"];
         put?: never;
+        /**
+         * create — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:create`.
+         */
         post: operations["AdminFacilitiesController_create"];
         delete?: never;
         options?: never;
@@ -491,12 +650,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:read`.
+         */
         get: operations["AdminFacilitiesController_detail"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:update`.
+         */
         patch: operations["AdminFacilitiesController_update"];
         trace?: never;
     };
@@ -509,6 +676,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * status — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:status`.
+         */
         post: operations["AdminFacilitiesController_status"];
         delete?: never;
         options?: never;
@@ -525,6 +696,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * resend Invitation — Admin: Facilities
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:create`.
+         */
         post: operations["AdminFacilitiesController_resendInvitation"];
         delete?: never;
         options?: never;
@@ -539,6 +714,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Admin: Facility applications
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:review`.
+         */
         get: operations["AdminFacilityApplicationsController_list"];
         put?: never;
         post?: never;
@@ -555,6 +734,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Admin: Facility applications
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:review`.
+         */
         get: operations["AdminFacilityApplicationsController_detail"];
         put?: never;
         post?: never;
@@ -573,6 +756,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * start Review — Admin: Facility applications
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:review`.
+         */
         post: operations["AdminFacilityApplicationsController_startReview"];
         delete?: never;
         options?: never;
@@ -589,6 +776,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * review — Admin: Facility applications
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:review`.
+         */
         post: operations["AdminFacilityApplicationsController_review"];
         delete?: never;
         options?: never;
@@ -603,12 +794,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * profile — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:read`.
+         */
         get: operations["ClinicFacilityController_profile"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update Profile — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
         patch: operations["ClinicFacilityController_updateProfile"];
         trace?: never;
     };
@@ -619,6 +818,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * verification State — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:read`.
+         */
         get: operations["ClinicFacilityController_verificationState"];
         put?: never;
         post?: never;
@@ -635,6 +838,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * verification History — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:read`.
+         */
         get: operations["ClinicFacilityController_verificationHistory"];
         put?: never;
         post?: never;
@@ -653,6 +860,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * submit — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:verification:submit`.
+         */
         post: operations["ClinicFacilityController_submit"];
         delete?: never;
         options?: never;
@@ -667,6 +878,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list Documents — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:document:manage`.
+         */
         get: operations["ClinicFacilityController_listDocuments"];
         put?: never;
         post?: never;
@@ -685,6 +900,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * upload Init — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:document:manage`.
+         */
         post: operations["ClinicFacilityController_uploadInit"];
         delete?: never;
         options?: never;
@@ -701,6 +920,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * complete — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:document:manage`.
+         */
         post: operations["ClinicFacilityController_complete"];
         delete?: never;
         options?: never;
@@ -715,6 +938,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * document Url — Clinic: Profile & verification
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:document:manage`.
+         */
         get: operations["ClinicFacilityController_documentUrl"];
         put?: never;
         post?: never;
@@ -732,6 +959,10 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        /**
+         * Upload a verification document
+         * @description Use the upload URL returned by upload-init. Send raw file bytes with the declared Content-Type, not multipart/form-data. PDF/JPEG/PNG only; maximum 10 MiB. The signed token authorizes this request.
+         */
         put: operations["DocumentsController_upload"];
         post?: never;
         delete?: never;
@@ -747,6 +978,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Download a verification document
+         * @description Use the signed URL issued by an authorized document URL endpoint. Returns raw file bytes with private, no-store caching.
+         */
         get: operations["DocumentsController_content"];
         put?: never;
         post?: never;
@@ -763,8 +998,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:read`.
+         */
         get: operations["AdminPractitionersController_list"];
         put?: never;
+        /**
+         * create — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_create"];
         delete?: never;
         options?: never;
@@ -779,12 +1022,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:read`.
+         */
         get: operations["AdminPractitionersController_detail"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         patch: operations["AdminPractitionersController_update"];
         trace?: never;
     };
@@ -797,6 +1048,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * add Credential — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_addCredential"];
         delete?: never;
         options?: never;
@@ -813,6 +1068,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * reveal — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_reveal"];
         delete?: never;
         options?: never;
@@ -829,6 +1088,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * submit — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_submit"];
         delete?: never;
         options?: never;
@@ -845,6 +1108,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * start Review — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_startReview"];
         delete?: never;
         options?: never;
@@ -861,6 +1128,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * review — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminPractitionersController_review"];
         delete?: never;
         options?: never;
@@ -877,6 +1148,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * status — Admin: Practitioners
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:status`.
+         */
         post: operations["AdminPractitionersController_status"];
         delete?: never;
         options?: never;
@@ -891,6 +1166,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Admin: Practitioner affiliations
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:read`.
+         */
         get: operations["AdminAffiliationsController_list"];
         put?: never;
         post?: never;
@@ -909,6 +1188,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * review — Admin: Practitioner affiliations
+         * @description Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`.
+         */
         post: operations["AdminAffiliationsController_review"];
         delete?: never;
         options?: never;
@@ -925,6 +1208,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * lookup — Clinic: Practitioners
+         * @description Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`.
+         */
         post: operations["ClinicPractitionersController_lookup"];
         delete?: never;
         options?: never;
@@ -939,8 +1226,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Clinic: Practitioners
+         * @description Akses facility: semua permission berikut wajib dimiliki: `affiliation:read`.
+         */
         get: operations["ClinicPractitionersController_list"];
         put?: never;
+        /**
+         * propose — Clinic: Practitioners
+         * @description Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`.
+         */
         post: operations["ClinicPractitionersController_propose"];
         delete?: never;
         options?: never;
@@ -961,6 +1256,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Clinic: Practitioners
+         * @description Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`.
+         */
         patch: operations["ClinicPractitionersController_update"];
         trace?: never;
     };
@@ -971,6 +1270,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * options — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:read`.
+         */
         get: operations["ClinicOfferingsController_options"];
         put?: never;
         post?: never;
@@ -987,8 +1290,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:read`.
+         */
         get: operations["ClinicOfferingsController_list"];
         put?: never;
+        /**
+         * create — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:create`.
+         */
         post: operations["ClinicOfferingsController_create"];
         delete?: never;
         options?: never;
@@ -1003,12 +1314,20 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:read`.
+         */
         get: operations["ClinicOfferingsController_detail"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:update`.
+         */
         patch: operations["ClinicOfferingsController_update"];
         trace?: never;
     };
@@ -1021,6 +1340,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * publish — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:publish`.
+         */
         post: operations["ClinicOfferingsController_publish"];
         delete?: never;
         options?: never;
@@ -1037,6 +1360,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * unpublish — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:publish`.
+         */
         post: operations["ClinicOfferingsController_unpublish"];
         delete?: never;
         options?: never;
@@ -1053,6 +1380,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * archive — Clinic: Offerings
+         * @description Akses facility: semua permission berikut wajib dimiliki: `offering:update`.
+         */
         post: operations["ClinicOfferingsController_archive"];
         delete?: never;
         options?: never;
@@ -1067,6 +1398,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** facilities — Public: Catalog */
         get: operations["PublicCatalogController_facilities"];
         put?: never;
         post?: never;
@@ -1083,6 +1415,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** facility — Public: Catalog */
         get: operations["PublicCatalogController_facility"];
         put?: never;
         post?: never;
@@ -1099,6 +1432,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** offerings — Public: Catalog */
         get: operations["PublicCatalogController_offerings"];
         put?: never;
         post?: never;
@@ -1115,8 +1449,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * schedules — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:read`.
+         */
         get: operations["ClinicAvailabilityController_schedules"];
         put?: never;
+        /**
+         * create Schedule — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:manage`.
+         */
         post: operations["ClinicAvailabilityController_createSchedule"];
         delete?: never;
         options?: never;
@@ -1137,6 +1479,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * update Schedule — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:manage`.
+         */
         patch: operations["ClinicAvailabilityController_updateSchedule"];
         trace?: never;
     };
@@ -1147,8 +1493,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * blocks — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:read`.
+         */
         get: operations["ClinicAvailabilityController_blocks"];
         put?: never;
+        /**
+         * create Block — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:manage`.
+         */
         post: operations["ClinicAvailabilityController_createBlock"];
         delete?: never;
         options?: never;
@@ -1166,6 +1520,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
+        /**
+         * delete Block — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:manage`.
+         */
         delete: operations["ClinicAvailabilityController_deleteBlock"];
         options?: never;
         head?: never;
@@ -1179,6 +1537,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * slots — Clinic: Availability
+         * @description Akses facility: semua permission berikut wajib dimiliki: `schedule:read`.
+         */
         get: operations["ClinicAvailabilityController_slots"];
         put?: never;
         post?: never;
@@ -1195,6 +1557,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** slots — Public: Catalog */
         get: operations["PublicSlotsController_slots"];
         put?: never;
         post?: never;
@@ -1213,6 +1576,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Create a customer booking
+         * @description Server-to-server: use BOOKINGS_API_KEY as the Bearer token, not an admin JWT. Reusing an Idempotency-Key with the same payload returns the same booking; changing the payload returns a conflict. Pending bookings do not reserve capacity. Returns 503 when bookings are disabled.
+         */
         post: operations["BookingsController_create"];
         delete?: never;
         options?: never;
@@ -1227,6 +1594,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:read`.
+         */
         get: operations["ClinicOrdersController_list"];
         put?: never;
         post?: never;
@@ -1243,6 +1614,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:read`.
+         */
         get: operations["ClinicOrdersController_detail"];
         put?: never;
         post?: never;
@@ -1261,6 +1636,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * approve — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:approve`.
+         */
         post: operations["ClinicOrdersController_approve"];
         delete?: never;
         options?: never;
@@ -1277,6 +1656,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * reject — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:approve`.
+         */
         post: operations["ClinicOrdersController_reject"];
         delete?: never;
         options?: never;
@@ -1291,6 +1674,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * assignable — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:assign`.
+         */
         get: operations["ClinicOrdersController_assignable"];
         put?: never;
         post?: never;
@@ -1309,6 +1696,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * assign — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:assign`.
+         */
         post: operations["ClinicOrdersController_assign"];
         delete?: never;
         options?: never;
@@ -1326,6 +1717,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
+        /**
+         * unassign — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:assign`.
+         */
         delete: operations["ClinicOrdersController_unassign"];
         options?: never;
         head?: never;
@@ -1341,6 +1736,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * start — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:progress`.
+         */
         post: operations["ClinicOrdersController_start"];
         delete?: never;
         options?: never;
@@ -1361,6 +1760,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * item Status — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:progress`.
+         */
         patch: operations["ClinicOrdersController_itemStatus"];
         trace?: never;
     };
@@ -1373,6 +1776,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * complete — Clinic: Orders
+         * @description Akses facility: semua permission berikut wajib dimiliki: `order:progress`.
+         */
         post: operations["ClinicOrdersController_complete"];
         delete?: never;
         options?: never;
@@ -1387,6 +1794,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * list — Admin: Orders
+         * @description Akses platform: semua permission berikut wajib dimiliki: `order:read-all`.
+         */
         get: operations["AdminOrdersController_list"];
         put?: never;
         post?: never;
@@ -1403,6 +1814,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * detail — Admin: Orders
+         * @description Akses platform: semua permission berikut wajib dimiliki: `order:read-all`.
+         */
         get: operations["AdminOrdersController_detail"];
         put?: never;
         post?: never;
@@ -1416,7 +1831,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        Object: Record<string, never>;
         LoginDto: {
             /** @example admin@nakes.local */
             email: string;
@@ -1802,6 +2216,16 @@ export interface components {
             /** @description Required for NOT_PERFORMED. Operational reason only, no clinical notes. */
             reason?: string;
         };
+        ErrorEnvelope: {
+            /** @example VALIDATION_FAILED */
+            code: string;
+            /** @example Some fields are invalid. */
+            message: string;
+            /** @description Optional error-specific details; validation uses details.fields. */
+            details?: unknown;
+            /** @description Request correlation ID, also available as X-Request-Id. */
+            requestId?: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -1820,19 +2244,92 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AuditLogsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 actorId?: string;
@@ -1848,11 +2345,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -1869,12 +2439,85 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["AccessTokenResponse"];
+                };
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
         };
@@ -1882,12 +2525,16 @@ export interface operations {
     AuthController_refresh: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                /** @description Must exactly match WEB_ORIGIN. */
+                Origin: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1896,22 +2543,170 @@ export interface operations {
                     "application/json": components["schemas"]["AccessTokenResponse"];
                 };
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AuthController_logout: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                /** @description Must exactly match WEB_ORIGIN. */
+                Origin: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -1928,11 +2723,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             202: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -1949,11 +2817,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -1970,11 +2911,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -1987,11 +3001,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2004,36 +3091,185 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     DashboardController_clinic: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     FacilitytypesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2046,11 +3282,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2067,11 +3376,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2086,11 +3468,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2109,19 +3564,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicclassesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2134,11 +3662,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2155,11 +3756,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2174,11 +3848,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2197,19 +3944,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     FacilitycapabilitiesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2222,11 +4042,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2243,11 +4136,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2262,11 +4228,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2285,19 +4324,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     PractitionertypesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2310,11 +4422,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2331,11 +4516,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2350,11 +4608,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2373,19 +4704,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ServiceCategoriesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2398,11 +4802,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2419,11 +4896,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2438,11 +4988,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2461,19 +5084,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     MasterServicesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2487,11 +5183,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2508,11 +5277,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2527,11 +5369,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2550,19 +5465,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     DocumentRequirementsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 /** @description Filter by active flag. */
@@ -2576,11 +5564,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2597,11 +5658,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2616,11 +5750,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2639,19 +5846,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     RegionsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 level?: 1 | 2 | 3 | 4;
@@ -2663,11 +5943,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2684,11 +6037,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2701,11 +6127,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2722,19 +6221,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AdminFacilitiesController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 facilityTypeId?: string;
@@ -2748,11 +6320,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2769,11 +6414,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2788,11 +6506,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2811,11 +6602,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2834,11 +6698,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2853,19 +6790,92 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AdminFacilityApplicationsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REVISION_REQUIRED" | "REJECTED";
@@ -2876,11 +6886,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2895,11 +6978,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2914,11 +7070,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -2937,35 +7166,187 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_profile: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicFacilityController_updateProfile: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -2975,86 +7356,466 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_verificationState: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_verificationHistory: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_submit: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_listDocuments: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicFacilityController_uploadInit: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3064,18 +7825,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicFacilityController_complete: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3085,18 +7922,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicFacilityController_documentUrl: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3104,36 +8017,194 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     DocumentsController_upload: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description Short-lived token from the upload-init URL. */
+                token: string;
+            };
             header?: never;
             path: {
                 id: string;
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/pdf": string;
+                "image/jpeg": string;
+                "image/png": string;
+            };
+        };
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     DocumentsController_content: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description Short-lived token from the signed download URL. */
+                token: string;
+            };
             header?: never;
             path: {
                 id: string;
@@ -3142,19 +8213,96 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Document file bytes. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/pdf": string;
+                    "image/jpeg": string;
+                    "image/png": string;
+                };
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     AdminPractitionersController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 practitionerTypeId?: string;
@@ -3167,11 +8315,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3188,11 +8409,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3207,11 +8501,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3230,11 +8597,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3253,11 +8693,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3273,11 +8786,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3292,11 +8878,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3311,11 +8970,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3334,11 +9066,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3357,19 +9162,92 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AdminAffiliationsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "PROPOSED" | "ACTIVE" | "REJECTED" | "ENDED";
@@ -3380,11 +9258,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3403,18 +9354,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicPractitionersController_lookup: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3424,41 +9451,193 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicPractitionersController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "PROPOSED" | "ACTIVE" | "REJECTED" | "ENDED";
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicPractitionersController_propose: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3468,18 +9647,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicPractitionersController_update: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3491,59 +9746,287 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOfferingsController_options: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOfferingsController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "DRAFT" | "PUBLISHED" | "UNPUBLISHED" | "ARCHIVED";
                 mode?: "ON_SITE" | "HOMECARE";
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOfferingsController_create: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3553,18 +10036,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOfferingsController_detail: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3572,18 +10131,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOfferingsController_update: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3595,18 +10230,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOfferingsController_publish: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3614,18 +10325,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOfferingsController_unpublish: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3633,18 +10420,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOfferingsController_archive: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3652,19 +10515,92 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     PublicCatalogController_facilities: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 facilityTypeId?: string;
@@ -3681,11 +10617,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3700,11 +10709,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3721,11 +10803,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3734,24 +10889,103 @@ export interface operations {
             query?: {
                 mode?: "ON_SITE" | "HOMECARE";
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicAvailabilityController_createSchedule: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3761,18 +10995,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicAvailabilityController_updateSchedule: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3784,11 +11094,84 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3798,24 +11181,103 @@ export interface operations {
                 /** @description Include blocks that already ended. */
                 includePast?: boolean;
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicAvailabilityController_createBlock: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3825,18 +11287,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicAvailabilityController_deleteBlock: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3844,11 +11382,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. No response body. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3860,17 +11471,93 @@ export interface operations {
                 from: string;
                 days?: number;
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3890,11 +11577,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -3914,19 +11674,101 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description BOOKINGS_DISABLED: BOOKINGS_API_KEY is not configured. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "PENDING_APPROVAL" | "CONFIRMED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "EXPIRED" | "NO_SHOW";
@@ -3937,24 +11779,103 @@ export interface operations {
                 /** @description Last local visit date (YYYY-MM-DD). */
                 to?: string;
             };
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOrdersController_detail: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3962,18 +11883,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
     ClinicOrdersController_approve: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -3981,18 +11978,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_reject: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -4004,18 +12077,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_assignable: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -4023,18 +12172,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_assign: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -4046,18 +12271,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_unassign: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
                 assignmentId: string;
@@ -4066,18 +12367,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_start: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -4085,18 +12462,94 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_itemStatus: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
                 itemId: string;
@@ -4109,18 +12562,94 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     ClinicOrdersController_complete: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
             path: {
                 id: string;
             };
@@ -4128,19 +12657,92 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
         };
     };
     AdminOrdersController_list: {
         parameters: {
             query?: {
-                page?: components["schemas"]["Object"];
-                limit?: components["schemas"]["Object"];
+                page?: number;
+                limit?: number;
                 search?: string;
                 sortOrder?: "asc" | "desc";
                 status?: "PENDING_APPROVAL" | "CONFIRMED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "EXPIRED" | "NO_SHOW";
@@ -4158,11 +12760,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };
@@ -4177,11 +12852,84 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
             };
         };
     };

@@ -12,7 +12,10 @@ async function main() {
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
   configureApp(app);
   const config = app.get(ConfigService);
-  if (config.get('NODE_ENV') !== 'production') SwaggerModule.setup('api/docs', app, openApiDocument(app));
+  if (config.get('NODE_ENV') !== 'production') SwaggerModule.setup('api/docs', app, openApiDocument(app), {
+    customSiteTitle: 'Nakes API Documentation',
+    swaggerOptions: { filter: true, docExpansion: 'none', displayRequestDuration: true },
+  });
   app.enableShutdownHooks();
   const port = config.get<number>('PORT', 4000);
   await app.listen(port);

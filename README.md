@@ -174,6 +174,8 @@ pages; confirming the illustrative seed data (master services, document checklis
 
 ## Scripts
 
+Swagger dan panduan integrasi: [docs/SWAGGER.md](docs/SWAGGER.md). Daftar endpoint beserta permission: [docs/API_ENDPOINTS.md](docs/API_ENDPOINTS.md), dihasilkan bersama kontrak OpenAPI melalui `pnpm contracts:generate`.
+
 | Command | What it does |
 |---|---|
 | `pnpm typecheck` / `pnpm test` | All workspaces |
