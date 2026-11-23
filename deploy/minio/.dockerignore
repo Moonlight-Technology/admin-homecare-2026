@@ -1,0 +1,4 @@
+# Source binaries are fetched by Go inside the build. Never send .env, data or backups to the builder.
+*
+!Dockerfile
+!.dockerignore

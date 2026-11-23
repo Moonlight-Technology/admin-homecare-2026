@@ -12,14 +12,23 @@ export function validateEnv(env: Record<string, unknown>) {
   const storageDriver = String(env.STORAGE_DRIVER || 'local');
   const storageSettings: Record<string, string[]> = {
     local: [],
+    minio: ['S3_ENDPOINT', 'S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY'],
     s3: ['S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY'],
     cloudinary: ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'],
   };
   if (!(storageDriver in storageSettings)) throw new Error(`STORAGE_DRIVER must be one of: ${Object.keys(storageSettings).join(', ')}.`);
   const missingStorage = storageSettings[storageDriver]!.filter((key) => !env[key]);
   if (missingStorage.length) throw new Error(`STORAGE_DRIVER=${storageDriver} needs: ${missingStorage.join(', ')}`);
+  if (storageDriver === 'minio') {
+    let endpoint: URL;
+    try { endpoint = new URL(String(env.S3_ENDPOINT)); } catch { throw new Error('S3_ENDPOINT must be an absolute http(s) URL for MinIO.'); }
+    if (!['http:', 'https:'].includes(endpoint.protocol) || endpoint.username || endpoint.password || endpoint.search || endpoint.hash || !['', '/'].includes(endpoint.pathname)) {
+      throw new Error('S3_ENDPOINT must be a MinIO http(s) origin without credentials, path, query, or fragment.');
+    }
+    if (env.S3_FORCE_PATH_STYLE !== undefined && env.S3_FORCE_PATH_STYLE !== '' && String(env.S3_FORCE_PATH_STYLE) !== 'true') throw new Error('MinIO requires S3_FORCE_PATH_STYLE=true.');
+  }
   // Local disk is unencrypted and lives on one machine; production documents belong in object storage (spec §10).
-  if (env.NODE_ENV === 'production' && storageDriver === 'local') throw new Error('STORAGE_DRIVER=local is for development only; use s3 or cloudinary in production.');
+  if (env.NODE_ENV === 'production' && storageDriver === 'local') throw new Error('STORAGE_DRIVER=local is for development only; use minio in production (see docs/MINIO_DEPLOYMENT.md).');
   if (env.NODE_ENV === 'production' && env.COOKIE_SECURE !== 'true') throw new Error('COOKIE_SECURE must be true in production.');
   return {
     ...env,
@@ -30,6 +39,7 @@ export function validateEnv(env: Record<string, unknown>) {
     INVITATION_TTL_HOURS: Number(env.INVITATION_TTL_HOURS ?? 72),
     DOCUMENT_URL_TTL_SECONDS: Number(env.DOCUMENT_URL_TTL_SECONDS ?? 300),
     STORAGE_DRIVER: storageDriver,
+    ...(storageDriver === 'minio' ? { S3_REGION: String(env.S3_REGION || 'us-east-1'), S3_FORCE_PATH_STYLE: 'true' } : {}),
     STORAGE_DIR: String(env.STORAGE_DIR ?? './storage'),
     COOKIE_SECURE: env.COOKIE_SECURE === 'true',
   };

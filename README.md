@@ -18,7 +18,7 @@ Requirements: Node 22, pnpm 10, PostgreSQL 16 (or Docker).
 
 ```bash
 pnpm install
-docker compose up -d                       # or point DATABASE_URL at your own PostgreSQL
+docker compose up -d --build               # PostgreSQL + MinIO built from pinned upstream source
 
 cp apps/api/.env.example apps/api/.env     # set the secrets, DIRECT_DATABASE_URL, and SEED_SUPER_ADMIN_PASSWORD
 cp apps/admin-web/.env.example apps/admin-web/.env.local
@@ -42,7 +42,7 @@ native packages (esbuild, Prisma engines) need on Windows.
 | Authorization | Default deny. Every route declares `@Public`, `@Authenticated`, `@RequirePlatform(...)`, or `@RequireFacility(...)`. A clinic user's facility comes from their membership; `X-Facility-Id` only selects among their own memberships. |
 | Errors | `{ code, message, details, requestId }`; validation errors are `422 VALIDATION_FAILED` with `details.fields`. |
 | Money | `Decimal(14,2)`, currency `IDR`. |
-| Document storage | `STORAGE_DRIVER`: `local` (development only, refused in production), `s3` (AWS S3, Cloudflare R2, MinIO), or `cloudinary` (interim). Objects are always private and served only through the API's 5-minute signed links; on Cloudinary they are `raw` assets of type `authenticated`. Cloudinary hosts data outside Indonesia, so production documents should move to S3 Jakarta (`ap-southeast-3`) or R2. `docker compose up -d` also starts MinIO for trying `s3` locally. |
+| Document storage | **MinIO is the selected deployment backend** (`STORAGE_DRIVER=minio`), reusing the existing S3-compatible driver. Private bucket, dedicated app credentials, API-signed upload/download links, 300-second default TTL. `local` remains development-only; existing `s3` and `cloudinary` configurations are retained for migration compatibility. See [MinIO deployment guide](docs/MINIO_DEPLOYMENT.md). |
 
 Open policies (payment, approval SLA/expiry, cancellation/refund, notification channel) are **not implemented**;
 the schema only reserves their states (`PaymentStatus.NOT_CONFIGURED`, `CANCELLED`/`EXPIRED`/`NO_SHOW`) and the
@@ -116,6 +116,8 @@ mask the patient and hide the address. Cancellation, expiry, no-show, payment an
 
 ## Deploy
 
+Storage setup for the server: [docs/MINIO_DEPLOYMENT.md](docs/MINIO_DEPLOYMENT.md). It includes Docker installation, pinned-source MinIO builds, private bucket/account bootstrap, API environment, SSH console access, smoke checks, backup/restore and cutover from the old backend. Use `deploy/minio/compose.yml` on the server; root `docker-compose.yml` has development-only credentials. Existing real `.env` files are not changed by this setup.
+
 Two services and a database. Images build from the repository root (Dockerfiles are written but were not built in
 development, where Docker was unavailable — build once in CI or locally before relying on them):
 
@@ -144,7 +146,7 @@ API environment (validated at boot; the API refuses to start when something requ
 | `API_PUBLIC_URL` | Public API base incl. `/api/v1` (signed document links) |
 | `JWT_ACCESS_SECRET`, `STORAGE_SIGNING_SECRET`, `CREDENTIAL_ENCRYPTION_KEY` | Three different random strings ≥ 32 chars. **Never rotate `CREDENTIAL_ENCRYPTION_KEY`** without re-encrypting: stored STR/SIP numbers become unreadable |
 | `COOKIE_SECURE` | `true` (HTTPS). Web and API should share a registrable domain so the `SameSite=Strict` refresh cookie is sent |
-| `STORAGE_DRIVER` + its settings | `s3` (R2/S3 Jakarta) or `cloudinary`; see `apps/api/.env.example` |
+| `STORAGE_DRIVER` + its settings | `minio`; `S3_ENDPOINT` on the private/local network, `S3_REGION=us-east-1`, path-style true, private bucket and dedicated app credentials. See `deploy/minio/api-storage.env.example` |
 | `BOOKINGS_API_KEY` | ≥ 32 chars to enable bookings; empty disables them |
 | `PASSWORD_RESET_URL`, `INVITATION_URL` | Web URLs `…/reset-password`, `…/accept-invitation` |
 | `SEED_SUPER_ADMIN_EMAIL`, `SEED_SUPER_ADMIN_PASSWORD` | Only for the first seed; remove afterwards |
@@ -180,4 +182,5 @@ Swagger dan panduan integrasi: [docs/SWAGGER.md](docs/SWAGGER.md). Daftar endpoi
 |---|---|
 | `pnpm typecheck` / `pnpm test` | All workspaces |
 | `pnpm contracts:generate` | Rebuild the API, export `openapi.json`, regenerate `schema.d.ts` |
+| `pnpm --filter @nakes/api storage:check` | Verify MinIO PUT/HEAD/GET/DELETE with a disposable random probe object |
 | `pnpm --filter @nakes/api prisma:migrate` | Create a new migration in development |
