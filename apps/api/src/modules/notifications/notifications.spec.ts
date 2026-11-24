@@ -13,6 +13,13 @@ import { renderEmail } from './notification.templates';
 import { NotificationWorker } from './notification.worker';
 
 jest.mock('nodemailer', () => ({ __esModule: true, default: { createTransport: jest.fn() } }));
+
+// Prisma Client loads apps/api/.env into process.env, and ConfigService prefers process.env over the values
+// passed here. Hide a developer's notification settings (e.g. a staging allowlist) so tests stay deterministic.
+const leakedEnv = Object.keys(process.env).filter((key) => /^(NOTIFICATIONS_|SMTP_|MAIL_|GO_SMS_)/.test(key));
+const savedEnv = Object.fromEntries(leakedEnv.map((key) => [key, process.env[key]]));
+beforeAll(() => { for (const key of leakedEnv) delete process.env[key]; });
+afterAll(() => { Object.assign(process.env, savedEnv); });
 const secret = 'notification-test-only-'.repeat(3);
 const base = { CREDENTIAL_ENCRYPTION_KEY: secret, WEB_ORIGIN: 'http://localhost:3000', INVITATION_URL: 'http://localhost:3000/accept-invitation', PASSWORD_RESET_URL: 'http://localhost:3000/reset-password' };
 const config = (extra: Record<string, unknown> = {}) => new ConfigService({ ...base, ...extra });

@@ -14,6 +14,10 @@ export const ALLOWED_DOCUMENT_TYPES = Object.keys(SIGNATURES);
 
 export const isAllowedDocumentType = (mimeType: string) => Object.hasOwn(SIGNATURES, mimeType);
 
+/** Clinic profile media: images only, smaller cap than verification documents. */
+export const MAX_MEDIA_BYTES = 5 * 1024 * 1024;
+export const ALLOWED_MEDIA_TYPES = ['image/jpeg', 'image/png'];
+
 /** True when the first bytes match the declared type. */
 export function matchesSignature(mimeType: string, head: Buffer): boolean {
   return (SIGNATURES[mimeType] ?? []).some((signature) => signature.every((byte, index) => head[index] === byte));

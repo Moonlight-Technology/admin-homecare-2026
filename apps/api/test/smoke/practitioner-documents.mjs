@@ -171,7 +171,12 @@ try {
   const id = affiliation.practitioner.id;
   const path = `/clinic/practitioners/${id}`;
   const adminPath = `/admin/practitioners/${id}`;
-  if (process.env.SMOKE_ONLY_ORDER_CANCELLATION !== '1' && process.env.SMOKE_ONLY_ORDER_NO_SHOW !== '1' && process.env.SMOKE_ONLY_ORDER_RESCHEDULE !== '1') {
+  if (process.env.SMOKE_ONLY_FACILITY_MEDIA === '1' || process.env.SMOKE_INCLUDE_FACILITY_MEDIA === '1') {
+    stage = 'HTTP facility media checks';
+    const { facilityMedia } = await import('./facility-media.mjs');
+    await facilityMedia({ database, a, b, admin, reader, expect, call, check });
+  }
+  if (process.env.SMOKE_ONLY_FACILITY_MEDIA !== '1' && process.env.SMOKE_ONLY_ORDER_CANCELLATION !== '1' && process.env.SMOKE_ONLY_ORDER_NO_SHOW !== '1' && process.env.SMOKE_ONLY_ORDER_RESCHEDULE !== '1') {
   const state = await expect('GET', `${path}/documents`, a.token, undefined, 200, 'creator clinic reads document metadata');
   check('STR and SIP are masked and editable', state.credentials.length === 2 && state.editable && !JSON.stringify(state).includes(registration.credentials[0].number));
   const str = state.credentials.find((credential) => credential.credentialType === 'STR').id;

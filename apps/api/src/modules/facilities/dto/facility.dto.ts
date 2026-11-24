@@ -104,3 +104,27 @@ export class DocumentUploadInitDto {
 export class DocumentCompleteDto {
   @ApiProperty() @IsUUID() documentId: string;
 }
+
+export const FACILITY_MEDIA_KINDS = ['LOGO', 'PHOTO'] as const;
+
+export class MediaUploadInitDto {
+  @ApiProperty({ enum: FACILITY_MEDIA_KINDS }) @IsIn(FACILITY_MEDIA_KINDS) kind: (typeof FACILITY_MEDIA_KINDS)[number];
+  @ApiProperty() @Transform(trim) @IsString() @MinLength(1) @MaxLength(200) fileName: string;
+  @ApiProperty({ example: 'image/jpeg', enum: ['image/jpeg', 'image/png'] }) @IsString() @MaxLength(100) mimeType: string;
+  @ApiProperty({ description: 'At most 5 MB.' }) @Type(() => Number) @IsInt() sizeBytes: number;
+}
+
+export class MediaCompleteDto {
+  @ApiProperty() @IsUUID() documentId: string;
+  @ApiProperty({ enum: FACILITY_MEDIA_KINDS }) @IsIn(FACILITY_MEDIA_KINDS) kind: (typeof FACILITY_MEDIA_KINDS)[number];
+  @ApiPropertyOptional({ nullable: true, maxLength: 200 }) @IsOptional() @Transform(optional) @IsString() @MaxLength(200) caption?: string | null;
+}
+
+export class MediaUpdateDto {
+  @ApiProperty({ nullable: true, maxLength: 200 }) @Transform(optional) @IsOptional() @IsString() @MaxLength(200) caption: string | null;
+}
+
+export class MediaOrderDto {
+  @ApiProperty({ type: [String], description: 'Every current photo id, in the new display order.' })
+  @IsArray() @ArrayMaxSize(50) @ArrayUnique() @IsUUID('all', { each: true }) ids: string[];
+}

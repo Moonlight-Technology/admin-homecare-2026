@@ -7906,6 +7906,135 @@
         "summary": "register — Clinic registration"
       }
     },
+    "/api/v1/admin/facilities/{id}/media": {
+      "get": {
+        "operationId": "AdminFacilitiesController_listMedia",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "View a clinic logo and photos (read-only)",
+        "tags": [
+          "Admin: Facilities"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "facility:read"
+          ]
+        },
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `facility:read`."
+      }
+    },
     "/api/v1/admin/facilities": {
       "get": {
         "operationId": "AdminFacilitiesController_list",
@@ -10557,6 +10686,840 @@
         },
         "summary": "document Url — Clinic: Profile & verification",
         "description": "Akses facility: semua permission berikut wajib dimiliki: `clinic:document:manage`."
+      }
+    },
+    "/api/v1/clinic/profile/media": {
+      "get": {
+        "description": "Each item carries a short-lived signed `url` for display.\n\nAkses facility: semua permission berikut wajib dimiliki: `clinic:profile:read`.",
+        "operationId": "ClinicFacilityController_listMedia",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List clinic logo and photos",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:read"
+          ]
+        }
+      }
+    },
+    "/api/v1/clinic/profile/media/upload-init": {
+      "post": {
+        "description": "JPG or PNG, at most 5 MB. PUT the bytes to the returned URL, then call complete.\n\nAkses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.",
+        "operationId": "ClinicFacilityController_mediaUploadInit",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaUploadInitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Start a logo/photo upload",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:update"
+          ]
+        }
+      }
+    },
+    "/api/v1/clinic/profile/media/complete": {
+      "post": {
+        "description": "A new logo replaces the previous one.\n\nAkses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.",
+        "operationId": "ClinicFacilityController_mediaComplete",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaCompleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Attach an uploaded logo/photo",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:update"
+          ]
+        }
+      }
+    },
+    "/api/v1/clinic/profile/media/order": {
+      "put": {
+        "operationId": "ClinicFacilityController_mediaOrder",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Reorder clinic photos",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:update"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`."
+      }
+    },
+    "/api/v1/clinic/profile/media/{id}": {
+      "patch": {
+        "operationId": "ClinicFacilityController_mediaUpdate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Change a logo/photo caption",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:update"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`."
+      },
+      "delete": {
+        "operationId": "ClinicFacilityController_mediaRemove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success. No response body."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove a logo/photo",
+        "tags": [
+          "Clinic: Profile & verification"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "clinic:profile:update"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`."
       }
     },
     "/api/v1/documents/{id}/upload": {
@@ -20437,6 +21400,91 @@
         },
         "required": [
           "documentId"
+        ]
+      },
+      "MediaUploadInitDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "LOGO",
+              "PHOTO"
+            ]
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string",
+            "example": "image/jpeg",
+            "enum": [
+              "image/jpeg",
+              "image/png"
+            ]
+          },
+          "sizeBytes": {
+            "type": "number",
+            "description": "At most 5 MB."
+          }
+        },
+        "required": [
+          "kind",
+          "fileName",
+          "mimeType",
+          "sizeBytes"
+        ]
+      },
+      "MediaCompleteDto": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "LOGO",
+              "PHOTO"
+            ]
+          },
+          "caption": {
+            "type": "object",
+            "nullable": true,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "documentId",
+          "kind"
+        ]
+      },
+      "MediaOrderDto": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "description": "Every current photo id, in the new display order.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ids"
+        ]
+      },
+      "MediaUpdateDto": {
+        "type": "object",
+        "properties": {
+          "caption": {
+            "type": "object",
+            "nullable": true,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "caption"
         ]
       },
       "CredentialInputDto": {

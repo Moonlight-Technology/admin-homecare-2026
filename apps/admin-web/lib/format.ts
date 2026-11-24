@@ -20,6 +20,16 @@ export const formatWeekdayDate = (value: string | Date) => weekdayDate.format(ne
 /** Today's calendar date in Asia/Jakarta, YYYY-MM-DD. */
 export const jakartaToday = (now = Date.now()) => new Date(now + 7 * 3_600_000).toISOString().slice(0, 10);
 
+/** Elapsed time without direction: "15 menit", "3 jam", "2 hari". Used for the pending approval age. */
+export function formatElapsed(since: string | Date, now = Date.now()) {
+  const minutes = Math.max(0, Math.floor((now - new Date(since).getTime()) / 60_000));
+  if (minutes < 1) return 'kurang dari 1 menit';
+  if (minutes < 60) return `${minutes} menit`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} jam`;
+  return `${Math.floor(hours / 24)} hari`;
+}
+
 /** "2 jam lalu", "kemarin". */
 export function formatRelative(value: string | Date, now = Date.now()) {
   const seconds = Math.round((new Date(value).getTime() - now) / 1000);

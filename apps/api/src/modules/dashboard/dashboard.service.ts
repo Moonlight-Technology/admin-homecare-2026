@@ -4,6 +4,38 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 const IN_REVIEW = ['SUBMITTED', 'UNDER_REVIEW'] as const;
 const QUEUE_SIZE = 5;
+/** Display window for unassigned confirmed visits; not an SLA (spec §14 keeps deadlines open). */
+const UNASSIGNED_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+export type OrderExceptionReason = 'PENDING_PAST_SCHEDULE' | 'NOT_STARTED_PAST_SCHEDULE' | 'UNASSIGNED_SOON';
+
+/**
+ * Objective order exceptions (spec §4 platform dashboard): facts from status and schedule only, no invented SLA.
+ * - pending approval while the visit start has already passed;
+ * - confirmed but not started although the visit start has passed;
+ * - confirmed without full assignment and starting within the next 24 hours (or already started).
+ */
+export function orderExceptionWheres(now: Date) {
+  const soon = new Date(now.getTime() + UNASSIGNED_WINDOW_MS);
+  return {
+    PENDING_PAST_SCHEDULE: { status: 'PENDING_APPROVAL', scheduledAt: { lte: now } },
+    NOT_STARTED_PAST_SCHEDULE: { status: 'CONFIRMED', scheduledAt: { lte: now } },
+    UNASSIGNED_SOON: { status: 'CONFIRMED', assignmentStatus: { not: 'ASSIGNED' }, scheduledAt: { lt: soon } },
+  } satisfies Record<OrderExceptionReason, Prisma.OrderWhereInput>;
+}
+
+export function orderExceptionReasons(
+  order: { status: string; assignmentStatus: string; scheduledAt: Date },
+  now: Date,
+): OrderExceptionReason[] {
+  const started = order.scheduledAt.getTime() <= now.getTime();
+  const reasons: OrderExceptionReason[] = [];
+  if (order.status === 'PENDING_APPROVAL' && started) reasons.push('PENDING_PAST_SCHEDULE');
+  if (order.status === 'CONFIRMED' && started) reasons.push('NOT_STARTED_PAST_SCHEDULE');
+  if (order.status === 'CONFIRMED' && order.assignmentStatus !== 'ASSIGNED' &&
+      order.scheduledAt.getTime() < now.getTime() + UNASSIGNED_WINDOW_MS) reasons.push('UNASSIGNED_SOON');
+  return reasons;
+}
 
 /** Start and end of "today" in a facility timezone; MVP facilities are all Asia/Jakarta (UTC+7, no DST). */
 export function jakartaDayBounds(now = new Date()) {
@@ -21,10 +53,14 @@ export function jakartaDayBounds(now = new Date()) {
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async platformSummary() {
+  async platformSummary(now = new Date()) {
     const pendingFacility: Prisma.FacilityWhereInput = { verificationStatus: { in: [...IN_REVIEW] } };
     const pendingPractitioner: Prisma.PractitionerWhereInput = { verificationStatus: { in: [...IN_REVIEW] } };
-    const [pendingFacilityReviews, pendingPractitionerReviews, activeFacilities, pendingOrderApprovals, openOrders, facilityQueue, practitionerQueue, recentOrders] = await Promise.all([
+    const exceptionWheres = orderExceptionWheres(now);
+    const [
+      [pendingFacilityReviews, pendingPractitionerReviews, activeFacilities, pendingOrderApprovals, openOrders, facilityQueue, practitionerQueue, recentOrders],
+      [exceptionTotal, pendingPastSchedule, notStartedPastSchedule, unassignedSoon, exceptionOrders],
+    ] = await Promise.all([Promise.all([
       this.prisma.facility.count({ where: pendingFacility }),
       this.prisma.practitioner.count({ where: pendingPractitioner }),
       this.prisma.facility.count({ where: { verificationStatus: 'VERIFIED', operatingStatus: 'ACTIVE' } }),
@@ -47,12 +83,33 @@ export class DashboardService {
         take: QUEUE_SIZE,
         select: { id: true, code: true, status: true, mode: true, scheduledAt: true, createdAt: true, facility: { select: { displayName: true } }, _count: { select: { items: true } } },
       }),
-    ]);
+    ]), Promise.all([
+      this.prisma.order.count({ where: { OR: Object.values(exceptionWheres) } }),
+      this.prisma.order.count({ where: exceptionWheres.PENDING_PAST_SCHEDULE }),
+      this.prisma.order.count({ where: exceptionWheres.NOT_STARTED_PAST_SCHEDULE }),
+      this.prisma.order.count({ where: exceptionWheres.UNASSIGNED_SOON }),
+      this.prisma.order.findMany({
+        where: { OR: Object.values(exceptionWheres) },
+        orderBy: { scheduledAt: 'asc' },
+        take: QUEUE_SIZE,
+        select: { id: true, code: true, status: true, mode: true, assignmentStatus: true, scheduledAt: true, createdAt: true, facility: { select: { displayName: true } }, _count: { select: { items: true } } },
+      }),
+    ])]);
     return {
       kpis: { pendingFacilityReviews, pendingPractitionerReviews, activeFacilities, pendingOrderApprovals, openOrders },
       facilityQueue,
       practitionerQueue,
       recentOrders: recentOrders.map(({ _count, facility, ...order }) => ({ ...order, facilityName: facility?.displayName ?? null, itemCount: _count.items })),
+      exceptions: {
+        total: exceptionTotal,
+        counts: { pendingPastSchedule, notStartedPastSchedule, unassignedSoon },
+        orders: exceptionOrders.map(({ _count, facility, ...order }) => ({
+          ...order,
+          facilityName: facility?.displayName ?? null,
+          itemCount: _count.items,
+          reasons: orderExceptionReasons(order, now),
+        })),
+      },
     };
   }
 

@@ -7,7 +7,7 @@ import { AppError } from '../../common/errors/app-error';
 import { PrismaService, type Db } from '../../prisma/prisma.service';
 import { retryDatabaseRead } from '../../prisma/transient-database-error';
 import { AuditService, type AuditSource } from '../audit/audit.service';
-import { isAllowedDocumentType, matchesSignature, MAX_DOCUMENT_BYTES, safeFileName } from './document-policy';
+import { ALLOWED_MEDIA_TYPES, isAllowedDocumentType, matchesSignature, MAX_DOCUMENT_BYTES, MAX_MEDIA_BYTES, safeFileName } from './document-policy';
 import { signLink, verifyLink } from './signed-link';
 import { createStorageDriver } from './storage/create-storage-driver';
 import { ObjectTooLargeError, type StorageDriver } from './storage/storage-driver';
@@ -59,6 +59,29 @@ export class DocumentsService {
     return this.createUpload({ ownerType: 'PRACTITIONER', ownerId: practitionerId }, input, uploadedById, null, credentialId, db);
   }
 
+  /** Clinic profile media (logo/photos): JPEG or PNG up to 5 MB, kept apart from verification documents. */
+  async initMediaUpload(facilityId: string, input: { fileName: string; mimeType: string; sizeBytes: number }, uploadedById: string) {
+    if (!ALLOWED_MEDIA_TYPES.includes(input.mimeType)) {
+      throw AppError.unprocessable('VALIDATION_FAILED', 'Only JPG or PNG images are accepted.', { fields: { mimeType: ['image must be JPG or PNG'] } });
+    }
+    if (input.sizeBytes < 1 || input.sizeBytes > MAX_MEDIA_BYTES) {
+      throw AppError.unprocessable('VALIDATION_FAILED', 'The image must be at most 5 MB.', { fields: { sizeBytes: ['image must be between 1 byte and 5 MB'] } });
+    }
+    return this.createUpload({ ownerType: 'FACILITY_MEDIA', ownerId: facilityId }, input, uploadedById, null);
+  }
+
+  /** Deletes an owned document record inside the caller's transaction; returns the storage key to remove after commit. */
+  async deleteOwned(owner: DocumentOwner, documentId: string, db: Db) {
+    const document = await this.ownedDocument(owner, documentId, db);
+    await db.document.delete({ where: { id: documentId } });
+    return document.objectKey;
+  }
+
+  /** Best effort after the database change has committed: an orphaned object is harmless, a dangling record is not. */
+  async removeObjects(objectKeys: string[]) {
+    await Promise.all(objectKeys.map((key) => this.storage.remove(key).catch(() => undefined)));
+  }
+
   private validateFile(input: { mimeType: string; sizeBytes: number }) {
     if (!isAllowedDocumentType(input.mimeType)) {
       throw AppError.unprocessable('VALIDATION_FAILED', 'Only PDF, JPG, or PNG files are accepted.', { fields: { mimeType: ['file must be PDF, JPG, or PNG'] } });
@@ -76,7 +99,8 @@ export class DocumentsService {
         ownerType: owner.ownerType,
         ownerId: owner.ownerId,
         requirementId,
-        objectKey: [owner.ownerType.toLowerCase(), owner.ownerId, bindingId, id].filter(Boolean).join('/'),
+        // Storage keys only allow [a-z0-9-] segments: FACILITY_MEDIA becomes `facility-media/...`.
+        objectKey: [owner.ownerType.toLowerCase().replace(/_/g, '-'), owner.ownerId, bindingId, id].filter(Boolean).join('/'),
         fileName: safeFileName(input.fileName),
         mimeType: input.mimeType,
         sizeBytes: input.sizeBytes,
@@ -125,7 +149,7 @@ export class DocumentsService {
       event: 'DOCUMENT_UPLOADED',
       entityType: 'Document',
       entityId: documentId,
-      facilityId: owner.ownerType === 'FACILITY' ? owner.ownerId : null,
+      facilityId: owner.ownerType === 'PRACTITIONER' ? null : owner.ownerId,
       after: { requirementId: document.requirementId, fileName: document.fileName, mimeType: document.mimeType, sizeBytes: document.sizeBytes, checksum: document.checksum },
     }, db);
     return updated;

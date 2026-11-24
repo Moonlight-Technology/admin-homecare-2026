@@ -71,6 +71,13 @@ enum ReviewTargetType {
 enum DocumentOwnerType {
   FACILITY
   PRACTITIONER
+  /// Clinic profile photos/logo; kept apart from verification documents (ownerId = facility id).
+  FACILITY_MEDIA
+}
+
+enum FacilityMediaKind {
+  LOGO
+  PHOTO
 }
 
 enum DocumentStatus {
@@ -448,6 +455,7 @@ model Facility {
   slots        FacilitySlot[]
   blocks       ScheduleBlock[]
   orders       Order[]
+  media        FacilityMedia[]
 
   @@index([verificationStatus])
   @@index([operatingStatus])
@@ -508,9 +516,31 @@ model Document {
 
   requirement DocumentRequirement?     @relation(fields: [requirementId], references: [id], onDelete: Restrict)
   credentials PractitionerCredential[]
+  media       FacilityMedia?
 
   @@index([ownerType, ownerId])
   @@map("documents")
+}
+
+/// Clinic profile media (spec §4 `/clinic/profile`): one logo and a small photo gallery. The bytes are private
+/// documents (`ownerType = FACILITY_MEDIA`) served through signed links. At most one LOGO per facility is enforced
+/// by a partial unique index in the migration SQL.
+model FacilityMedia {
+  id          String            @id @default(uuid()) @db.Uuid
+  facilityId  String            @db.Uuid
+  documentId  String            @unique @db.Uuid
+  kind        FacilityMediaKind
+  caption     String?
+  sortOrder   Int               @default(0)
+  createdById String?           @db.Uuid
+  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime          @updatedAt @db.Timestamptz(3)
+
+  facility Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, kind, sortOrder])
+  @@map("facility_media")
 }
 
 /// Append-only review decisions for facility applications and practitioners.

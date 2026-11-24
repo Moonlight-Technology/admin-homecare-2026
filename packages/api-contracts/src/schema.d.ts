@@ -815,6 +815,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/facilities/{id}/media": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * View a clinic logo and photos (read-only)
+         * @description Akses platform: semua permission berikut wajib dimiliki: `facility:read`.
+         */
+        get: operations["AdminFacilitiesController_listMedia"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/facilities": {
         parameters: {
             query?: never;
@@ -1145,6 +1165,116 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/clinic/profile/media": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List clinic logo and photos
+         * @description Each item carries a short-lived signed `url` for display.
+         *
+         *     Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:read`.
+         */
+        get: operations["ClinicFacilityController_listMedia"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/clinic/profile/media/upload-init": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start a logo/photo upload
+         * @description JPG or PNG, at most 5 MB. PUT the bytes to the returned URL, then call complete.
+         *
+         *     Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
+        post: operations["ClinicFacilityController_mediaUploadInit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/clinic/profile/media/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Attach an uploaded logo/photo
+         * @description A new logo replaces the previous one.
+         *
+         *     Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
+        post: operations["ClinicFacilityController_mediaComplete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/clinic/profile/media/order": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Reorder clinic photos
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
+        put: operations["ClinicFacilityController_mediaOrder"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/clinic/profile/media/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a logo/photo
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
+        delete: operations["ClinicFacilityController_mediaRemove"];
+        options?: never;
+        head?: never;
+        /**
+         * Change a logo/photo caption
+         * @description Akses facility: semua permission berikut wajib dimiliki: `clinic:profile:update`.
+         */
+        patch: operations["ClinicFacilityController_mediaUpdate"];
         trace?: never;
     };
     "/api/v1/documents/{id}/upload": {
@@ -2489,6 +2619,31 @@ export interface components {
         };
         DocumentCompleteDto: {
             documentId: string;
+        };
+        MediaUploadInitDto: {
+            /** @enum {string} */
+            kind: "LOGO" | "PHOTO";
+            fileName: string;
+            /**
+             * @example image/jpeg
+             * @enum {string}
+             */
+            mimeType: "image/jpeg" | "image/png";
+            /** @description At most 5 MB. */
+            sizeBytes: number;
+        };
+        MediaCompleteDto: {
+            documentId: string;
+            /** @enum {string} */
+            kind: "LOGO" | "PHOTO";
+            caption?: Record<string, never> | null;
+        };
+        MediaOrderDto: {
+            /** @description Every current photo id, in the new display order. */
+            ids: string[];
+        };
+        MediaUpdateDto: {
+            caption: Record<string, never> | null;
         };
         CredentialInputDto: {
             /** @enum {string} */
@@ -8559,6 +8714,107 @@ export interface operations {
             };
         };
     };
+    AdminFacilitiesController_listMedia: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
     AdminFacilitiesController_list: {
         parameters: {
             query?: {
@@ -10435,6 +10691,638 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_listMedia: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_mediaUploadInit: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MediaUploadInitDto"];
+            };
+        };
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_mediaComplete: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MediaCompleteDto"];
+            };
+        };
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_mediaOrder: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MediaOrderDto"];
+            };
+        };
+        responses: {
+            /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_mediaRemove: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. No response body. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Malformed request or invalid path parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Missing, invalid, or expired credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Insufficient permission, invalid facility scope, Origin, or signed document token. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource not found or not visible in the current scope. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Duplicate record, conflicting state, capacity, or idempotency key. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DTO validation or domain validation failed. See details.fields when present. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Too many requests. Retry after the rate-limit window. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Unexpected server error; report the requestId to the operator. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    ClinicFacilityController_mediaUpdate: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected. */
+                "X-Facility-Id"?: string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MediaUpdateDto"];
+            };
+        };
         responses: {
             /** @description Success. Returns the endpoint result directly; no data/success wrapper. */
             200: {

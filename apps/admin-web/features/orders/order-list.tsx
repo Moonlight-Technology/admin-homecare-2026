@@ -1,21 +1,36 @@
 'use client';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { ClipboardList, Search } from 'lucide-react';
+import { AlertTriangle, ClipboardList, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useDeferredValue, useState } from 'react';
 import { Pagination } from '@/components/data/pagination';
 import { EmptyState, ErrorState } from '@/components/feedback/states';
 import { MODE_LABELS, StatusBadge } from '@/components/status/status-badge';
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Select } from '@/components/ui/fields';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/lib/api/client';
-import { formatDateTime, formatIDR, formatRelative } from '@/lib/format';
+import { formatDateTime, formatElapsed, formatIDR, formatRelative } from '@/lib/format';
 import type { OrderPage } from './types';
 
 const LIMIT = 20;
+
+/**
+ * Pending queue age (spec §14: no auto-expire SLA is agreed, so show how long each order has waited).
+ * Only a passed visit start is highlighted; no other threshold is assumed.
+ */
+export function PendingAge({ createdAt, scheduledAt }: { createdAt: string; scheduledAt: string }) {
+  const pastSchedule = new Date(scheduledAt).getTime() <= Date.now();
+  return (
+    <span className="flex flex-wrap items-center gap-1.5 sm:justify-end">
+      {pastSchedule && <Badge tone="danger"><AlertTriangle aria-hidden />Jadwal sudah lewat</Badge>}
+      <span className="text-xs font-semibold text-warning">Menunggu {formatElapsed(createdAt)}</span>
+    </span>
+  );
+}
 
 /** Order list shared by the clinic inbox and the platform view; `basePath` decides where rows link. */
 export function OrderList({ endpoint, basePath, defaultStatus = '', showFacility = false }: { endpoint: string; basePath: string; defaultStatus?: string; showFacility?: boolean }) {
@@ -63,7 +78,7 @@ export function OrderList({ endpoint, basePath, defaultStatus = '', showFacility
               </div>
               <div className="flex shrink-0 flex-col items-start gap-0.5 sm:items-end">
                 <span className="text-sm font-semibold text-ink">{formatIDR(order.grandTotal)}</span>
-                <span className="text-xs text-muted">dipesan {formatRelative(order.createdAt)}</span>
+                {order.status === 'PENDING_APPROVAL' ? <PendingAge createdAt={order.createdAt} scheduledAt={order.scheduledAt} /> : <span className="text-xs text-muted">dipesan {formatRelative(order.createdAt)}</span>}
               </div>
             </Link>
           </li>

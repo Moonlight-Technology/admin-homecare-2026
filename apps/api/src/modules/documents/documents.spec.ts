@@ -70,6 +70,16 @@ describe('private credential document roundtrip (real local bytes, isolated meta
   const source = { actorId: 'u1', scope: 'PLATFORM' as const };
   const input = { fileName: 'STR "scan".pdf', mimeType: 'application/pdf', sizeBytes: PDF.length };
 
+  it('accepts only JPG/PNG up to 5 MB for clinic media, stored apart from verification documents', async () => {
+    const { service, records } = setup();
+    await expect(service.initMediaUpload('f1', { fileName: 'brosur.pdf', mimeType: 'application/pdf', sizeBytes: 100 }, 'u1')).rejects.toMatchObject({ code: 'VALIDATION_FAILED' });
+    await expect(service.initMediaUpload('f1', { fileName: 'foto.jpg', mimeType: 'image/jpeg', sizeBytes: 5 * 1024 * 1024 + 1 }, 'u1')).rejects.toMatchObject({ code: 'VALIDATION_FAILED' });
+    const init = await service.initMediaUpload('f1', { fileName: 'foto.png', mimeType: 'image/png', sizeBytes: 100 }, 'u1');
+    const record = records.get(init.document.id)!;
+    expect(record).toMatchObject({ ownerType: 'FACILITY_MEDIA', ownerId: 'f1', requirementId: null, status: 'PENDING_UPLOAD' });
+    expect(record.objectKey).toBe(`facility-media/f1/${init.document.id}`);
+  });
+
   it('recovers a closed connection before consuming upload bytes', async () => {
     const { service, db } = setup();
     const init = await service.initCredentialUpload('pr1', 'c1', input, 'u1', db);

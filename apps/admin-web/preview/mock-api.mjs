@@ -46,11 +46,21 @@ const routes = {
       { id: 'o2', code: 'ORD-PREVIEW-0003', status: 'CONFIRMED', mode: 'ON_SITE', scheduledAt: inHours(4), createdAt: hoursAgo(6), itemCount: 1, facilityName: 'Klinik Contoh Medika' },
       { id: 'o3', code: 'ORD-PREVIEW-0002', status: 'IN_PROGRESS', mode: 'HOMECARE', scheduledAt: hoursAgo(1), createdAt: hoursAgo(30), itemCount: 3, facilityName: 'Klinik Contoh Harapan' },
     ],
+    exceptions: {
+      total: 3,
+      counts: { pendingPastSchedule: 1, notStartedPastSchedule: 1, unassignedSoon: 2 },
+      orders: [
+        { id: 'o6', code: 'ORD-PREVIEW-0006', status: 'PENDING_APPROVAL', mode: 'ON_SITE', assignmentStatus: 'UNASSIGNED', scheduledAt: hoursAgo(3), createdAt: hoursAgo(28), itemCount: 1, facilityName: 'Klinik Contoh Medika', reasons: ['PENDING_PAST_SCHEDULE'] },
+        { id: 'o7', code: 'ORD-PREVIEW-0007', status: 'CONFIRMED', mode: 'HOMECARE', assignmentStatus: 'PARTIALLY_ASSIGNED', scheduledAt: hoursAgo(1), createdAt: hoursAgo(20), itemCount: 2, facilityName: 'Klinik Contoh Sehat', reasons: ['NOT_STARTED_PAST_SCHEDULE', 'UNASSIGNED_SOON'] },
+        { id: 'o2', code: 'ORD-PREVIEW-0003', status: 'CONFIRMED', mode: 'ON_SITE', assignmentStatus: 'UNASSIGNED', scheduledAt: inHours(4), createdAt: hoursAgo(6), itemCount: 1, facilityName: 'Klinik Contoh Medika', reasons: ['UNASSIGNED_SOON'] },
+      ],
+    },
   }),
   'GET /api/v1/clinic/dashboard/summary': () => ({
     facility: me.memberships[0].facility,
     kpis: { pendingApproval: 2, todayConfirmed: 5, todayInProgress: 1, activeOfferings: 0, unassignedVisits: 2 },
     pendingQueue: [
+      { id: 'o6', code: 'ORD-PREVIEW-0006', status: 'PENDING_APPROVAL', mode: 'ON_SITE', scheduledAt: hoursAgo(3), createdAt: hoursAgo(28), itemCount: 1 },
       { id: 'o1', code: 'ORD-PREVIEW-0004', status: 'PENDING_APPROVAL', mode: 'HOMECARE', scheduledAt: inHours(20), createdAt: hoursAgo(1), itemCount: 2 },
       { id: 'o5', code: 'ORD-PREVIEW-0005', status: 'PENDING_APPROVAL', mode: 'ON_SITE', scheduledAt: inHours(30), createdAt: hoursAgo(3), itemCount: 1 },
     ],

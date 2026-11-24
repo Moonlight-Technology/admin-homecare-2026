@@ -1,5 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Query, Req } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query, Req } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { CurrentFacility, Public, RequireFacility, RequirePlatform } from '../../common/access/access.decorators';
 import type { AuthenticatedRequest, FacilityScope } from '../../common/access/auth-context';
@@ -15,10 +15,15 @@ import {
   DocumentUploadInitDto,
   FacilityQueryDto,
   FacilityStatusDto,
+  MediaCompleteDto,
+  MediaOrderDto,
+  MediaUpdateDto,
+  MediaUploadInitDto,
   ReviewDecisionDto,
   UpdateFacilityProfileDto,
 } from './dto/facility.dto';
 import { FacilitiesService, LOCKED_FOR_REVIEW } from './facilities.service';
+import { FacilityMediaService } from './facility-media.service';
 import { VerificationService } from './verification.service';
 
 const platformSource = (request: AuthenticatedRequest) => ({ ...auditSource(request, 'PLATFORM'), actorId: request.auth!.userId });
@@ -42,7 +47,18 @@ export class ClinicRegistrationController {
 @ApiBearerAuth()
 @Controller('admin/facilities')
 export class AdminFacilitiesController {
-  constructor(private readonly facilities: FacilitiesService) {}
+  constructor(
+    private readonly facilities: FacilitiesService,
+    private readonly media: FacilityMediaService,
+  ) {}
+
+  @Get(':id/media')
+  @ApiOperation({ summary: 'View a clinic logo and photos (read-only)' })
+  @RequirePlatform(PLATFORM.facilityRead)
+  async listMedia(@Param('id', ParseUUIDPipe) id: string) {
+    await this.facilities.detail(id);
+    return this.media.list(id);
+  }
 
   @Get()
   @RequirePlatform(PLATFORM.facilityRead)
@@ -125,6 +141,7 @@ export class ClinicFacilityController {
     private readonly facilities: FacilitiesService,
     private readonly verification: VerificationService,
     private readonly documents: DocumentsService,
+    private readonly media: FacilityMediaService,
   ) {}
 
   @Get('profile')
@@ -183,5 +200,49 @@ export class ClinicFacilityController {
   @RequireFacility(CLINIC.documentManage)
   documentUrl(@CurrentFacility() scope: FacilityScope, @Param('id', ParseUUIDPipe) id: string) {
     return this.documents.ownedDownloadLink({ ownerType: 'FACILITY', ownerId: scope.facilityId }, id);
+  }
+
+  @Get('profile/media')
+  @ApiOperation({ summary: 'List clinic logo and photos', description: 'Each item carries a short-lived signed `url` for display.' })
+  @RequireFacility(CLINIC.profileRead)
+  listMedia(@CurrentFacility() scope: FacilityScope) {
+    return this.media.list(scope.facilityId);
+  }
+
+  @Post('profile/media/upload-init')
+  @ApiOperation({ summary: 'Start a logo/photo upload', description: 'JPG or PNG, at most 5 MB. PUT the bytes to the returned URL, then call complete.' })
+  @RequireFacility(CLINIC.profileUpdate)
+  mediaUploadInit(@CurrentFacility() scope: FacilityScope, @Body() body: MediaUploadInitDto, @Req() request: AuthenticatedRequest) {
+    return this.media.initUpload(scope.facilityId, body, request.auth!.userId);
+  }
+
+  @Post('profile/media/complete')
+  @ApiOperation({ summary: 'Attach an uploaded logo/photo', description: 'A new logo replaces the previous one.' })
+  @RequireFacility(CLINIC.profileUpdate)
+  @HttpCode(HttpStatus.OK)
+  mediaComplete(@CurrentFacility() scope: FacilityScope, @Body() body: MediaCompleteDto, @Req() request: AuthenticatedRequest) {
+    return this.media.complete(scope.facilityId, body, clinicSource(request));
+  }
+
+  @Put('profile/media/order')
+  @ApiOperation({ summary: 'Reorder clinic photos' })
+  @RequireFacility(CLINIC.profileUpdate)
+  mediaOrder(@CurrentFacility() scope: FacilityScope, @Body() body: MediaOrderDto, @Req() request: AuthenticatedRequest) {
+    return this.media.reorder(scope.facilityId, body.ids, clinicSource(request));
+  }
+
+  @Patch('profile/media/:id')
+  @ApiOperation({ summary: 'Change a logo/photo caption' })
+  @RequireFacility(CLINIC.profileUpdate)
+  mediaUpdate(@CurrentFacility() scope: FacilityScope, @Param('id', ParseUUIDPipe) id: string, @Body() body: MediaUpdateDto, @Req() request: AuthenticatedRequest) {
+    return this.media.updateCaption(scope.facilityId, id, body.caption ?? null, clinicSource(request));
+  }
+
+  @Delete('profile/media/:id')
+  @ApiOperation({ summary: 'Remove a logo/photo' })
+  @RequireFacility(CLINIC.profileUpdate)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async mediaRemove(@CurrentFacility() scope: FacilityScope, @Param('id', ParseUUIDPipe) id: string, @Req() request: AuthenticatedRequest) {
+    await this.media.remove(scope.facilityId, id, clinicSource(request));
   }
 }

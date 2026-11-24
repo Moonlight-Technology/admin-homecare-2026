@@ -2,7 +2,7 @@
 
 Dihasilkan oleh `pnpm contracts:generate`. Panduan penggunaan: [SWAGGER.md](SWAGGER.md).
 
-Total: **137 operasi**. Path sudah menyertakan prefix API.
+Total: **144 operasi**. Path sudah menyertakan prefix API.
 
 ## Health
 
@@ -144,6 +144,7 @@ Total: **137 operasi**. Path sudah menyertakan prefix API.
 
 | Method | Endpoint | Akses / permission | Request body |
 |---|---|---|---|
+| GET | `/api/v1/admin/facilities/{id}/media` | facility:read | — |
 | GET | `/api/v1/admin/facilities` | facility:read | — |
 | POST | `/api/v1/admin/facilities` | facility:create | AdminCreateFacilityDto |
 | GET | `/api/v1/admin/facilities/{id}` | facility:read | — |
@@ -173,6 +174,12 @@ Total: **137 operasi**. Path sudah menyertakan prefix API.
 | POST | `/api/v1/clinic/documents/upload-init` | clinic:document:manage | DocumentUploadInitDto |
 | POST | `/api/v1/clinic/documents/complete` | clinic:document:manage | DocumentCompleteDto |
 | GET | `/api/v1/clinic/documents/{id}/url` | clinic:document:manage | — |
+| GET | `/api/v1/clinic/profile/media` | clinic:profile:read | — |
+| POST | `/api/v1/clinic/profile/media/upload-init` | clinic:profile:update | MediaUploadInitDto |
+| POST | `/api/v1/clinic/profile/media/complete` | clinic:profile:update | MediaCompleteDto |
+| PUT | `/api/v1/clinic/profile/media/order` | clinic:profile:update | MediaOrderDto |
+| PATCH | `/api/v1/clinic/profile/media/{id}` | clinic:profile:update | MediaUpdateDto |
+| DELETE | `/api/v1/clinic/profile/media/{id}` | clinic:profile:update | — |
 
 ## Documents
 

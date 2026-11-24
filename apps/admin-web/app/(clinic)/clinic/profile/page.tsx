@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/layout/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FacilityMediaPanel } from '@/features/facilities/media-panel';
 import { ProfileFields } from '@/features/facilities/profile-fields';
 import { emptyProfile, profileFromFacility, profilePayload, type Facility, type ProfileValues } from '@/features/facilities/types';
 import { api, ApiError } from '@/lib/api/client';
@@ -51,6 +52,7 @@ export default function ClinicProfilePage() {
           </Card>
         </form>
       )}
+      {profile.data && <div className="mt-4 md:mt-6"><FacilityMediaPanel area="clinic" /></div>}
     </>
   );
 }

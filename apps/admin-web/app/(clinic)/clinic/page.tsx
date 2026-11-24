@@ -8,7 +8,8 @@ import { MODE_LABELS, StatusBadge } from '@/components/status/status-badge';
 import { Card, CardHeader } from '@/components/ui/card';
 import { useClinicSummary } from '@/features/dashboard/api';
 import { QueueList } from '@/features/dashboard/queue-list';
-import { formatDateTime, formatRelative } from '@/lib/format';
+import { PendingAge } from '@/features/orders/order-list';
+import { formatDateTime } from '@/lib/format';
 
 /** Clinic dashboard (DESIGN.md §6.3): the approval queue comes before anything secondary, on every width. */
 export default function ClinicDashboardPage() {
@@ -35,8 +36,7 @@ export default function ClinicDashboardPage() {
                   icon: CalendarClock,
                   title: order.code,
                   subtitle: `${MODE_LABELS[order.mode] ?? order.mode} · ${order.itemCount} layanan · Kunjungan ${formatDateTime(order.scheduledAt)}`,
-                  status: <StatusBadge status={order.status} />,
-                  meta: `Masuk ${formatRelative(order.createdAt)}`,
+                  status: <PendingAge createdAt={order.createdAt} scheduledAt={order.scheduledAt} />,
                 }))}
               />
             )}

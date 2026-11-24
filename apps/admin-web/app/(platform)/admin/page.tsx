@@ -1,17 +1,25 @@
 'use client';
 
-import { Building2, CalendarClock, ClipboardCheck, ClipboardList, Stethoscope } from 'lucide-react';
+import { AlertTriangle, Building2, CalendarClock, ClipboardCheck, ClipboardList, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { EmptyState, ErrorState } from '@/components/feedback/states';
 import { KpiCard } from '@/components/layout/kpi-card';
 import { PageHeader } from '@/components/layout/page-header';
 import { MODE_LABELS, StatusBadge } from '@/components/status/status-badge';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { usePlatformSummary } from '@/features/dashboard/api';
+import { type OrderExceptionReason, usePlatformSummary } from '@/features/dashboard/api';
 import { QueueList } from '@/features/dashboard/queue-list';
 import { useAuth } from '@/lib/auth/auth-provider';
 import { formatDateTime, formatRelative } from '@/lib/format';
+
+/** Facts from status and schedule only; no SLA is implied (spec §14). */
+const EXCEPTION_LABELS: Record<OrderExceptionReason, string> = {
+  PENDING_PAST_SCHEDULE: 'Jadwal lewat, belum disetujui',
+  NOT_STARTED_PAST_SCHEDULE: 'Jadwal lewat, belum dimulai',
+  UNASSIGNED_SOON: 'Nakes belum lengkap (< 24 jam)',
+};
 
 /**
  * Platform dashboard (DESIGN.md §6.2): actionable queues first. No charts yet: there is no authorised aggregate
@@ -36,6 +44,34 @@ export default function PlatformDashboardPage() {
             <KpiCard label="Review nakes" hint="Menunggu atau sedang direview" value={data?.kpis.pendingPractitionerReviews} icon={Stethoscope} tone="info" loading={summary.isLoading} />
             <KpiCard label="Order menunggu persetujuan" hint={data ? `${data.kpis.openOrders} order aktif` : undefined} value={data?.kpis.pendingOrderApprovals} icon={ClipboardList} loading={summary.isLoading} />
           </div>
+
+          <Card className="mt-4 md:mt-6">
+            <CardHeader
+              title={`Perlu perhatian (${data?.exceptions.total ?? 0})`}
+              description={data
+                ? `${data.exceptions.counts.pendingPastSchedule} belum disetujui · ${data.exceptions.counts.notStartedPastSchedule} belum dimulai · ${data.exceptions.counts.unassignedSoon} nakes belum lengkap. Jadwal terdekat di atas.`
+                : 'Order yang jadwalnya lewat atau segera tiba tanpa nakes lengkap.'}
+            />
+            {!summary.isLoading && !data?.exceptions.orders.length ? (
+              <EmptyState icon={AlertTriangle} title="Tidak ada order bermasalah" description="Order yang jadwalnya lewat atau belum ada nakesnya akan muncul di sini." />
+            ) : (
+              <QueueList
+                loading={summary.isLoading}
+                rows={(data?.exceptions.orders ?? []).map((order) => ({
+                  key: order.id,
+                  icon: AlertTriangle,
+                  title: <Link href={`/admin/orders/${order.id}`} className="hover:text-primary-700 hover:underline">{order.code}</Link>,
+                  subtitle: [order.facilityName, MODE_LABELS[order.mode] ?? order.mode, `Kunjungan ${formatDateTime(order.scheduledAt)}`].filter(Boolean).join(' · '),
+                  status: (
+                    <>
+                      {order.reasons.map((reason) => <Badge key={reason} tone={reason === 'UNASSIGNED_SOON' ? 'warning' : 'danger'}><AlertTriangle aria-hidden />{EXCEPTION_LABELS[reason]}</Badge>)}
+                      <StatusBadge status={order.status} />
+                    </>
+                  ),
+                }))}
+              />
+            )}
+          </Card>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:mt-6 desk:grid-cols-2">
             <Card>

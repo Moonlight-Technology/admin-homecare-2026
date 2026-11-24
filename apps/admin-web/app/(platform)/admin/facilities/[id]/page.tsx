@@ -12,6 +12,7 @@ import { Card, CardBody } from '@/components/ui/card';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { ReasonDialog } from '@/components/ui/reason-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FacilityMediaPanel } from '@/features/facilities/media-panel';
 import { ProfileFields } from '@/features/facilities/profile-fields';
 import { emptyProfile, profileFromFacility, profilePayload, type Facility } from '@/features/facilities/types';
 import { api, ApiError } from '@/lib/api/client';
@@ -92,6 +93,7 @@ export default function FacilityDetailPage() {
           <ProfileFields values={values} onChange={(patch) => setValues((current) => ({ ...current, ...patch }))} errors={errors} disabled={!editable || busy} />
           {editable && <div className="flex justify-end border-t border-line pt-5"><Button type="submit" loading={update.isPending} disabled={change.isPending}>Simpan perubahan</Button></div>}
         </CardBody></Card></form>
+        <FacilityMediaPanel area="admin" facilityId={facility.id} />
       </div>
       <ConfirmDialog open={action === 'ACTIVATE' || action === 'INVITE'} onOpenChange={(open) => { if (!open) setAction(null); }} title={action === 'INVITE' ? 'Kirim ulang undangan pemilik?' : 'Aktifkan klinik?'} description={action === 'INVITE' ? 'Tautan lama akan dibatalkan dan undangan baru dimasukkan ke antrean notifikasi.' : 'Klinik terverifikasi akan diaktifkan beserta provider terkait.'} confirmLabel={action === 'INVITE' ? 'Kirim ulang' : 'Aktifkan'} loading={change.isPending} onConfirm={() => { if (action) change.mutate({ action }); }}>{change.error ? <Alert>{change.error.message}</Alert> : undefined}</ConfirmDialog>
       {action === 'SUSPEND' && <ReasonDialog open onOpenChange={(open) => { if (!open) setAction(null); }} title="Suspend klinik?" description="Klinik dan provider terkait akan disuspend. Data existing tetap tersimpan." label="Alasan suspend" confirmLabel="Suspend klinik" destructive loading={change.isPending} error={change.error?.message} maxLength={1000} onConfirm={(reason) => change.mutate({ action: 'SUSPEND', reason })} />}

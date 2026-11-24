@@ -153,6 +153,10 @@ try {
     check(`${width}: no-show filter reaches API`, filterStatus === 'NO_SHOW');
     check(`${width}: no-show badge translated`, await page.evaluate(() => document.body.innerText.includes('Tidak hadir')));
     check(`${width}: no-show produces no browser errors`, errors.length === 0);
+    reset('PENDING_APPROVAL'); order.scheduledAt = '2026-11-01T01:00:00Z';
+    await page.goto(`${base}/clinic/orders`, { waitUntil: 'networkidle0' }); await has('NK-TEST-CANCEL');
+    check(`${width}: pending inbox shows waiting age and a passed schedule`, await page.evaluate(() => /Menunggu \d+ (menit|jam|hari)/.test(document.body.innerText) && document.body.innerText.includes('Jadwal sudah lewat')));
+    await overflow('pending inbox');
     reset('CONFIRMED'); writable = false; progress = true; await navigate();
     check(`${width}: reschedule hidden without approve permission`, !(await page.evaluate(() => [...document.querySelectorAll('button')].some((button) => button.textContent.trim() === 'Ubah jadwal'))));
     writable = true; await navigate(); slotFailure = true; await click('Ubah jadwal'); await has('Slot sementara tidak tersedia.');

@@ -111,3 +111,13 @@ retained assignments/prices/payment, full/blocked/past/off-grid/horizon rejectio
 clinics, expired affiliations, one-winner concurrent moves, and complete rollback on outbox failure. Expiry stays
 off unless the separate expiry test flag is explicitly set. Browser regression includes the reschedule dialog,
 picker errors/empty states, reason/version payload, conflict handling and timeline at desktop/mobile widths.
+
+### Clinic profile media (focused real PostgreSQL + HTTP)
+
+Set `$env:SMOKE_ONLY_FACILITY_MEDIA = '1'` (or `SMOKE_INCLUDE_FACILITY_MEDIA` to add it to a full run), with
+`SMOKE_ALLOW_ISOLATED_SCHEMA=1`, then run the same isolated-schema command. It applies all migrations to the random
+schema and checks image-only/5 MB validation, signed PUT + complete, cross-clinic 404s, separation from verification
+documents, logo replacement (including concurrent replacements and the one-logo database index), captions, full-list
+reordering, the photo limit under concurrent completions, removal, the read-only platform view and audit entries.
+Storage is temporary local files, not MinIO. Browser regression: `node preview/flow-facility-media.mjs` from
+`apps/admin-web` against a built/running web app.

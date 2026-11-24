@@ -6,7 +6,7 @@ Tanggal audit: 24 November 2026. Status: **implementasi awal A/B/C tersedia; akt
 
 - Implementasi tersedia: dedicated worker, migration additive tracking delivery, enkripsi payload baru, template Gmail invitation/reset dan email operasional, permission-based recipient resolver, dry-run, lease/fencing, retry aman, persistent quota/pause, heartbeat, dan CLI/deploy guide.
 - Adapter GoSMS disiapkan untuk kontrak legacy v2, diuji tanpa provider nyata. Live SMS routing sengaja ditolak sampai kontrak provider, identitas kontak customer, serta consent disepakati.
-- Migration **belum diterapkan ke schema operasional**. Aktivasi Gmail dan bukti inbox, kredensial/sender GoSMS, kontak customer, OTP, reminder, bounce otomatis, dan UI retry admin belum selesai. Jangan menganggap seluruh checkbox rencana di bawah sudah terpenuhi.
+- Migration `20261124010000_notification_delivery` sudah tercatat diterapkan pada database Neon di `apps/api/.env` (`prisma migrate status`, 24 November 2026). Aktivasi Gmail dan bukti inbox, kredensial/sender GoSMS, kontak customer, OTP, reminder, bounce otomatis, dan UI retry admin belum selesai. Jangan menganggap seluruh checkbox rencana di bawah sudah terpenuhi.
 - Saat dokumen rencana pertama dibuat belum ada perubahan aplikasi; implementasi berikutnya tidak mengaktifkan live send. Semua flag contoh tetap off.
 - Runbook dan nama script nyata: [NOTIFICATIONS_DEPLOYMENT.md](NOTIFICATIONS_DEPLOYMENT.md). Untuk hasil validasi akhir lihat bagian hasil eksekusi di akhir dokumen.
 

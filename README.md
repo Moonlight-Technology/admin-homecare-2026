@@ -235,7 +235,8 @@ Operational notes:
 Open items before production: outbox dispatcher; selecting/enabling approval expiry policy; customer cancellation and
 payment policies; homecare service area and per-service practitioner qualification; brand colours and logo;
 browser UAT and an accessibility pass of the new
-pages; confirming the illustrative seed data (master services, document checklist) with operations.
+pages; confirming the illustrative seed data (master services, document checklist) with operations; clinic media limits
+(8 photos, 5 MB) and whether/how media appears in public discovery.
 
 Admin clinic management is available at `/admin/facilities`: search, verification/operating/type filters,
 pagination, create a draft clinic with an invited owner, update its profile, activate verified clinics,
@@ -257,6 +258,30 @@ Re-enabling an account without a password returns it to `INVITED` with a fresh q
 No passwords/tokens are returned in user lists/details, no hard-delete is offered, and no schema migration is required.
 Invitation email delivery still requires the outbox dispatcher. For isolated desktop/mobile browser regression,
 run `node preview/flow-users.mjs` from `apps/admin-web` against a built/running web app (`WEB_URL` optional).
+
+Order exceptions and pending age (spec §4, §14): the platform dashboard (`GET /admin/dashboard/summary` →
+`exceptions`) lists orders that need attention, using status and schedule facts only: pending approval with the
+visit start already passed, confirmed but not started with the visit start passed, and confirmed without full
+assignment starting within 24 hours (or already started). The 24-hour window is a display choice, **not an SLA**;
+no approval deadline is assumed. Rows carry no patient or address data and link to the read-only order detail.
+The clinic inbox and the clinic dashboard show how long each pending order has waited ("Menunggu 3 jam") and flag a
+passed visit start; no other threshold is assumed. No migration, permission, or contract change is needed.
+
+Clinic profile media (spec §4 `/clinic/profile`): one logo and a photo gallery, managed under `/clinic/profile/media`
+(read: `clinic:profile:read`, changes: `clinic:profile:update`) and shown read-only to the platform at
+`GET /admin/facilities/:id/media` (`facility:read`). Working assumptions, pending confirmation:
+- JPG/PNG only, at most 5 MB each (content signature checked), at most **8 photos** plus one logo; a new logo replaces
+  the old one. Photos have an optional caption (≤ 200 characters) and a display order.
+- Media is not part of verification: it stays editable while an application is under review, is never listed with
+  verification documents, and changes nothing in the verification status.
+- Files reuse the private document pipeline (owner type `FACILITY_MEDIA`, keys `facility-media/<facility>/<document>`)
+  and are shown only through short-lived signed links. The web fetches them through CORS and displays a local blob,
+  because the API keeps `Cross-Origin-Resource-Policy: same-origin`. Removing media deletes its record and then its
+  stored bytes (best effort after commit). Every change is audited (`FACILITY_MEDIA_*`).
+- **Public discovery does not expose media yet**: no customer-app contract exists for it. Platform moderation (removing
+  a clinic's photo) is not offered; the platform view is read-only.
+Requires migration `20261125000000_facility_media` (additive: one table, one enum, one enum value, a one-logo partial
+unique index). Apply it before deploying the new API.
 
 Clinic staff management is available at `/clinic/staff`: search, pagination, role/access filters, add a new
 invited account, review role permissions, change its clinic role, enable/disable its membership with an audit
