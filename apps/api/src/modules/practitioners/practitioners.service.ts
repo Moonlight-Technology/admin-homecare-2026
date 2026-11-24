@@ -260,7 +260,10 @@ export class PractitionersService {
         },
       });
       if (decided.count === 0) throw AppError.conflict('PRACTITIONER_ALREADY_DECIDED', 'This practitioner is not waiting for a decision. Reload to see the latest status.');
-      await tx.verificationReview.create({ data: { targetType: 'PRACTITIONER', targetId: id, decision: dto.decision, reason: dto.reason ?? null, reviewerId: source.actorId, documentIds: [] } });
+      const credentials = await tx.practitionerCredential.findMany({ where: { practitionerId: id }, select: { documentId: true } });
+      const documentIds = [...new Set(credentials.flatMap((credential) => credential.documentId ? [credential.documentId] : []))];
+      await tx.verificationReview.create({ data: { targetType: 'PRACTITIONER', targetId: id, decision: dto.decision, reason: dto.reason ?? null, reviewerId: source.actorId, documentIds } });
+      if (dto.decision === 'APPROVE' && documentIds.length) await tx.document.updateMany({ where: { id: { in: documentIds }, ownerType: 'PRACTITIONER', ownerId: id, status: 'UPLOADED' }, data: { status: 'ACCEPTED' } });
       if (dto.decision === 'APPROVE') await tx.practitionerCredential.updateMany({ where: { practitionerId: id }, data: { reviewStatus: 'ACCEPTED' } });
       await this.audit.record(source, { event: outcome.event, entityType: 'Practitioner', entityId: id, before: { verificationStatus: practitioner.verificationStatus }, after: { verificationStatus: outcome.status, reason: dto.reason ?? null, activated: activate } }, tx);
       await this.outbox.enqueue({ eventType: 'PRACTITIONER_VERIFICATION_DECIDED', entityType: 'Practitioner', entityId: id, recipient: practitioner.email ?? undefined, payload: { fullName: practitioner.fullName, decision: dto.decision, reason: dto.reason ?? null } }, tx);

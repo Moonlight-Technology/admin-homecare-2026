@@ -12,7 +12,7 @@ const SIGNATURES: Record<string, number[][]> = {
 
 export const ALLOWED_DOCUMENT_TYPES = Object.keys(SIGNATURES);
 
-export const isAllowedDocumentType = (mimeType: string) => mimeType in SIGNATURES;
+export const isAllowedDocumentType = (mimeType: string) => Object.hasOwn(SIGNATURES, mimeType);
 
 /** True when the first bytes match the declared type. */
 export function matchesSignature(mimeType: string, head: Buffer): boolean {

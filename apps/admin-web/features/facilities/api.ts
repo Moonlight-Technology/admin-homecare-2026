@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { api, API_URL, ApiError } from '@/lib/api/client';
+import { putDocumentBytes } from '@/lib/api/document-upload';
 import type { DocumentInfo, Option } from './types';
 
 export type MasterOptions = { facilityTypes: Option[]; clinicClasses: Option[]; capabilities: Option[]; practitionerTypes: Option[] };
@@ -28,11 +29,7 @@ export async function uploadFacilityDocument(requirementId: string, file: File):
     method: 'POST',
     body: { requirementId, fileName: file.name, mimeType: file.type, sizeBytes: file.size },
   });
-  const put = await fetch(init.upload.url, { method: 'PUT', headers: init.upload.headers, body: file });
-  if (!put.ok) {
-    const body = (await put.json().catch(() => null)) as { message?: string } | null;
-    throw new ApiError(put.status, 'UPLOAD_FAILED', body?.message ?? 'File gagal diunggah.');
-  }
+  await putDocumentBytes(init.upload, file);
   return api<DocumentInfo>('/clinic/documents/complete', { method: 'POST', body: { documentId: init.document.id } });
 }
 

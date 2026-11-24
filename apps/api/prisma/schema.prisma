@@ -881,7 +881,64 @@ model NotificationOutbox {
   availableAt DateTime     @default(now()) @db.Timestamptz(3)
   sentAt      DateTime?    @db.Timestamptz(3)
   createdAt   DateTime     @default(now()) @db.Timestamptz(3)
+  materializedAt DateTime? @db.Timestamptz(3)
+  skipReason String?
+  deliveries NotificationDelivery[]
 
   @@index([status, availableAt])
   @@map("notification_outbox")
+}
+
+enum NotificationDeliveryStatus {
+  PENDING
+  PROCESSING
+  ACCEPTED
+  FAILED
+  BLOCKED
+  SKIPPED
+  UNKNOWN
+}
+
+model NotificationDelivery {
+  id String @id @default(uuid()) @db.Uuid
+  outboxId String @db.Uuid
+  channel String @default("EMAIL")
+  recipientKey String
+  recipientEncrypted String?
+  templateVersion String @default("v1")
+  status NotificationDeliveryStatus @default(PENDING)
+  attempts Int @default(0)
+  availableAt DateTime @default(now()) @db.Timestamptz(3)
+  leaseToken String? @db.Uuid
+  leaseUntil DateTime? @db.Timestamptz(3)
+  submittedAt DateTime? @db.Timestamptz(3)
+  providerMessageId String?
+  acceptedAt DateTime? @db.Timestamptz(3)
+  lastErrorCode String?
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  outbox NotificationOutbox @relation(fields: [outboxId], references: [id], onDelete: Restrict)
+
+  @@unique([outboxId, channel, recipientKey])
+  @@index([status, availableAt])
+  @@map("notification_deliveries")
+}
+
+/// Shared quota reservations, channel circuit breaker, and worker health. Contains no message content.
+model NotificationControl {
+  key String @id
+  count Int @default(0)
+  pausedUntil DateTime? @db.Timestamptz(3)
+  reason String?
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  @@map("notification_controls")
+}
+
+/// Dry-run reports never consume or mark live events as sent.
+model NotificationSimulation {
+  outboxId String @id @db.Uuid
+  outcome String
+  recipientCount Int
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  @@map("notification_simulations")
 }

@@ -10,7 +10,7 @@ import { FormField } from './input';
 const MIN_LENGTH = 5;
 
 /** Action that needs a written reason (reject, request revision, suspend). The API enforces the same minimum. */
-export function ReasonDialog({ open, onOpenChange, title, description, label, confirmLabel, destructive, loading, error, onConfirm }: {
+export function ReasonDialog({ open, onOpenChange, title, description, label, confirmLabel, destructive, loading, error, maxLength = 2000, hint, onConfirm }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
@@ -20,6 +20,8 @@ export function ReasonDialog({ open, onOpenChange, title, description, label, co
   destructive?: boolean;
   loading?: boolean;
   error?: string;
+  maxLength?: number;
+  hint?: string;
   onConfirm: (reason: string) => void;
 }) {
   const [reason, setReason] = useState('');
@@ -39,8 +41,8 @@ export function ReasonDialog({ open, onOpenChange, title, description, label, co
     >
       <div className="space-y-3">
         {error && <Alert>{error}</Alert>}
-        <FormField label={label} required hint={`Minimal ${MIN_LENGTH} karakter. Akan ditampilkan ke klinik dan tersimpan di riwayat.`}>
-          {(props) => <Textarea {...props} autoFocus value={reason} maxLength={2000} onChange={(event) => setReason(event.target.value)} />}
+        <FormField label={label} required hint={hint ?? `Minimal ${MIN_LENGTH} karakter. Akan ditampilkan ke klinik dan tersimpan di riwayat.`}>
+          {(props) => <Textarea {...props} autoFocus value={reason} maxLength={maxLength} onChange={(event) => setReason(event.target.value)} />}
         </FormField>
       </div>
     </Dialog>

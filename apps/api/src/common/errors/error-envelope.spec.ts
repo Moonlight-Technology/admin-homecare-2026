@@ -1,9 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
+import { Logger, NotFoundException, type ArgumentsHost } from '@nestjs/common';
 import { ThrottlerException } from '@nestjs/throttler';
 import { Prisma } from '@prisma/client';
 import { redact } from '../../modules/audit/redact';
 import { AppError } from './app-error';
-import { toEnvelope } from './error-envelope.filter';
+import { ErrorEnvelopeFilter, toEnvelope } from './error-envelope.filter';
 import { fieldErrors } from './validation';
 
 describe('toEnvelope', () => {
@@ -26,6 +26,25 @@ describe('toEnvelope', () => {
       status: 500,
       body: { code: 'INTERNAL_ERROR', message: 'An unexpected error occurred.' },
     });
+  });
+
+  it('maps persistent database connectivity errors to 503 without leaking diagnostics', () => {
+    const error = new Prisma.PrismaClientKnownRequestError('postgres://secret user/password host/query', { code: 'P1017', clientVersion: 'test' });
+    expect(toEnvelope(error)).toEqual({ status: 503, body: { code: 'DATABASE_UNAVAILABLE', message: 'Database temporarily unavailable. Check the current state before retrying.' } });
+    expect(JSON.stringify(toEnvelope(error))).not.toContain('secret');
+    expect(toEnvelope(new Prisma.PrismaClientKnownRequestError('missing table', { code: 'P2021', clientVersion: 'test' })).status).toBe(500);
+  });
+
+  it('returns retry guidance and the correlation ID on a database outage', () => {
+    const log = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+    try {
+      const response = { setHeader: jest.fn(), status: jest.fn().mockReturnThis(), json: jest.fn() };
+      const host = { switchToHttp: () => ({ getRequest: () => ({ requestId: 'test-request', path: '/api/v1/documents/test/upload' }), getResponse: () => response }) } as unknown as ArgumentsHost;
+      new ErrorEnvelopeFilter().catch(new Prisma.PrismaClientKnownRequestError('Connection closed', { code: 'P1017', clientVersion: 'test' }), host);
+      expect(response.status).toHaveBeenCalledWith(503);
+      expect(response.setHeader).toHaveBeenCalledWith('Retry-After', '2');
+      expect(response.json).toHaveBeenCalledWith(expect.objectContaining({ code: 'DATABASE_UNAVAILABLE', requestId: 'test-request' }));
+    } finally { log.mockRestore(); }
   });
 });
 

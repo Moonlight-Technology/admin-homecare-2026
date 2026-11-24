@@ -32,6 +32,7 @@ export function completeOpenApiDocument(document: OpenAPIObject): OpenAPIObject 
     '422': 'DTO validation or domain validation failed. See details.fields when present.',
     '429': 'Too many requests. Retry after the rate-limit window.',
     '500': 'Unexpected server error; report the requestId to the operator.',
+    '503': 'DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.',
   };
   for (const { path, method, operation } of operationsOf(document)) {
     const access = operation['x-access'];
@@ -48,7 +49,7 @@ export function completeOpenApiDocument(document: OpenAPIObject): OpenAPIObject 
       const result = response as ResponseObject;
       result.description ||= status === '204' ? 'Success. No response body.' : 'Success. Returns the endpoint result directly; no data/success wrapper.';
     }
-    if (path.endsWith('/bookings')) operation.responses['503'] = { description: 'BOOKINGS_DISABLED: BOOKINGS_API_KEY is not configured.', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } } };
+    if (path.endsWith('/bookings')) operation.responses['503'] = { description: `${errors['503']} BOOKINGS_DISABLED: BOOKINGS_API_KEY is not configured.`, content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } } };
   }
   return document;
 }

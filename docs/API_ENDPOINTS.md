@@ -2,7 +2,7 @@
 
 Dihasilkan oleh `pnpm contracts:generate`. Panduan penggunaan: [SWAGGER.md](SWAGGER.md).
 
-Total: **112 operasi**. Path sudah menyertakan prefix API.
+Total: **137 operasi**. Path sudah menyertakan prefix API.
 
 ## Health
 
@@ -27,6 +27,29 @@ Total: **112 operasi**. Path sudah menyertakan prefix API.
 | POST | `/api/v1/auth/reset-password` | public | ResetPasswordDto |
 | POST | `/api/v1/auth/accept-invitation` | public | AcceptInvitationDto |
 | GET | `/api/v1/me` | authenticated | — |
+
+## Admin: Users
+
+| Method | Endpoint | Akses / permission | Request body |
+|---|---|---|---|
+| GET | `/api/v1/admin/users` | platform-user:read | — |
+| POST | `/api/v1/admin/users` | platform-user:manage | InvitePlatformUserDto |
+| GET | `/api/v1/admin/users/{id}` | platform-user:read | — |
+| PATCH | `/api/v1/admin/users/{id}` | platform-user:manage | UpdatePlatformUserDto |
+| POST | `/api/v1/admin/users/{id}/status` | platform-user:manage | PlatformUserStatusDto |
+| POST | `/api/v1/admin/users/{id}/resend-invitation` | platform-user:manage | — |
+
+## Clinic: Staff
+
+| Method | Endpoint | Akses / permission | Request body |
+|---|---|---|---|
+| GET | `/api/v1/clinic/staff` | staff:read | — |
+| POST | `/api/v1/clinic/staff` | staff:manage | InviteStaffDto |
+| GET | `/api/v1/clinic/staff/roles` | staff:read | — |
+| GET | `/api/v1/clinic/staff/{id}` | staff:read | — |
+| PATCH | `/api/v1/clinic/staff/{id}` | staff:manage | UpdateStaffRoleDto |
+| POST | `/api/v1/clinic/staff/{id}/access` | staff:manage | StaffAccessDto |
+| POST | `/api/v1/clinic/staff/{id}/resend-invitation` | staff:manage | — |
 
 ## Dashboard
 
@@ -189,6 +212,24 @@ Total: **112 operasi**. Path sudah menyertakan prefix API.
 | POST | `/api/v1/clinic/practitioner-affiliations` | affiliation:manage | ProposeAffiliationDto |
 | PATCH | `/api/v1/clinic/practitioner-affiliations/{id}` | affiliation:manage | UpdateAffiliationDto |
 
+## Admin: Practitioner documents
+
+| Method | Endpoint | Akses / permission | Request body |
+|---|---|---|---|
+| GET | `/api/v1/admin/practitioners/{id}/documents` | practitioner:review | — |
+| POST | `/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/upload-init` | practitioner:review | PractitionerDocumentUploadDto |
+| POST | `/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/complete` | practitioner:review | PractitionerDocumentCompleteDto |
+| GET | `/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/{documentId}/url` | practitioner:review | — |
+
+## Clinic: Practitioner documents
+
+| Method | Endpoint | Akses / permission | Request body |
+|---|---|---|---|
+| GET | `/api/v1/clinic/practitioners/{id}/documents` | affiliation:manage | — |
+| POST | `/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/upload-init` | affiliation:manage | PractitionerDocumentUploadDto |
+| POST | `/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/complete` | affiliation:manage | PractitionerDocumentCompleteDto |
+| GET | `/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/{documentId}/url` | affiliation:manage | — |
+
 ## Clinic: Offerings
 
 | Method | Endpoint | Akses / permission | Request body |
@@ -237,9 +278,13 @@ Total: **112 operasi**. Path sudah menyertakan prefix API.
 | GET | `/api/v1/clinic/orders/{id}` | order:read | — |
 | POST | `/api/v1/clinic/orders/{id}/approve` | order:approve | — |
 | POST | `/api/v1/clinic/orders/{id}/reject` | order:approve | RejectOrderDto |
+| POST | `/api/v1/clinic/orders/{id}/cancel` | order:approve | CancelOrderDto |
 | GET | `/api/v1/clinic/orders/{id}/assignable-practitioners` | order:assign | — |
 | POST | `/api/v1/clinic/orders/{id}/assignments` | order:assign | AssignPractitionerDto |
 | DELETE | `/api/v1/clinic/orders/{id}/assignments/{assignmentId}` | order:assign | — |
+| GET | `/api/v1/clinic/orders/{id}/reschedule-slots` | order:approve | — |
+| POST | `/api/v1/clinic/orders/{id}/reschedule` | order:approve | RescheduleOrderDto |
+| POST | `/api/v1/clinic/orders/{id}/no-show` | order:progress | NoShowOrderDto |
 | POST | `/api/v1/clinic/orders/{id}/start` | order:progress | — |
 | PATCH | `/api/v1/clinic/orders/{id}/items/{itemId}/status` | order:progress | ItemStatusDto |
 | POST | `/api/v1/clinic/orders/{id}/complete` | order:progress | — |

@@ -11,7 +11,7 @@ const relative = new Intl.RelativeTimeFormat('id-ID', { numeric: 'auto' });
 
 export const formatIDR = (value: string | number) => idr.format(Number(value));
 export const formatNumber = (value: number) => number.format(value);
-export const formatDateTime = (value: string | Date) => dateTime.format(new Date(value));
+export const formatDateTime = (value: string | Date, timezone = TIMEZONE) => (timezone === TIMEZONE ? dateTime : new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short', timeZone: timezone })).format(new Date(value));
 export const formatDate = (value: string | Date) => date.format(new Date(value));
 /** "08.00" in Asia/Jakarta. */
 export const formatTime = (value: string | Date) => time.format(new Date(value));

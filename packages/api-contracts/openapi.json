@@ -88,6 +88,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -278,6 +288,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -406,6 +426,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "summary": "Sign in",
@@ -515,6 +545,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -636,6 +676,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -742,6 +792,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -857,6 +917,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -965,6 +1035,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1063,6 +1143,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1080,6 +1170,1854 @@
           "kind": "authenticated"
         },
         "summary": "me — Auth"
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "operationId": "UsersController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INVITED",
+                "ACTIVE",
+                "SUSPENDED",
+                "DISABLED"
+              ]
+            }
+          },
+          {
+            "name": "roleCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PLATFORM_SUPER_ADMIN",
+                "PLATFORM_OPERATOR"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List platform users only; clinic owners/staff are managed separately.",
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:read"
+          ]
+        },
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:read`."
+      },
+      "post": {
+        "operationId": "UsersController_invite",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvitePlatformUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Invite a new platform user; queues a one-time activation invitation.",
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:manage"
+          ]
+        },
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:manage`."
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "operationId": "UsersController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:read"
+          ]
+        },
+        "summary": "detail — Admin: Users",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:read`."
+      },
+      "patch": {
+        "operationId": "UsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlatformUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:manage"
+          ]
+        },
+        "summary": "update — Admin: Users",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:manage`."
+      }
+    },
+    "/api/v1/admin/users/{id}/status": {
+      "post": {
+        "operationId": "UsersController_status",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlatformUserStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:manage"
+          ]
+        },
+        "summary": "status — Admin: Users",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:manage`."
+      }
+    },
+    "/api/v1/admin/users/{id}/resend-invitation": {
+      "post": {
+        "operationId": "UsersController_resend",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success. No response body."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Users"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "platform-user:manage"
+          ]
+        },
+        "summary": "resend — Admin: Users",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `platform-user:manage`."
+      }
+    },
+    "/api/v1/clinic/staff": {
+      "get": {
+        "operationId": "StaffController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "access",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ACTIVE",
+                "INACTIVE"
+              ]
+            }
+          },
+          {
+            "name": "roleCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CLINIC_OWNER_ADMIN",
+                "CLINIC_STAFF"
+              ]
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:read"
+          ]
+        },
+        "summary": "list — Clinic: Staff",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:read`."
+      },
+      "post": {
+        "operationId": "StaffController_invite",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteStaffDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new invited account with access only to the caller's clinic. Email delivery is deferred.",
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:manage"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:manage`."
+      }
+    },
+    "/api/v1/clinic/staff/roles": {
+      "get": {
+        "operationId": "StaffController_roles",
+        "parameters": [
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Clinic role options and their existing seeded permissions; no global role edits.",
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:read"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:read`."
+      }
+    },
+    "/api/v1/clinic/staff/{id}": {
+      "get": {
+        "operationId": "StaffController_detail",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Staff membership detail. id is a membership ID, not a user ID.",
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:read"
+          ]
+        },
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:read`."
+      },
+      "patch": {
+        "operationId": "StaffController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStaffRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:manage"
+          ]
+        },
+        "summary": "update — Clinic: Staff",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:manage`."
+      }
+    },
+    "/api/v1/clinic/staff/{id}/access": {
+      "post": {
+        "operationId": "StaffController_access",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffAccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:manage"
+          ]
+        },
+        "summary": "access — Clinic: Staff",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:manage`."
+      }
+    },
+    "/api/v1/clinic/staff/{id}/resend-invitation": {
+      "post": {
+        "operationId": "StaffController_resend",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success. No response body."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Staff"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "staff:manage"
+          ]
+        },
+        "summary": "resend — Clinic: Staff",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `staff:manage`."
       }
     },
     "/api/v1/admin/dashboard/summary": {
@@ -1162,6 +3100,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1282,6 +3230,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1467,6 +3425,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1578,6 +3546,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1697,6 +3675,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1824,6 +3812,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2009,6 +4007,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2120,6 +4128,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2239,6 +4257,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2366,6 +4394,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2551,6 +4589,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2662,6 +4710,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2781,6 +4839,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2908,6 +4976,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3093,6 +5171,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3204,6 +5292,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3323,6 +5421,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3450,6 +5558,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3635,6 +5753,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3746,6 +5874,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3865,6 +6003,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3992,6 +6140,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4185,6 +6343,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4296,6 +6464,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4415,6 +6593,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4542,6 +6730,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4739,6 +6937,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -4850,6 +7058,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4969,6 +7187,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5096,6 +7324,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5279,6 +7517,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5399,6 +7647,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5509,6 +7767,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -5610,6 +7878,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5804,6 +8082,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -5915,6 +8203,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6034,6 +8332,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6161,6 +8469,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6297,6 +8615,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6409,6 +8737,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6585,6 +8923,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6704,6 +9052,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6816,6 +9174,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6952,6 +9320,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7065,6 +9443,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7200,6 +9588,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7313,6 +9711,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7440,6 +9848,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7560,6 +9978,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7673,6 +10101,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7810,6 +10248,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7940,6 +10388,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8061,6 +10519,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8220,6 +10688,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "summary": "Upload a verification document",
@@ -8350,6 +10828,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8536,6 +11024,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8647,6 +11145,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8766,6 +11274,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8893,6 +11411,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9029,6 +11557,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9156,6 +11694,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9275,6 +11823,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9387,6 +11945,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9523,6 +12091,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9645,6 +12223,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9820,6 +12408,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9942,6 +12540,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -10072,6 +12680,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -10256,6 +12874,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10377,6 +13005,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -10522,6 +13160,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10542,6 +13190,1154 @@
           ]
         },
         "summary": "update — Clinic: Practitioners",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`."
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/documents": {
+      "get": {
+        "operationId": "AdminPractitionerDocumentsController_list",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "practitioner:review"
+          ]
+        },
+        "summary": "list — Admin: Practitioner documents",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`."
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/upload-init": {
+      "post": {
+        "operationId": "AdminPractitionerDocumentsController_init",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerDocumentUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "practitioner:review"
+          ]
+        },
+        "summary": "init — Admin: Practitioner documents",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`."
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/complete": {
+      "post": {
+        "operationId": "AdminPractitionerDocumentsController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerDocumentCompleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "practitioner:review"
+          ]
+        },
+        "summary": "complete — Admin: Practitioner documents",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`."
+      }
+    },
+    "/api/v1/admin/practitioners/{id}/credentials/{credentialId}/documents/{documentId}/url": {
+      "get": {
+        "operationId": "AdminPractitionerDocumentsController_link",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Admin: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "platform",
+          "permissions": [
+            "practitioner:review"
+          ]
+        },
+        "summary": "link — Admin: Practitioner documents",
+        "description": "Akses platform: semua permission berikut wajib dimiliki: `practitioner:review`."
+      }
+    },
+    "/api/v1/clinic/practitioners/{id}/documents": {
+      "get": {
+        "operationId": "ClinicPractitionerDocumentsController_list",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "affiliation:manage"
+          ]
+        },
+        "summary": "list — Clinic: Practitioner documents",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`."
+      }
+    },
+    "/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/upload-init": {
+      "post": {
+        "operationId": "ClinicPractitionerDocumentsController_init",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerDocumentUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "affiliation:manage"
+          ]
+        },
+        "summary": "init — Clinic: Practitioner documents",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`."
+      }
+    },
+    "/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/complete": {
+      "post": {
+        "operationId": "ClinicPractitionerDocumentsController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PractitionerDocumentCompleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "affiliation:manage"
+          ]
+        },
+        "summary": "complete — Clinic: Practitioner documents",
+        "description": "Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`."
+      }
+    },
+    "/api/v1/clinic/practitioners/{id}/credentials/{credentialId}/documents/{documentId}/url": {
+      "get": {
+        "operationId": "ClinicPractitionerDocumentsController_link",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Clinic: Practitioner documents"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "affiliation:manage"
+          ]
+        },
+        "summary": "link — Clinic: Practitioner documents",
         "description": "Akses facility: semua permission berikut wajib dimiliki: `affiliation:manage`."
       }
     },
@@ -10635,6 +14431,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -10831,6 +14637,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -10959,6 +14775,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11080,6 +14906,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11223,6 +15059,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11344,6 +15190,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11479,6 +15335,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -11600,6 +15466,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11814,6 +15690,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -11914,6 +15800,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -12040,6 +15936,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -12153,6 +16059,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -12281,6 +16197,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -12426,6 +16352,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -12548,6 +16484,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -12683,6 +16629,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -12804,6 +16760,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -12964,6 +16930,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -13116,6 +17092,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -13237,7 +17223,7 @@
             }
           },
           "503": {
-            "description": "BOOKINGS_DISABLED: BOOKINGS_API_KEY is not configured.",
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes. BOOKINGS_DISABLED: BOOKINGS_API_KEY is not configured.",
             "content": {
               "application/json": {
                 "schema": {
@@ -13462,6 +17448,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -13590,6 +17586,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -13615,6 +17621,7 @@
     },
     "/api/v1/clinic/orders/{id}/approve": {
       "post": {
+        "description": "When opt-in approval expiry is enabled, late pending orders are committed as EXPIRED and return 409 ORDER_APPROVAL_EXPIRED without reserving capacity. A concurrent expiry may return another state conflict; reload the order. Confirmed orders are never expired.\n\nAkses facility: semua permission berikut wajib dimiliki: `order:approve`.",
         "operationId": "ClinicOrdersController_approve",
         "parameters": [
           {
@@ -13718,6 +17725,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -13728,6 +17745,7 @@
             "bearer": []
           }
         ],
+        "summary": "Approve the whole order and reserve capacity",
         "tags": [
           "Clinic: Orders"
         ],
@@ -13736,9 +17754,7 @@
           "permissions": [
             "order:approve"
           ]
-        },
-        "summary": "approve — Clinic: Orders",
-        "description": "Akses facility: semua permission berikut wajib dimiliki: `order:approve`."
+        }
       }
     },
     "/api/v1/clinic/orders/{id}/reject": {
@@ -13856,6 +17872,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -13877,6 +17903,154 @@
         },
         "summary": "reject — Clinic: Orders",
         "description": "Akses facility: semua permission berikut wajib dimiliki: `order:approve`."
+      }
+    },
+    "/api/v1/clinic/orders/{id}/cancel": {
+      "post": {
+        "description": "Requires order:approve. Reason required (5–1000 characters). Atomically cancels before visit start, releases confirmed capacity, retires assignments and records history/audit/outbox. Does not change payment or issue a refund. Concurrent/repeated changes return 409.\n\nAkses facility: semua permission berikut wajib dimiliki: `order:approve`.",
+        "operationId": "ClinicOrdersController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cancel a pending or confirmed clinic order",
+        "tags": [
+          "Clinic: Orders"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "order:approve"
+          ]
+        }
       }
     },
     "/api/v1/clinic/orders/{id}/assignable-practitioners": {
@@ -13977,6 +18151,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -14122,6 +18306,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -14258,6 +18452,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -14279,6 +18483,449 @@
         },
         "summary": "unassign — Clinic: Orders",
         "description": "Akses facility: semua permission berikut wajib dimiliki: `order:assign`."
+      }
+    },
+    "/api/v1/clinic/orders/{id}/reschedule-slots": {
+      "get": {
+        "description": "Requires order:approve. Local clinic date, future slots within 60 days. Practitioner conflicts are checked when committing the move.\n\nAkses facility: semua permission berikut wajib dimiliki: `order:approve`.",
+        "operationId": "ClinicOrdersController_rescheduleSlots",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "description": "Local clinic date YYYY-MM-DD.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Find replacement slots using the order snapshot duration",
+        "tags": [
+          "Clinic: Orders"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "order:approve"
+          ]
+        }
+      }
+    },
+    "/api/v1/clinic/orders/{id}/reschedule": {
+      "post": {
+        "description": "Requires order:approve, current version and reason (5–1000 chars). Only unstarted, future CONFIRMED orders. Keeps clinic, mode, items, prices, payment and assignments; rechecks assigned practitioners/affiliations/conflicts. New reservation, old release, time/version, history, audit and outbox commit together. Full/blocked/past/over-horizon slots and stale versions return conflicts; no fee/refund.\n\nAkses facility: semua permission berikut wajib dimiliki: `order:approve`.",
+        "operationId": "ClinicOrdersController_reschedule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RescheduleOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Reschedule a future confirmed visit atomically",
+        "tags": [
+          "Clinic: Orders"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "order:approve"
+          ]
+        }
+      }
+    },
+    "/api/v1/clinic/orders/{id}/no-show": {
+      "post": {
+        "description": "Requires order:progress. Only CONFIRMED orders with all items still PENDING, after scheduledAt plus total item duration × quantity. Reason: 5–1000 characters. Atomically records NO_SHOW, NOT_PERFORMED items with history, retires assignments, audits and queues notification. Historical slot reservation, prices and payment remain unchanged; no penalty/refund or automatic no-show.\n\nAkses facility: semua permission berikut wajib dimiliki: `order:progress`.",
+        "operationId": "ClinicOrdersController_noShow",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Facility-Id",
+            "in": "header",
+            "description": "Select a facility from the caller’s active memberships. When omitted, the earliest active facility membership is selected.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoShowOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success. Returns the endpoint result directly; no data/success wrapper."
+          },
+          "400": {
+            "description": "Malformed request or invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permission, invalid facility scope, Origin, or signed document token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found or not visible in the current scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate record, conflicting state, capacity, or idempotency key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "DTO validation or domain validation failed. See details.fields when present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Retry after the rate-limit window.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Record a patient no-show manually",
+        "tags": [
+          "Clinic: Orders"
+        ],
+        "x-access": {
+          "kind": "facility",
+          "permissions": [
+            "order:progress"
+          ]
+        }
       }
     },
     "/api/v1/clinic/orders/{id}/start": {
@@ -14379,6 +19026,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -14532,6 +19189,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -14653,6 +19320,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -14883,6 +19560,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -14995,6 +19682,16 @@
           },
           "500": {
             "description": "Unexpected server error; report the requestId to the operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DATABASE_UNAVAILABLE: temporary database connection/pool failure. Retry-After: 2 seconds; check state before retrying writes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -15133,6 +19830,127 @@
         "required": [
           "token",
           "password"
+        ]
+      },
+      "InvitePlatformUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "roleCode": {
+            "type": "string",
+            "enum": [
+              "PLATFORM_SUPER_ADMIN",
+              "PLATFORM_OPERATOR"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "roleCode"
+        ]
+      },
+      "UpdatePlatformUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "roleCode": {
+            "type": "string",
+            "enum": [
+              "PLATFORM_SUPER_ADMIN",
+              "PLATFORM_OPERATOR"
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PlatformUserStatusDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "ENABLE",
+              "SUSPEND",
+              "DISABLE"
+            ],
+            "description": "ENABLE restores ACTIVE accounts, or INVITED plus a new invitation when no password has been set."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Audit reason for every status change."
+          }
+        },
+        "required": [
+          "action",
+          "reason"
+        ]
+      },
+      "InviteStaffDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "roleCode": {
+            "type": "string",
+            "enum": [
+              "CLINIC_OWNER_ADMIN",
+              "CLINIC_STAFF"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "roleCode"
+        ]
+      },
+      "UpdateStaffRoleDto": {
+        "type": "object",
+        "properties": {
+          "roleCode": {
+            "type": "string",
+            "enum": [
+              "CLINIC_OWNER_ADMIN",
+              "CLINIC_STAFF"
+            ]
+          }
+        },
+        "required": [
+          "roleCode"
+        ]
+      },
+      "StaffAccessDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "ENABLE",
+              "DISABLE"
+            ],
+            "description": "Changes only the membership in the caller's clinic, never the global account status."
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "reason"
         ]
       },
       "CreateTaxonomyDto": {
@@ -15810,6 +20628,43 @@
           "action"
         ]
       },
+      "PractitionerDocumentUploadDto": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "application/pdf",
+              "image/jpeg",
+              "image/png"
+            ]
+          },
+          "sizeBytes": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10485760
+          }
+        },
+        "required": [
+          "fileName",
+          "mimeType",
+          "sizeBytes"
+        ]
+      },
+      "PractitionerDocumentCompleteDto": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "documentId"
+        ]
+      },
       "OfferingModeDto": {
         "type": "object",
         "properties": {
@@ -16173,6 +21028,20 @@
           "reason"
         ]
       },
+      "CancelOrderDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 1000,
+            "description": "Operational cancellation reason; no clinical information."
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
       "AssignPractitionerDto": {
         "type": "object",
         "properties": {
@@ -16186,6 +21055,44 @@
         },
         "required": [
           "practitionerId"
+        ]
+      },
+      "RescheduleOrderDto": {
+        "type": "object",
+        "properties": {
+          "scheduledAt": {
+            "type": "string",
+            "description": "UTC start returned by this order’s reschedule-slots endpoint."
+          },
+          "version": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Current order version; stale requests are rejected."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "scheduledAt",
+          "version",
+          "reason"
+        ]
+      },
+      "NoShowOrderDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 1000,
+            "description": "Operational absence reason only; no clinical information."
+          }
+        },
+        "required": [
+          "reason"
         ]
       },
       "ItemStatusDto": {

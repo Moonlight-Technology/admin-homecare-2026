@@ -15,6 +15,8 @@ const STATUSES: Record<string, StatusMeta> = {
   // Operating status
   INACTIVE: { label: 'Nonaktif', tone: 'neutral', icon: PauseCircle },
   ACTIVE: { label: 'Aktif', tone: 'success', icon: CheckCircle2 },
+  INVITED: { label: 'Menunggu aktivasi', tone: 'warning', icon: Clock },
+  DISABLED: { label: 'Dinonaktifkan', tone: 'neutral', icon: Ban },
   SUSPENDED: { label: 'Disuspend', tone: 'danger', icon: Ban },
   // Practitioner affiliations (REJECTED and ACTIVE above)
   PROPOSED: { label: 'Diusulkan', tone: 'warning', icon: Clock },
@@ -28,6 +30,9 @@ const STATUSES: Record<string, StatusMeta> = {
   CONFIRMED: { label: 'Dikonfirmasi', tone: 'success', icon: CheckCircle2 },
   IN_PROGRESS: { label: 'Dalam proses', tone: 'info', icon: Loader },
   COMPLETED: { label: 'Selesai', tone: 'primary', icon: CheckCircle2 },
+  CANCELLED: { label: 'Dibatalkan', tone: 'neutral', icon: Ban },
+  EXPIRED: { label: 'Kedaluwarsa', tone: 'neutral', icon: Clock },
+  NO_SHOW: { label: 'Tidak hadir', tone: 'warning', icon: XCircle },
   // Order items / assignment
   PENDING: { label: 'Menunggu', tone: 'neutral', icon: Circle },
   NOT_PERFORMED: { label: 'Tidak dilakukan', tone: 'danger', icon: XCircle },

@@ -17,6 +17,7 @@ import { ReasonDialog } from '@/components/ui/reason-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { stripFieldPrefix } from '@/features/facilities/api';
 import { PractitionerFields } from '@/features/practitioners/practitioner-fields';
+import { PractitionerDocumentsPanel } from '@/features/practitioners/documents-panel';
 import { emptyPractitioner, practitionerPayload, primaryCredential, type Affiliation, type Paged, type PractitionerValues } from '@/features/practitioners/types';
 import { useAuth } from '@/lib/auth/auth-provider';
 import { canFacility } from '@/lib/auth/types';
@@ -117,6 +118,8 @@ export default function ClinicPractitionersPage() {
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [proposing, setProposing] = useState(false);
+  const [documentsFor, setDocumentsFor] = useState<Affiliation | null>(null);
+  const [uploadingDocument, setUploadingDocument] = useState(false);
   const [withdrawing, setWithdrawing] = useState<Affiliation | null>(null);
   const [ending, setEnding] = useState<Affiliation | null>(null);
   const affiliations = useQuery({
@@ -155,6 +158,7 @@ export default function ClinicPractitionersPage() {
                 </div>
                 {canManage && (item.status === 'PROPOSED' || item.status === 'ACTIVE') && (
                   <div className="flex shrink-0 gap-2">
+                    {item.practitioner.canManageDocuments && <Button variant="secondary" size="sm" onClick={() => setDocumentsFor(item)}>Scan STR / SIP</Button>}
                     {item.status === 'PROPOSED' ? <Button variant="secondary" size="sm" onClick={() => setWithdrawing(item)}><Undo2 />Batalkan usulan</Button> : <Button variant="secondary" size="sm" onClick={() => setEnding(item)}><UserX />Akhiri afiliasi</Button>}
                   </div>
                 )}
@@ -165,6 +169,7 @@ export default function ClinicPractitionersPage() {
         <Pagination page={page} limit={LIMIT} total={affiliations.data?.total ?? 0} onPageChange={setPage} />
       </Card>
       <ProposeDialog open={proposing} onOpenChange={setProposing} />
+      {documentsFor && <Dialog open onOpenChange={(open) => { if (!open && !uploadingDocument) setDocumentsFor(null); }} title={`Dokumen ${documentsFor.practitioner.fullName}`} description="Kelola scan nakes yang didaftarkan oleh klinik ini." className="sm:w-[min(92vw,680px)]"><PractitionerDocumentsPanel practitionerId={documentsFor.practitioner.id} area="clinic" onBusyChange={setUploadingDocument} /></Dialog>}
       <ConfirmDialog open={withdrawing !== null} onOpenChange={(open) => !open && setWithdrawing(null)} title="Batalkan usulan?" description={withdrawing ? `Usulan afiliasi ${withdrawing.practitioner.fullName} akan dibatalkan.` : undefined} confirmLabel="Batalkan usulan" destructive loading={update.isPending} onConfirm={() => withdrawing && update.mutate({ id: withdrawing.id, action: 'WITHDRAW' })}>{update.error && <Alert>{update.error.message}</Alert>}</ConfirmDialog>
       <ReasonDialog open={ending !== null} onOpenChange={(open) => !open && setEnding(null)} title="Akhiri afiliasi?" description="Nakes tidak dapat lagi ditugaskan pada order klinik Anda." label="Alasan" confirmLabel="Akhiri afiliasi" destructive loading={update.isPending} error={update.error?.message} onConfirm={(reason) => ending && update.mutate({ id: ending.id, action: 'END', reason })} />
     </>

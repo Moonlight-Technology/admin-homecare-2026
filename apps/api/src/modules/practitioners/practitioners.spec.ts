@@ -74,6 +74,7 @@ function prismaDouble(state: State = {}) {
     facility: { findUnique: jest.fn(async () => (state.facility === undefined ? { id: 'f1', displayName: 'Klinik Sehat', verificationStatus: 'VERIFIED' } : state.facility)) },
     membership: { findFirst: jest.fn(async () => ({ user: { email: 'owner@klinik.test' } })) },
     verificationReview: { create: log('verificationReview.create'), findMany: jest.fn(async () => []) },
+    document: { updateMany: log('document.updateMany') },
     user: { findMany: jest.fn(async () => []) },
   };
   prisma.$transaction = jest.fn(async (run: (tx: unknown) => unknown) => run(prisma));
@@ -160,6 +161,13 @@ describe('practitioner verification', () => {
   it('lets only one reviewer decide', async () => {
     const { practitioners } = services({ movedCount: 0 });
     await expect(practitioners.decide('pr1', { decision: 'REJECT', reason: 'STR tidak terdaftar di KKI' }, source)).rejects.toMatchObject({ code: 'PRACTITIONER_ALREADY_DECIDED' });
+  });
+
+  it('snapshots the attached document IDs after taking the review lock and accepts only this practitioner documents', async () => {
+    const { practitioners, written } = services({ existingCredentials: [{ documentId: 'scan-str' }, { documentId: 'scan-sip' }, { documentId: 'scan-str' }, { documentId: null }] });
+    await practitioners.decide('pr1', { decision: 'APPROVE' }, source);
+    expect(written('verificationReview.create')[0]).toMatchObject({ data: { documentIds: ['scan-str', 'scan-sip'] } });
+    expect(written('document.updateMany')[0]).toEqual({ where: { id: { in: ['scan-str', 'scan-sip'] }, ownerType: 'PRACTITIONER', ownerId: 'pr1', status: 'UPLOADED' }, data: { status: 'ACCEPTED' } });
   });
 
   it('only activates verified practitioners and needs a reason to suspend', async () => {

@@ -102,6 +102,26 @@ describe('schedules and blocks', () => {
 });
 
 describe('public slots', () => {
+  it('replacement slots use a supplied snapshot duration without querying current offerings', async () => {
+    const { availability } = service();
+    const result = await availability.slotsForVisit('f1', 'HOMECARE', '2026-12-01', 150, new Date('2026-11-30T03:00:00Z'));
+    expect(result.slots.map((slot) => slot.startsAt.toISOString())).toEqual(['2026-12-01T01:00:00.000Z', '2026-12-01T02:00:00.000Z']);
+    expect(result.slots[0]!.endsAt.toISOString()).toBe('2026-12-01T03:30:00.000Z');
+    await expect(availability.slotsForVisit('f1', 'HOMECARE', '2027-03-01', 60, new Date('2026-11-30'))).rejects.toMatchObject({ code: 'DATE_OUT_OF_RANGE' });
+  });
+
+  it('releases one place only from the owning clinic with positive capacity', async () => {
+    const { availability } = service();
+    const updateMany = jest.fn(async () => ({ count: 1 }));
+    await availability.release({ facilitySlot: { updateMany } } as never, 's1', 'f1');
+    expect(updateMany).toHaveBeenCalledWith({ where: { id: 's1', facilityId: 'f1', reserved: { gt: 0 } }, data: { reserved: { decrement: 1 }, version: { increment: 1 } } });
+  });
+
+  it('fails cancellation transaction instead of silently releasing missing/empty/foreign slots', async () => {
+    const { availability } = service();
+    await expect(availability.release({ facilitySlot: { updateMany: jest.fn(async () => ({ count: 0 })) } } as never, 's1', 'f2')).rejects.toMatchObject({ code: 'SLOT_RESERVATION_MISSING' });
+  });
+
   const now = new Date('2026-11-30T03:00:00Z');
 
   it('is only available for public clinics within the booking horizon', async () => {

@@ -130,6 +130,15 @@ export class AvailabilityService {
     };
   }
 
+  /** Order snapshots, not today's offering durations/prices, determine the replacement visit length. */
+  async slotsForVisit(facilityId: string, mode: Mode, date: string, durationMinutes: number, now = new Date()) {
+    const timezone = await this.timezone(facilityId);
+    const today = localDate(now, timezone);
+    if (date < today || date > addDays(today, PUBLIC_HORIZON_DAYS)) throw AppError.unprocessable('DATE_OUT_OF_RANGE', 'Choose a local date within the 60-day booking horizon.');
+    const { slots, blocks } = await this.slotsFor(facilityId, mode, date, 1);
+    return { date, mode, timezone, durationMinutes, slots: slots.filter((slot) => fitsVisit(slot, durationMinutes, blocks, now)).map((slot) => ({ startsAt: slot.startsAt, endsAt: new Date(slot.startsAt.getTime() + durationMinutes * 60_000), remaining: slot.remaining })) };
+  }
+
   /** Whether a new booking may start at `startsAt`: same rules as the public slot list, for the whole visit length. */
   async isBookable(facilityId: string, mode: Mode, startsAt: Date, durationMinutes: number, now = new Date()) {
     const timezone = await this.timezone(facilityId);
@@ -146,13 +155,14 @@ export class AvailabilityService {
    * must exist in the schedule, not be blocked, and still have capacity; the increment is conditional, so two
    * approvals racing for the last place cannot both succeed.
    */
-  async reserve(tx: Db, input: { facilityId: string; mode: Mode; startsAt: Date; durationMinutes: number }) {
+  async reserve(tx: Db, input: { facilityId: string; mode: Mode; startsAt: Date; durationMinutes: number }, now?: Date) {
     const timezone = await this.timezone(input.facilityId, tx);
     const date = localDate(input.startsAt, timezone);
+    if (now && (date < localDate(now, timezone) || date > addDays(localDate(now, timezone), PUBLIC_HORIZON_DAYS))) throw AppError.conflict('SLOT_UNAVAILABLE', 'Choose a future slot within the booking horizon.');
     const { slots, blocks } = await this.slotsFor(input.facilityId, input.mode, date, 1, tx);
     const slot = slots.find((candidate) => candidate.startsAt.getTime() === input.startsAt.getTime());
     if (!slot) throw AppError.conflict('SLOT_UNAVAILABLE', 'The visit time is no longer in the clinic schedule.');
-    if (!fitsVisit({ ...slot, remaining: Math.max(slot.remaining, 1) }, input.durationMinutes, blocks, new Date(0))) throw AppError.conflict('SLOT_UNAVAILABLE', 'The visit time is blocked or does not fit the clinic schedule.');
+    if (!fitsVisit({ ...slot, remaining: Math.max(slot.remaining, 1) }, input.durationMinutes, blocks, now ?? new Date(0))) throw AppError.conflict('SLOT_UNAVAILABLE', 'The visit time is blocked, past, or does not fit the clinic schedule.');
 
     // skipDuplicates (INSERT … ON CONFLICT DO NOTHING) instead of upsert: a concurrent first reservation must not raise
     // a unique violation, which would abort the caller's whole transaction in PostgreSQL. Typed queries rather than raw
@@ -166,8 +176,9 @@ export class AvailabilityService {
   }
 
   /** Gives one reserved place back (e.g. a confirmed order later cancelled through an approved process). */
-  async release(tx: Db, slotId: string) {
-    await tx.facilitySlot.updateMany({ where: { id: slotId, reserved: { gt: 0 } }, data: { reserved: { decrement: 1 }, version: { increment: 1 } } });
+  async release(tx: Db, slotId: string, facilityId: string) {
+    const released = await tx.facilitySlot.updateMany({ where: { id: slotId, facilityId, reserved: { gt: 0 } }, data: { reserved: { decrement: 1 }, version: { increment: 1 } } });
+    if (!released.count) throw AppError.conflict('SLOT_RESERVATION_MISSING', 'The slot reservation could not be released. Reload or contact an administrator.');
   }
 
   // ─── Helpers ───────────────────────────────────────────────────────────────

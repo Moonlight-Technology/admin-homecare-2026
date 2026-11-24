@@ -3,12 +3,12 @@ import { AppError } from '../../common/errors/app-error';
 import type { Db } from '../../prisma/prisma.service';
 
 /**
- * The one place order and item transitions are decided (spec §6). CANCELLED, EXPIRED and NO_SHOW are reserved for
- * policies that are still open and have no transitions yet.
+ * The one place order and item transitions are decided (spec §6). Clinic cancellation is pre-visit only;
+ * EXPIRED is opt-in for pending approval only; manual NO_SHOW is guarded by the elapsed visit window.
  */
 export const ORDER_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
-  PENDING_APPROVAL: ['CONFIRMED', 'REJECTED'],
-  CONFIRMED: ['IN_PROGRESS'],
+  PENDING_APPROVAL: ['CONFIRMED', 'REJECTED', 'CANCELLED', 'EXPIRED'],
+  CONFIRMED: ['IN_PROGRESS', 'CANCELLED', 'NO_SHOW'],
   IN_PROGRESS: ['COMPLETED'],
   REJECTED: [],
   COMPLETED: [],

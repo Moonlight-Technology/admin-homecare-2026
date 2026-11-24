@@ -18,6 +18,7 @@ import { useMasterOptions } from '@/features/facilities/api';
 import type { Review } from '@/features/facilities/types';
 import { CredentialFields } from '@/features/practitioners/practitioner-fields';
 import { ReviewList } from '@/features/practitioners/review-list';
+import { PractitionerDocumentsPanel } from '@/features/practitioners/documents-panel';
 import { credentialPayload, emptyCredential, type Credential, type CredentialValues, type PractitionerDetail } from '@/features/practitioners/types';
 import { useAuth } from '@/lib/auth/auth-provider';
 import { canPlatform } from '@/lib/auth/types';
@@ -99,7 +100,7 @@ export default function PractitionerDetailPage() {
   const [editing, setEditing] = useState(false);
   const [addingCredential, setAddingCredential] = useState(false);
   const detail = useQuery({ queryKey: ['practitioner', id], queryFn: () => api<PractitionerDetail>(`/admin/practitioners/${id}`) });
-  const refresh = (data: PractitionerDetail) => { queryClient.setQueryData(['practitioner', id], data); void queryClient.invalidateQueries({ queryKey: ['practitioners'] }); };
+  const refresh = (data: PractitionerDetail) => { queryClient.setQueryData(['practitioner', id], data); void queryClient.invalidateQueries({ queryKey: ['practitioners'] }); void queryClient.invalidateQueries({ queryKey: ['practitioner-documents'] }); };
   const closeDialogs = () => { setApproveOpen(false); setReasonAction(null); setActivateOpen(false); };
   const post = (path: string, body?: unknown) => api<PractitionerDetail>(`/admin/practitioners/${id}${path}`, { method: 'POST', body });
   const start = useMutation({ mutationFn: () => post('/start-review'), onSuccess: refresh });
@@ -148,6 +149,7 @@ export default function PractitionerDetailPage() {
             <CardHeader title="Afiliasi klinik" />
             <CardBody className="pt-0">{data.affiliations.length ? <ul className="divide-y divide-line">{data.affiliations.map((affiliation) => <li key={affiliation.id} className="flex flex-wrap items-center justify-between gap-3 py-4"><div><p className="font-semibold text-ink">{affiliation.facility.displayName}</p><p className="text-xs text-muted">{affiliation.startDate ? `Mulai ${formatDate(affiliation.startDate)}` : `Diusulkan ${formatDateTime(affiliation.createdAt)}`}{affiliation.endDate && ` · berakhir ${formatDate(affiliation.endDate)}`}{affiliation.note && ` · ${affiliation.note}`}</p>{affiliation.reason && <p className="text-xs text-muted">Alasan: {affiliation.reason}</p>}</div><StatusBadge status={affiliation.status} /></li>)}</ul> : <EmptyState title="Belum ada afiliasi" description="Usulan dari klinik akan muncul di sini." />}</CardBody>
           </Card>
+          <PractitionerDocumentsPanel practitionerId={data.id} area="admin" />
         </div>
         <Card><CardHeader title="Riwayat verifikasi" /><CardBody><ReviewList reviews={data.history} /></CardBody></Card>
       </div>

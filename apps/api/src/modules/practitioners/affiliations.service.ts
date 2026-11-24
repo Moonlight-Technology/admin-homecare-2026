@@ -90,11 +90,12 @@ export class AffiliationsService {
       ...(query.search ? { practitioner: { fullName: { contains: query.search, mode: 'insensitive' } } } : {}),
     };
     const [items, total, counts] = await Promise.all([
-      this.prisma.practitionerAffiliation.findMany({ where, orderBy: { createdAt: query.sortOrder }, ...skipTake(query), select: affiliationSelect }),
+      this.prisma.practitionerAffiliation.findMany({ where, orderBy: { createdAt: query.sortOrder }, ...skipTake(query), select: { ...affiliationSelect, practitioner: { select: { ...affiliationSelect.practitioner.select, createdByFacilityId: true } } } }),
       this.prisma.practitionerAffiliation.count({ where }),
       this.prisma.practitionerAffiliation.groupBy({ by: ['status'], where: { facilityId }, _count: { _all: true } }),
     ]);
-    return { ...paginate(items, total, query), counts: Object.fromEntries(counts.map((row) => [row.status, row._count._all])) };
+    const presented = items.map(({ practitioner: { createdByFacilityId, ...practitioner }, ...item }) => ({ ...item, practitioner: { ...practitioner, canManageDocuments: createdByFacilityId === facilityId } }));
+    return { ...paginate(presented, total, query), counts: Object.fromEntries(counts.map((row) => [row.status, row._count._all])) };
   }
 
   /** WITHDRAW a proposal that is still waiting, or END an active affiliation (reason required). */

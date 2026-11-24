@@ -72,7 +72,7 @@ export type Affiliation = {
   createdAt: string;
   updatedAt: string;
   facility: { id: string; displayName: string; verificationStatus: string; operatingStatus: string };
-  practitioner: { id: string; fullName: string; verificationStatus: string; operatingStatus: string; practitionerType: { id: string; name: string }; credentials: CredentialSummary[] };
+  practitioner: { id: string; fullName: string; verificationStatus: string; operatingStatus: string; practitionerType: { id: string; name: string }; credentials: CredentialSummary[]; canManageDocuments?: boolean };
 };
 
 export type Paged<T> = { items: T[]; page: number; limit: number; total: number; counts: Record<string, number> };

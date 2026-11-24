@@ -3,6 +3,7 @@ import { ThrottlerException } from '@nestjs/throttler';
 import { Prisma } from '@prisma/client';
 import type { Request, Response } from 'express';
 import { AppError } from './app-error';
+import { transientDatabaseCode } from '../../prisma/transient-database-error';
 
 export type ErrorEnvelope = { code: string; message: string; details?: unknown; requestId?: string };
 
@@ -20,6 +21,9 @@ const STATUS_CODES: Partial<Record<number, string>> = {
 
 /** Maps any thrown error to the standard envelope; internal details are logged, never returned. */
 export function toEnvelope(error: unknown): { status: number; body: Omit<ErrorEnvelope, 'requestId'> } {
+  if (transientDatabaseCode(error)) {
+    return { status: HttpStatus.SERVICE_UNAVAILABLE, body: { code: 'DATABASE_UNAVAILABLE', message: 'Database temporarily unavailable. Check the current state before retrying.' } };
+  }
   if (error instanceof AppError) {
     return { status: error.status, body: { code: error.code, message: error.message, details: error.details } };
   }
@@ -52,7 +56,8 @@ export class ErrorEnvelopeFilter implements ExceptionFilter {
     const request = http.getRequest<Request & { requestId?: string }>();
     const response = http.getResponse<Response>();
     const { status, body } = toEnvelope(error);
-    if (status >= 500) this.logger.error({ requestId: request.requestId, path: request.path }, error instanceof Error ? error.stack : String(error));
+    if (status >= 500) this.logger.error({ requestId: request.requestId, path: request.path, databaseCode: transientDatabaseCode(error) }, error instanceof Error ? error.stack : String(error));
+    if (body.code === 'DATABASE_UNAVAILABLE') response.setHeader('Retry-After', '2');
     response.status(status).json({ ...body, requestId: request.requestId } satisfies ErrorEnvelope);
   }
 }

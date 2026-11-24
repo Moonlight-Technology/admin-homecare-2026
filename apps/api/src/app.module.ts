@@ -18,6 +18,7 @@ import { HealthController } from './modules/health/health.controller';
 import { OrdersModule } from './modules/orders/orders.module';
 import { PractitionersModule } from './modules/practitioners/practitioners.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './modules/users-access/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PrismaModule } from './prisma/prisma.module';
     PrismaModule,
     AuditModule,
     AuthModule,
+    UsersModule,
     DashboardModule,
     MasterDataModule,
     FacilitiesModule,

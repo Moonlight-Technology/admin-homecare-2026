@@ -27,6 +27,7 @@ export type OrderItem = { id: string; offeringId: string; nameSnapshot: string; 
 export type Assignment = { id: string; orderItemId: string | null; assignedAt: string; assignedBy: { id: string; name: string }; practitioner: { id: string; fullName: string; practitionerType: { name: string } } };
 
 export type OrderDetail = {
+  version: number;
   id: string;
   code: string;
   status: string;

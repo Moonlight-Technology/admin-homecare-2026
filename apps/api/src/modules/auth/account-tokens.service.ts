@@ -48,9 +48,10 @@ export class AccountTokensService {
     if (!stored || stored.purpose !== 'INVITATION' || stored.usedAt || stored.expiresAt <= new Date() || stored.user.status !== 'INVITED') throw invalid();
     const passwordHash = await this.passwords.hash(password);
     await this.prisma.$transaction(async (tx) => {
-      const consumed = await tx.passwordResetToken.updateMany({ where: { id: stored.id, usedAt: null }, data: { usedAt: new Date() } });
+      const consumed = await tx.passwordResetToken.updateMany({ where: { id: stored.id, usedAt: null, expiresAt: { gt: new Date() } }, data: { usedAt: new Date() } });
       if (consumed.count === 0) throw invalid();
-      await tx.user.update({ where: { id: stored.userId }, data: { passwordHash, status: 'ACTIVE' } });
+      const activated = await tx.user.updateMany({ where: { id: stored.userId, status: 'INVITED' }, data: { passwordHash, status: 'ACTIVE' } });
+      if (activated.count === 0) throw invalid();
       await this.audit.record({ ...source, actorId: stored.userId }, { event: 'AUTH_INVITATION_ACCEPTED', entityType: 'User', entityId: stored.userId }, tx);
     });
   }

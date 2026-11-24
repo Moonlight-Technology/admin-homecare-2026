@@ -12,7 +12,7 @@ export function VisitCard({ order }: { order: OrderDetail }) {
       <CardHeader title="Kunjungan" />
       <CardBody>
         <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-          <div><dt className="text-xs text-muted">Jadwal</dt><dd className="font-medium text-ink">{formatDateTime(order.scheduledAt)} · {order.durationMinutes} menit</dd></div>
+          <div><dt className="text-xs text-muted">Jadwal</dt><dd className="font-medium text-ink">{formatDateTime(order.scheduledAt, order.timezone)} · {order.durationMinutes} menit ({order.timezone})</dd></div>
           <div><dt className="text-xs text-muted">Mode</dt><dd className="font-medium text-ink">{MODE_LABELS[order.mode] ?? order.mode}</dd></div>
           <div><dt className="text-xs text-muted">Pasien</dt><dd className="font-medium text-ink">{patient.name}{patient.sex && ` · ${SEX_LABELS[patient.sex] ?? patient.sex}`}{patient.birthYear && ` · lahir ${patient.birthYear}`}</dd></div>
           <div><dt className="text-xs text-muted">Telepon</dt><dd className="font-medium text-ink">{patient.phone ?? '—'}</dd></div>
@@ -38,20 +38,21 @@ export function Totals({ order }: { order: OrderDetail }) {
   );
 }
 
-const STEP_ICON: Record<string, typeof Circle> = { CONFIRMED: CheckCircle2, COMPLETED: CheckCircle2, IN_PROGRESS: Clock, REJECTED: XCircle };
+const STEP_ICON: Record<string, typeof Circle> = { CONFIRMED: CheckCircle2, COMPLETED: CheckCircle2, IN_PROGRESS: Clock, REJECTED: XCircle, CANCELLED: XCircle, EXPIRED: Clock, NO_SHOW: XCircle };
 
 /** Append-only status history with actor and time (spec §5.5). */
 export function HistoryTimeline({ order }: { order: OrderDetail }) {
   return (
     <ol className="space-y-3">
       {order.history.map((entry) => {
-        const Icon = STEP_ICON[entry.newStatus] ?? Circle;
+        const rescheduled = entry.previousStatus === 'CONFIRMED' && entry.newStatus === 'CONFIRMED';
+        const Icon = rescheduled ? Clock : STEP_ICON[entry.newStatus] ?? Circle;
         return (
           <li key={entry.id} className="flex gap-3">
             <Icon className="mt-0.5 size-4 shrink-0 text-primary-500" aria-hidden />
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2"><StatusBadge status={entry.newStatus} /><span className="text-xs text-muted">{formatDateTime(entry.createdAt)}</span></div>
-              <p className="mt-0.5 text-xs text-muted">{entry.actor ? `oleh ${entry.actor.name}` : 'oleh sistem pemesanan'}</p>
+              <div className="flex flex-wrap items-center gap-2">{rescheduled ? <span className="text-xs font-semibold text-ink">Jadwal diubah</span> : <StatusBadge status={entry.newStatus} />}<span className="text-xs text-muted">{formatDateTime(entry.createdAt)}</span></div>
+              <p className="mt-0.5 text-xs text-muted">{entry.actor ? `oleh ${entry.actor.name}` : 'oleh sistem'}</p>
               {entry.reason && <p className="mt-1 text-sm text-ink">{entry.reason}</p>}
             </div>
           </li>

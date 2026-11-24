@@ -21,7 +21,7 @@ export default function AdminOrderDetailPage() {
   const order = detail.data;
   return (
     <>
-      <PageHeader title={order.code} breadcrumbs={breadcrumbs} description={`${order.facility?.displayName ?? 'Klinik'} · ${formatDateTime(order.scheduledAt)}`} actions={<><StatusBadge status={order.status} /><StatusBadge status={order.assignmentStatus} /></>} />
+      <PageHeader title={order.code} breadcrumbs={breadcrumbs} description={`${order.facility?.displayName ?? 'Klinik'} · ${formatDateTime(order.scheduledAt, order.timezone)} (${order.timezone})`} actions={<><StatusBadge status={order.status} /><StatusBadge status={order.assignmentStatus} /></>} />
       <Alert tone="info" className="mb-5">Tampilan baca saja. Identitas pasien disamarkan dan alamat kunjungan disembunyikan.</Alert>
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
         <div className="space-y-5">

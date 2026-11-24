@@ -15,6 +15,7 @@ import { Select } from '@/components/ui/fields';
 import { FormField } from '@/components/ui/input';
 import { ReasonDialog } from '@/components/ui/reason-dialog';
 import { HistoryTimeline, Totals, VisitCard } from '@/features/orders/order-summary';
+import { RescheduleDialog } from '@/features/orders/reschedule-dialog';
 import type { AssignablePractitioner, OrderDetail, OrderItem } from '@/features/orders/types';
 import { useAuth } from '@/lib/auth/auth-provider';
 import { canFacility } from '@/lib/auth/types';
@@ -85,12 +86,13 @@ export default function ClinicOrderDetailPage() {
   const canApprove = canFacility(me, 'order:approve');
   const canAssign = canFacility(me, 'order:assign');
   const canProgress = canFacility(me, 'order:progress');
-  const [dialog, setDialog] = useState<'approve' | 'reject' | 'assign' | 'start' | 'complete' | null>(null);
+  const [dialog, setDialog] = useState<'approve' | 'reject' | 'cancel' | 'no-show' | 'reschedule' | 'assign' | 'start' | 'complete' | null>(null);
   const detail = useQuery({ queryKey: ['clinic', 'order', id], queryFn: () => api<OrderDetail>(`/clinic/orders/${id}`) });
   const refresh = (data: OrderDetail) => { queryClient.setQueryData(['clinic', 'order', id], data); void queryClient.invalidateQueries({ queryKey: ['/clinic/orders'] }); };
   const action = useMutation({
-    mutationFn: ({ name, body }: { name: 'approve' | 'reject' | 'start' | 'complete'; body?: unknown }) => api<OrderDetail>(`/clinic/orders/${id}/${name}`, { method: 'POST', body }),
+    mutationFn: ({ name, body }: { name: 'approve' | 'reject' | 'cancel' | 'no-show' | 'start' | 'complete'; body?: unknown }) => api<OrderDetail>(`/clinic/orders/${id}/${name}`, { method: 'POST', body }),
     onSuccess: (data) => { refresh(data); setDialog(null); },
+    onError: () => { if (dialog === 'approve') setDialog(null); void queryClient.invalidateQueries({ queryKey: ['clinic', 'order', id] }); void queryClient.invalidateQueries({ queryKey: ['/clinic/orders'] }); },
   });
   const unassign = useMutation({ mutationFn: (assignmentId: string) => api<OrderDetail>(`/clinic/orders/${id}/assignments/${assignmentId}`, { method: 'DELETE' }), onSuccess: refresh });
 
@@ -106,19 +108,25 @@ export default function ClinicOrderDetailPage() {
       <PageHeader
         title={order.code}
         breadcrumbs={breadcrumbs}
-        description={`${formatDateTime(order.scheduledAt)} · ${order.patient.name}`}
+        description={`${formatDateTime(order.scheduledAt, order.timezone)} (${order.timezone}) · ${order.patient.name}`}
         actions={<>
           <StatusBadge status={order.status} />
           {assignable && <StatusBadge status={order.assignmentStatus} />}
+          {canApprove && ['PENDING_APPROVAL', 'CONFIRMED'].includes(order.status) && <Button variant="destructive" disabled={action.isPending || unassign.isPending} onClick={() => { action.reset(); setDialog('cancel'); }}><X />Batalkan order</Button>}
+          {canApprove && order.status === 'CONFIRMED' && order.items.every((item) => item.status === 'PENDING') && <Button variant="secondary" disabled={action.isPending || unassign.isPending} onClick={() => setDialog('reschedule')}>Ubah jadwal</Button>}
           {canApprove && order.status === 'PENDING_APPROVAL' && <><Button variant="destructive" onClick={() => setDialog('reject')}><X />Tolak</Button><Button onClick={() => setDialog('approve')}><Check />Setujui</Button></>}
           {canAssign && assignable && <Button variant="secondary" onClick={() => setDialog('assign')}><UserPlus />Tugaskan nakes</Button>}
           {canProgress && order.status === 'CONFIRMED' && <Button disabled={order.assignmentStatus !== 'ASSIGNED'} title={order.assignmentStatus !== 'ASSIGNED' ? 'Tugaskan nakes ke semua layanan terlebih dahulu' : undefined} onClick={() => setDialog('start')}><Play />Mulai kunjungan</Button>}
+          {canProgress && order.status === 'CONFIRMED' && order.items.every((item) => item.status === 'PENDING') && <Button variant="destructive" disabled={action.isPending || unassign.isPending} onClick={() => { action.reset(); setDialog('no-show'); }}><X />Tandai tidak hadir</Button>}
           {canProgress && order.status === 'IN_PROGRESS' && <Button disabled={!allTerminal} title={!allTerminal ? 'Selesaikan atau tandai semua layanan terlebih dahulu' : undefined} onClick={() => setDialog('complete')}><CheckCheck />Selesaikan order</Button>}
         </>}
       />
       {action.error && !dialog && <Alert className="mb-5">{action.error.message}</Alert>}
       {unassign.error && <Alert className="mb-5">{unassign.error.message}</Alert>}
       {order.status === 'PENDING_APPROVAL' && <Alert tone="info" className="mb-5">Order disetujui atau ditolak secara utuh. Item dan harga tidak dapat diubah saat persetujuan.</Alert>}
+      {order.status === 'CANCELLED' && <Alert tone="warning" className="mb-5">Order dibatalkan. Kapasitas yang dipesan dan penugasan nakes sudah dilepas. Pembatalan tidak memproses pembayaran atau refund.</Alert>}
+      {order.status === 'EXPIRED' && <Alert tone="warning" className="mb-5">Batas waktu persetujuan telah berakhir. Order tidak bisa disetujui atau dibuka kembali. Pembayaran dan refund tidak diproses otomatis.</Alert>}
+      {order.status === 'NO_SHOW' && <Alert tone="warning" className="mb-5">Pasien ditandai tidak hadir. Layanan tidak dilakukan dan penugasan ditutup. Slot lampau tetap tercatat; pembayaran, denda, dan refund tidak diubah.</Alert>}
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
         <div className="space-y-5">
           <VisitCard order={order} />
@@ -146,18 +154,21 @@ export default function ClinicOrderDetailPage() {
         <Card><CardHeader title="Riwayat status" /><CardBody><HistoryTimeline order={order} /></CardBody></Card>
       </div>
       <AssignDialog order={order} open={dialog === 'assign'} onOpenChange={(open) => setDialog(open ? 'assign' : null)} onAssigned={refresh} />
+      <ReasonDialog open={dialog === 'no-show'} onOpenChange={(open) => !open && setDialog(null)} title="Tandai pasien tidak hadir?" description="Hanya setelah jadwal ditambah seluruh durasi layanan berakhir dan kunjungan belum dimulai. Semua layanan ditandai tidak dilakukan, penugasan ditutup, dan slot lampau tetap tercatat. Tidak mengubah pembayaran, denda, atau refund." label="Alasan tidak hadir" hint="Alasan operasional 5–1000 karakter; jangan isi data klinis pasien." maxLength={1000} confirmLabel="Tandai tidak hadir" destructive loading={action.isPending} error={action.error?.message} onConfirm={(reason) => action.mutate({ name: 'no-show', body: { reason } })} />
+      <RescheduleDialog order={order} open={dialog === 'reschedule'} onOpenChange={(open) => setDialog(open ? 'reschedule' : null)} onChanged={refresh} />
       <ConfirmDialog
         open={dialog === 'approve' || dialog === 'start' || dialog === 'complete'}
-        onOpenChange={(open) => !open && setDialog(null)}
+        onOpenChange={(open) => !action.isPending && !open && setDialog(null)}
         title={dialog === 'approve' ? 'Setujui order?' : dialog === 'start' ? 'Mulai kunjungan?' : 'Selesaikan order?'}
         description={dialog === 'approve' ? 'Order dikonfirmasi dan kapasitas slot dipakai. Bila slot sudah penuh, persetujuan ditolak.' : dialog === 'start' ? 'Status berubah menjadi dalam proses.' : 'Order ditutup sebagai selesai.'}
         confirmLabel={dialog === 'approve' ? 'Setujui order' : dialog === 'start' ? 'Mulai kunjungan' : 'Selesaikan'}
         loading={action.isPending}
-        onConfirm={() => dialog && dialog !== 'reject' && dialog !== 'assign' && action.mutate({ name: dialog })}
+        onConfirm={() => dialog && dialog !== 'reject' && dialog !== 'cancel' && dialog !== 'no-show' && dialog !== 'reschedule' && dialog !== 'assign' && action.mutate({ name: dialog })}
       >
         {action.error && <Alert>{action.error.message}</Alert>}
       </ConfirmDialog>
       <ReasonDialog open={dialog === 'reject'} onOpenChange={(open) => !open && setDialog(null)} title="Tolak order?" description="Alasan disimpan di riwayat dan dikirim sebagai notifikasi ke pelanggan." label="Alasan penolakan" confirmLabel="Tolak order" destructive loading={action.isPending} error={action.error?.message} onConfirm={(reason) => action.mutate({ name: 'reject', body: { reason } })} />
+      <ReasonDialog open={dialog === 'cancel'} onOpenChange={(open) => !open && setDialog(null)} title="Batalkan order?" description="Order tidak dapat dibuka kembali. Slot yang dipesan dan penugasan nakes dilepas; alasan masuk riwayat serta antrean notifikasi. Tidak memproses pembayaran atau refund." label="Alasan pembatalan" hint="Alasan operasional 5–1000 karakter, tanpa informasi klinis pasien." maxLength={1000} confirmLabel="Batalkan order" destructive loading={action.isPending} error={action.error?.message} onConfirm={(reason) => action.mutate({ name: 'cancel', body: { reason } })} />
     </>
   );
 }

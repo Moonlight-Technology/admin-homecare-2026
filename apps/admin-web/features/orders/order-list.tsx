@@ -45,6 +45,9 @@ export function OrderList({ endpoint, basePath, defaultStatus = '', showFacility
           <option value="IN_PROGRESS">Dalam proses ({counts.IN_PROGRESS ?? 0})</option>
           <option value="COMPLETED">Selesai ({counts.COMPLETED ?? 0})</option>
           <option value="REJECTED">Ditolak ({counts.REJECTED ?? 0})</option>
+          <option value="CANCELLED">Dibatalkan ({counts.CANCELLED ?? 0})</option>
+          <option value="EXPIRED">Kedaluwarsa ({counts.EXPIRED ?? 0})</option>
+          <option value="NO_SHOW">Tidak hadir ({counts.NO_SHOW ?? 0})</option>
         </Select>
         <Select aria-label="Mode" value={mode} onChange={(event) => { setMode(event.target.value); reset(); }}><option value="">Semua mode</option><option value="ON_SITE">On-site</option><option value="HOMECARE">Homecare</option></Select>
         <Input aria-label="Tanggal kunjungan mulai" type="date" value={from} onChange={(event) => { setFrom(event.target.value); reset(); }} />
@@ -55,7 +58,7 @@ export function OrderList({ endpoint, basePath, defaultStatus = '', showFacility
             <Link href={`${basePath}/${order.id}`} className="flex flex-col gap-2 px-4 py-4 hover:bg-app sm:flex-row sm:items-center sm:justify-between sm:px-5">
               <div className="min-w-0 space-y-1">
                 <div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm font-semibold text-primary-700">{order.code}</span><StatusBadge status={order.status} />{['CONFIRMED', 'IN_PROGRESS'].includes(order.status) && order.assignmentStatus !== 'ASSIGNED' && <StatusBadge status={order.assignmentStatus} />}</div>
-                <p className="text-sm text-ink">{formatDateTime(order.scheduledAt)} · {MODE_LABELS[order.mode] ?? order.mode} · {order.patientName}{showFacility && order.facility && ` · ${order.facility.displayName}`}</p>
+                <p className="text-sm text-ink">{formatDateTime(order.scheduledAt, order.timezone)} ({order.timezone}) · {MODE_LABELS[order.mode] ?? order.mode} · {order.patientName}{showFacility && order.facility && ` · ${order.facility.displayName}`}</p>
                 <p className="truncate text-xs text-muted">{order.itemNames.join(', ')} · {order.durationMinutes} menit</p>
               </div>
               <div className="flex shrink-0 flex-col items-start gap-0.5 sm:items-end">

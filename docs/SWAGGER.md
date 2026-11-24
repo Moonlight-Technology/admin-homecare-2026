@@ -99,7 +99,12 @@ Contoh error validasi:
 | 409 | Data duplikat, transisi status, kapasitas, atau idempotency conflict |
 | 422 | Validasi DTO / domain; cek `details.fields` jika tersedia |
 | 429 | Rate limit tercapai |
-| 503 | Layanan belum tersedia; booking mengembalikan `BOOKINGS_DISABLED` jika key belum dikonfigurasi |
+| 503 | `DATABASE_UNAVAILABLE` untuk gangguan koneksi/pool database sementara; booking juga dapat mengembalikan `BOOKINGS_DISABLED` jika key belum dikonfigurasi |
+
+`DATABASE_UNAVAILABLE` menyertakan header `Retry-After: 2`. Pembacaan metadata dokumen di luar transaksi
+dicoba ulang maksimal dua kali untuk gangguan koneksi yang dikenali. Write, transaksi, dan stream upload tidak
+diulang otomatis: periksa status terbaru sebelum mengulangi POST/PUT agar tidak menggandakan operasi.
+Sertakan `requestId` saat melaporkan kegagalan; detail database tidak dikirim ke client.
 
 Daftar error umum di Swagger menjelaskan envelope yang sama lintas modul; tidak setiap endpoint memiliki seluruh kondisi error tersebut. Beberapa response sukses masih bertipe service/Prisma dan belum memiliki schema response DTO eksplisit; Swagger tidak mengarang bentuk response yang belum dideklarasikan.
 
@@ -140,7 +145,37 @@ Alur yang tersedia: registrasi/profil → upload dokumen → pengajuan verifikas
 - Assignment membutuhkan praktisi verified, aktif, berafiliasi aktif pada tanggal kunjungan, dan tidak bentrok dengan kunjungan lain.
 - Kunjungan dimulai setelah seluruh assignment lengkap; completion membutuhkan semua item selesai atau `NOT_PERFORMED` dengan alasan.
 - Tampilan order platform membatasi data pasien dan alamat sesuai implementasi existing.
-- Cancellation, expiry, no-show, reschedule, dan kebijakan pembayaran belum diimplementasikan. Nilai enum yang dicadangkan bukan endpoint fitur yang tersedia.
+- Pembatalan oleh klinik tersedia lewat `POST /clinic/orders/:id/cancel` dengan permission `order:approve` dan body `{ "reason": "Permintaan pembatalan pasien" }` (5–1000 karakter setelah trim).
+  Hanya `PENDING_APPROVAL`/`CONFIRMED`; status lain atau request berulang menghasilkan 409. Untuk confirmed,
+  satu kapasitas slot dan seluruh penugasan aktif dilepas dalam transaksi yang sama dengan history, audit, dan
+  antrean notifikasi. Slot yang hilang/kosong/tidak sesuai klinik menghasilkan `409 SLOT_RESERVATION_MISSING`
+  tanpa perubahan parsial. Harga, pembayaran dan riwayat penugasan dipertahankan; tidak ada refund otomatis.
+- Expiry approval tersedia sebagai worker internal, default nonaktif (`ORDER_APPROVAL_EXPIRY_MODE=off`). Pilih
+  `after_creation` + `ORDER_APPROVAL_EXPIRY_MINUTES`, atau `at_visit`; tidak ada endpoint publik untuk memicu worker.
+  Semua pending existing mengikuti konfigurasi saat ini. Worker memproses maksimal 25 order tiap 60 detik dan saat
+  startup; transaksi/CAS mencegah event ganda lintas instance. Order confirmed/in-progress tidak di-expire.
+  Approval terlambat mengembalikan `409 ORDER_APPROVAL_EXPIRED` setelah menyimpan status EXPIRED, tanpa mengambil
+  slot. Jika worker lain menang race, kode konflik status lain dapat muncul; baca ulang detail order.
+  History memakai actor sistem (null), audit `ORDER_EXPIRED`, dan antrean notifikasi ditulis atomik. Snapshot
+  harga/pembayaran tidak diubah. Restart API setelah mengganti kebijakan; tinjau backlog sebelum mengaktifkan.
+- No-show manual: `POST /clinic/orders/:id/no-show`, permission `order:progress`, body `{ "reason": "Pasien tidak datang dan tidak dapat dihubungi" }` (trim 5–1000 karakter).
+  Aturan awal konservatif: hanya confirmed, seluruh item masih pending, dan waktu server sudah mencapai jadwal
+  ditambah total durasi × quantity. Sebelum itu `409 NO_SHOW_TOO_EARLY` + `details.eligibleAt`; layanan yang
+  sudah diproses menghasilkan `409 ORDER_SERVICES_ALREADY_PROGRESSED`. Status lain/race memberi konflik 409.
+  NO_SHOW, seluruh item NOT_PERFORMED + reason/history, penutupan penugasan, audit `ORDER_NO_SHOW` dan outbox
+  disimpan atomik. Slot lampau dan reserved count dipertahankan sebagai riwayat; harga/pembayaran tidak berubah.
+  Tidak ada no-show otomatis, denda, refund, atau pembukaan ulang order. Platform tetap read-only.
+- Reschedule klinik: permission `order:approve`, `GET /clinic/orders/:id/reschedule-slots?date=YYYY-MM-DD` memakai
+  tanggal lokal klinik dan durasi snapshot order. `POST /clinic/orders/:id/reschedule` memakai body
+  `{ "scheduledAt": "<UTC slot start>", "version": 0, "reason": "Pasien meminta jadwal baru" }`.
+  Hanya confirmed dengan jadwal lama masih di masa depan, reservasi lama tersedia, dan seluruh item pending.
+  Target harus slot masa depan ≤60 hari, tidak penuh/terblokir, dan cukup untuk seluruh durasi × quantity.
+  Nakes tetap ditugaskan tetapi diverifikasi ulang status/afiliasi pada tanggal lokal baru dan konflik lintas
+  klinik. Versi usang, jadwal sama, klinik/nakes tidak aktif, slot invalid/penuh dan konflik menghasilkan 409.
+  Reservasi baru, pelepasan lama, waktu/versi order, history CONFIRMED→CONFIRMED, audit dan outbox
+  `ORDER_RESCHEDULED` atomik. Alasan wajib 5–1000 karakter; harga, pembayaran, mode, layanan dan klinik tidak berubah.
+  Reload setelah konflik; tidak ada write retry otomatis, biaya, refund, ataupun reschedule otomatis.
+- Pembatalan oleh pelanggan dan kebijakan pembayaran/refund belum diimplementasikan. Nilai enum yang dicadangkan bukan endpoint fitur yang tersedia.
 
 ## Upload dokumen verifikasi
 
@@ -155,4 +190,25 @@ curl -i -X PUT '<upload.url-dari-response>' \
   --data-binary '@dokumen.pdf'
 ```
 
-PDF, JPEG, dan PNG didukung, maksimum 10 MiB. Ukuran file dan signature konten diperiksa, bukan hanya nama ekstensi. Signed URL berlaku mengikuti `DOCUMENT_URL_TTL_SECONDS` (default 300 detik). Upload scan STR/SIP praktisi belum tersedia; jangan menyamakan API dokumen fasilitas dengan fitur tersebut.
+PDF, JPEG, dan PNG didukung, maksimum 10 MiB. Ukuran file dan signature konten diperiksa, bukan hanya nama ekstensi. Signed URL berlaku mengikuti `DOCUMENT_URL_TTL_SECONDS` (default 300 detik). Satu upload hanya menerima satu PUT sukses; bila respons PUT terputus setelah file diterima, coba complete, bukan menimpa file dengan PUT ulang. Jika proses berhenti saat upload masih berjalan, buat upload-init baru.
+
+### Scan STR/SIP tenaga kesehatan
+
+Endpoint praktisi terpisah dari dokumen fasilitas. Gunakan prefix `/admin/practitioners/{id}` untuk reviewer
+platform (`practitioner:review`) atau `/clinic/practitioners/{id}` untuk pengelola afiliasi (`affiliation:manage`).
+Klinik harus menjadi pendaftar nakes tersebut dan masih memiliki afiliasi PROPOSED/ACTIVE. Afiliasi saja dengan
+nakes yang didaftarkan pihak lain tidak memberikan hak membaca scan privatnya.
+
+1. `GET {prefix}/documents` mengembalikan status edit dan kredensial beserta metadata scan saat ini.
+2. `POST {prefix}/credentials/{credentialId}/documents/upload-init` dengan JSON `fileName`, `mimeType`, `sizeBytes`.
+   Tidak ada `requirementId`, `ownerId`, `objectKey`, maupun nomor STR/SIP dalam payload. Server mengikat file ke
+   kredensial yang dipilih dan praktisi pemiliknya.
+3. PUT file mentah ke `upload.url`, lalu `POST {prefix}/credentials/{credentialId}/documents/complete`
+   dengan `{ "documentId": "<document.id>" }` menggunakan akun yang memulai upload.
+4. `GET {prefix}/credentials/{credentialId}/documents/{documentId}/url` menerbitkan link baca sementara yang diaudit.
+
+Kredensial/dokumen di luar scope menghasilkan 404. Dokumen belum diunggah atau signature/ukuran tidak cocok tidak
+dapat dilampirkan. Status UNDER_REVIEW/VERIFIED mengunci init dan complete; status DRAFT/SUBMITTED/
+REVISION_REQUIRED/REJECTED mengizinkan unggahan. Status verifikasi/operasional tidak otomatis berubah karena upload.
+Scan lama tetap tersimpan; keputusan review menyimpan snapshot ID scan dan approval menerima scan yang dilampirkan.
+Kebutuhan scan tidak dijadikan syarat wajib baru bagi alur verifikasi existing. Email tetap ditunda.

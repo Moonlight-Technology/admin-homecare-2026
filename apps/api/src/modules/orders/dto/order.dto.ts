@@ -66,9 +66,29 @@ export class RejectOrderDto {
   @ApiProperty({ minLength: 5 }) @Transform(trim) @IsString() @MaxLength(1000) reason: string;
 }
 
+export class CancelOrderDto {
+  @ApiProperty({ minLength: 5, maxLength: 1000, description: 'Operational cancellation reason; no clinical information.' })
+  @Transform(trim) @IsString() @MinLength(5) @MaxLength(1000) reason: string;
+}
+
+export class NoShowOrderDto {
+  @ApiProperty({ minLength: 5, maxLength: 1000, description: 'Operational absence reason only; no clinical information.' })
+  @Transform(trim) @IsString() @MinLength(5) @MaxLength(1000) reason: string;
+}
+
 export class AssignPractitionerDto {
   @ApiProperty() @IsUUID() practitionerId: string;
   @ApiPropertyOptional({ description: 'Assign to one service; omit to assign the whole visit.' }) @IsOptional() @IsUUID() orderItemId?: string;
+}
+
+export class RescheduleOrderDto {
+  @ApiProperty({ description: 'UTC start returned by this order’s reschedule-slots endpoint.' }) @IsDateString({ strict: true }) scheduledAt: string;
+  @ApiProperty({ minimum: 0, description: 'Current order version; stale requests are rejected.' }) @IsInt() @Min(0) version: number;
+  @ApiProperty({ minLength: 5, maxLength: 1000 }) @Transform(trim) @IsString() @MinLength(5) @MaxLength(1000) reason: string;
+}
+
+export class RescheduleSlotsQueryDto {
+  @ApiProperty({ description: 'Local clinic date YYYY-MM-DD.' }) @Matches(DATE) @IsDateString({ strict: true }) date: string;
 }
 
 export class ItemStatusDto {
