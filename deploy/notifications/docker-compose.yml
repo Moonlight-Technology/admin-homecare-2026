@@ -1,0 +1,19 @@
+# Build the existing API image from repository root, then run this separate worker.
+# docker build -f apps/api/Dockerfile -t nakes-api:local .
+# docker compose -f deploy/notifications/docker-compose.yml up -d
+services:
+  notification-worker:
+    image: ${NAKES_API_IMAGE:-nakes-api:local}
+    command: ["node", "dist/notification-worker.js"]
+    env_file:
+      - ../../apps/api/.env
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 90s
+    healthcheck:
+      test: ["CMD", "node", "dist/notification-check.js", "--health"]
+      interval: 60s
+      timeout: 30s
+      start_period: 60s
+      retries: 3
+    # Connect to the existing PostgreSQL via DATABASE_URL; do not provision a second database here.
